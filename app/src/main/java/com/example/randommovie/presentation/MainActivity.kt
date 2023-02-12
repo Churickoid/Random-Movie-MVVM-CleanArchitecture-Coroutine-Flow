@@ -45,11 +45,13 @@ class MainActivity : AppCompatActivity() {
 
         binding.nextMovieButton.setOnClickListener {
             lifecycleScope.launch {
-
-
                 val movie = test.getRandomMovie(SearchOption())
-                Log.e("!!!!", movie.toString())
-                binding.titleTextView.text = movie.titleRu ?: movie.title
+                binding.titleMainTextView.text = movie.titleRu ?: movie.title
+                binding.titleExtraTextView.text = movie.title ?: ""
+                val genre = movie.genre ?: ""
+                binding.genresTextView.text = "Жанр: "+movie.genre
+                binding.kinopoiskRateTextView.text = movie.ratingKP?.toString() ?: ""
+                binding.imdbRateTextView.text = movie.ratingIMDB?.toString() ?: ""
                 if (movie.poster != null) {
                     Glide.with(this@MainActivity)
                         .load(movie.poster)
