@@ -5,16 +5,16 @@ import com.example.randommovie.data.request.requestEntity.Item
 import com.example.randommovie.domain.MovieInterface
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.MovieExtension
-import com.example.randommovie.domain.entity.SearchOption
+import com.example.randommovie.domain.entity.SearchFilter
 import kotlin.random.Random
 
 class MovieInterfaceImpl(private val retrofitMovieApiInterface: RetrofitMovieApiInterface) :
     MovieInterface {
-    override suspend fun getRandomMovie(searchOption: SearchOption): Movie {
-        val randYear = Random.nextInt(searchOption.yearBottom, searchOption.yearTop + 1)
-        val randRating = Random.nextInt(searchOption.ratingBottom, searchOption.ratingTop)
-//        val genre = if (searchOption.genre != null) searchOption.genre!!
-//        else Random.nextInt(1, 15)
+    override suspend fun getRandomMovie(searchFilter: SearchFilter): Movie {
+        val randYear = Random.nextInt(searchFilter.yearBottom, searchFilter.yearTop + 1)
+        val randRating = Random.nextInt(searchFilter.ratingBottom, searchFilter.ratingTop)
+        val genre = if (searchFilter.genre != null) searchFilter.genre!!
+        else Random.nextInt(1, 7)
 
         val randPage = Random.nextInt(1, 6)
         val movieList = retrofitMovieApiInterface.getMovieList(
@@ -22,10 +22,11 @@ class MovieInterfaceImpl(private val retrofitMovieApiInterface: RetrofitMovieApi
             yearFrom = randYear,
             yearTo = randYear,
             ratingFrom = randRating,
-            ratingTo = randRating+1,
+            ratingTo = randRating + 1,
             //genre = genre
         ).items
         val randomItemId = Random.nextInt(movieList.size)
+        Log.e("!!!", movieList[randomItemId].toString())
         return itemToMovie(movieList[randomItemId])
     }
 
@@ -47,11 +48,11 @@ class MovieInterfaceImpl(private val retrofitMovieApiInterface: RetrofitMovieApi
             titleRu = item.nameRu,
             title = item.nameOriginal,
             poster = item.posterUrlPreview,
-            genre = item.genres?.get(0)!!.genre ?: "-",
+            genre = if (item.genres.isNotEmpty()) item.genres[0].genre else "",
             releaseDate = item.year,
             ratingKP = item.ratingKinopoisk,
             ratingIMDB = item.ratingImdb,
-            country = item.countries?.get(0)!!.country?: "-"
+            country = if (item.countries.isNotEmpty()) item.countries[0].country else ""
         )
     }
 

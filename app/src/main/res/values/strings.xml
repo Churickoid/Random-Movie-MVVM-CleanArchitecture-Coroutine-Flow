@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">randomMovie</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="list">List</string>
+    <string name="movie">Movie</string>
+    <string name="filter">Filter</string>
+
 </resources>

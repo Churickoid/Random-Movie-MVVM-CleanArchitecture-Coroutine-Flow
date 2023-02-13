@@ -1,6 +1,6 @@
 package com.example.randommovie.domain.entity
 
-class SearchOption(
+class SearchFilter(
     var yearBottom: Int = 1950,
     var yearTop: Int = 2023,
     var ratingBottom: Int = 4,

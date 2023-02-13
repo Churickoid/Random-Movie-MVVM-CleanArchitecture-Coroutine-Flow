@@ -1,14 +1,13 @@
 package com.example.randommovie.domain
 
-import com.example.randommovie.data.request.requestEntity.Item
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.MovieExtension
-import com.example.randommovie.domain.entity.SearchOption
+import com.example.randommovie.domain.entity.SearchFilter
 
 
 interface MovieInterface {
 
-    suspend fun getRandomMovie(searchOption: SearchOption): Movie
+    suspend fun getRandomMovie(searchFilter: SearchFilter): Movie
 
     fun showMoreInformation(movie: Movie): MovieExtension
 
