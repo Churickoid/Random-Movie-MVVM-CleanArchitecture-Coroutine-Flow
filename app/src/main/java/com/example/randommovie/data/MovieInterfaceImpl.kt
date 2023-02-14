@@ -13,8 +13,8 @@ class MovieInterfaceImpl(private val retrofitMovieApiInterface: RetrofitMovieApi
     override suspend fun getRandomMovie(searchFilter: SearchFilter): Movie {
         val randYear = Random.nextInt(searchFilter.yearBottom, searchFilter.yearTop + 1)
         val randRating = Random.nextInt(searchFilter.ratingBottom, searchFilter.ratingTop)
-        val genre = if (searchFilter.genre != null) searchFilter.genre!!
-        else Random.nextInt(1, 7)
+      //  val genre = if (searchFilter.genre != null) searchFilter.genre!!
+       // else Random.nextInt(1, 7)
 
         val randPage = Random.nextInt(1, 6)
         val movieList = retrofitMovieApiInterface.getMovieList(

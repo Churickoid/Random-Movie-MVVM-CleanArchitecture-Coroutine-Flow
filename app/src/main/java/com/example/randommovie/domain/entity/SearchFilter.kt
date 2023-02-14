@@ -5,5 +5,6 @@ class SearchFilter(
     var yearTop: Int = 2023,
     var ratingBottom: Int = 4,
     var ratingTop: Int = 9,
-    var genre: Int? = null
+    val genres: MutableList<Int> = mutableListOf(),
+    val country: MutableList<Int> = mutableListOf(),
 )

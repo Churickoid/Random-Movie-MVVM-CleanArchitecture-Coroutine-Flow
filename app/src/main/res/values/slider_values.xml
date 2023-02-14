@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="years">
+        <item>1920</item>
+        <item>2023</item>
+    </integer-array>
+    <integer-array name="rate">
+        <item>4</item>
+        <item>9</item>
+    </integer-array>
+</resources>

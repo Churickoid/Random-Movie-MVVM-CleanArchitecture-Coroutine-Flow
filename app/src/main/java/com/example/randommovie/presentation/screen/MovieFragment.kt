@@ -64,6 +64,7 @@ class MovieFragment:Fragment() {
                 if (movie.poster != null) {
                     Glide.with(this@MovieFragment)
                         .load(movie.poster)
+                        .skipMemoryCache(true)
                         .into(binding.posterImageView)
                 }
                 else{

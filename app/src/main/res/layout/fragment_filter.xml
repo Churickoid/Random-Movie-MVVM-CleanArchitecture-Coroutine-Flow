@@ -2,16 +2,85 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-             android:layout_height="match_parent">
+    android:layout_height="match_parent">
 
-    <com.google.android.material.slider.RangeSlider
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:valueFrom="0.0"
-        android:valueTo="1.0"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Year: 1920 - 2023"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/yearSlider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/yearSlider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="18dp"
+        android:stepSize="1"
+        android:valueFrom="1920"
+        android:valueTo="2023"
+        app:layout_constraintBottom_toTopOf="@id/ratingSlider"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        />
+        app:values="@array/years" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Rating: 4 - 9"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/ratingSlider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.slider.RangeSlider
+        android:id="@+id/ratingSlider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="18dp"
+        android:stepSize="1"
+        android:valueFrom="1"
+        android:valueTo="10"
+        app:layout_constraintBottom_toTopOf="@id/genresEditBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/yearSlider"
+        app:values="@array/rate" />
+
+    <TextView
+        android:id="@+id/genresEditBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:background="@android:drawable/editbox_background"
+        android:hint="Choose genres"
+        android:padding="12dp"
+        android:textSize="20sp"
+        app:drawableEndCompat="@android:drawable/arrow_down_float"
+        app:layout_constraintBottom_toTopOf="@id/countryEditBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ratingSlider" />
+
+    <TextView
+        android:id="@+id/countryEditBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:background="@android:drawable/editbox_background"
+        android:hint="Choose countries"
+        android:padding="12dp"
+        android:textSize="20sp"
+        app:drawableEndCompat="@android:drawable/arrow_down_float"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/genresEditBox" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
