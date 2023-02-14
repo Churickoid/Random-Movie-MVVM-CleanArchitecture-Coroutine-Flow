@@ -1,5 +1,6 @@
 package com.example.randommovie.presentation.screen
 
+import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,16 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.randommovie.R
-import com.example.randommovie.data.MovieInterfaceImpl
-import com.example.randommovie.data.RetrofitMovieApiInterface
-import com.example.randommovie.databinding.ActivityMainBinding
+import com.example.randommovie.data.MovieRepositoryImpl
 import com.example.randommovie.databinding.FragmentMovieBinding
 import com.example.randommovie.domain.entity.SearchFilter
+import com.example.randommovie.presentation.App
 import kotlinx.coroutines.launch
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class MovieFragment:Fragment() {
 
@@ -35,22 +31,9 @@ class MovieFragment:Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMovieBinding.bind(view)
 
-        val httpLoggingInterceptor = HttpLoggingInterceptor()
-            .setLevel(HttpLoggingInterceptor.Level.BODY)
 
-        val okHttpClient = OkHttpClient
-            .Builder()
-            .addInterceptor(httpLoggingInterceptor)
-            .build()
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://kinopoiskapiunofficial.tech")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .build()
-            .create(RetrofitMovieApiInterface::class.java)
-
-        val test = MovieInterfaceImpl(retrofit)
+        val test = App().container.movieRepository
 
         binding.nextMovieButton.setOnClickListener {
             lifecycleScope.launch {

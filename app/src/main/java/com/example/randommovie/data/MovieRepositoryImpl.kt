@@ -2,14 +2,14 @@ package com.example.randommovie.data
 
 import android.util.Log
 import com.example.randommovie.data.request.requestEntity.Item
-import com.example.randommovie.domain.MovieInterface
+import com.example.randommovie.domain.MovieRepository
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.MovieExtension
 import com.example.randommovie.domain.entity.SearchFilter
 import kotlin.random.Random
 
-class MovieInterfaceImpl(private val retrofitMovieApiInterface: RetrofitMovieApiInterface) :
-    MovieInterface {
+class MovieRepositoryImpl(private val retrofitMovieApiInterface: RetrofitMovieApiInterface) :
+    MovieRepository {
     override suspend fun getRandomMovie(searchFilter: SearchFilter): Movie {
         val randYear = Random.nextInt(searchFilter.yearBottom, searchFilter.yearTop + 1)
         val randRating = Random.nextInt(searchFilter.ratingBottom, searchFilter.ratingTop)
