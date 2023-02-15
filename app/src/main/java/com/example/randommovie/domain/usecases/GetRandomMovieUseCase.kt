@@ -10,6 +10,6 @@ class GetRandomMovieUseCase(
 ) {
 
     suspend operator fun invoke(): Movie {
-        return movieRepository.getRandomMovie(searchFilter)
+        return movieRepository.getRandomMovie()
     }
 }

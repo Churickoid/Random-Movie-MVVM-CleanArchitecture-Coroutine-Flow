@@ -10,12 +10,15 @@ import kotlin.random.Random
 
 class MovieRepositoryImpl(private val retrofitMovieApiInterface: RetrofitMovieApiInterface) :
     MovieRepository {
-    override suspend fun getRandomMovie(searchFilter: SearchFilter): Movie {
+
+
+    override var searchFilter: SearchFilter = SearchFilter()
+
+    override suspend fun getRandomMovie(): Movie {
         val randYear = Random.nextInt(searchFilter.yearBottom, searchFilter.yearTop + 1)
         val randRating = Random.nextInt(searchFilter.ratingBottom, searchFilter.ratingTop)
       //  val genre = if (searchFilter.genre != null) searchFilter.genre!!
        // else Random.nextInt(1, 7)
-
         val randPage = Random.nextInt(1, 6)
         val movieList = retrofitMovieApiInterface.getMovieList(
             page = randPage,
@@ -29,6 +32,7 @@ class MovieRepositoryImpl(private val retrofitMovieApiInterface: RetrofitMovieAp
         Log.e("!!!", movieList[randomItemId].toString())
         return itemToMovie(movieList[randomItemId])
     }
+
 
     override fun showMoreInformation(movie: Movie): MovieExtension {
         TODO("Not yet implemented")

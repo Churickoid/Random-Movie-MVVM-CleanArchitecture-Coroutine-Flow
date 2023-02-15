@@ -7,7 +7,7 @@ import com.example.randommovie.R
 import com.example.randommovie.databinding.ActivityMainBinding
 import com.example.randommovie.presentation.screen.FilterFragment
 import com.example.randommovie.presentation.screen.ListFragment
-import com.example.randommovie.presentation.screen.MovieFragment
+import com.example.randommovie.presentation.screen.movie.MovieFragment
 
 
 class MainActivity : AppCompatActivity() {
