@@ -6,7 +6,6 @@ import com.example.randommovie.domain.entity.SearchFilter
 
 class GetRandomMovieUseCase(
     private val movieRepository: MovieRepository,
-    private val searchFilter: SearchFilter
 ) {
 
     suspend operator fun invoke(): Movie {

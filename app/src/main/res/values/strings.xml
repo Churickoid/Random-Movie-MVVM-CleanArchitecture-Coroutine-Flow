@@ -4,5 +4,6 @@
     <string name="list">List</string>
     <string name="movie">Movie</string>
     <string name="filter">Filter</string>
+    <string name="next_movie">Next Movie</string>
 
 </resources>

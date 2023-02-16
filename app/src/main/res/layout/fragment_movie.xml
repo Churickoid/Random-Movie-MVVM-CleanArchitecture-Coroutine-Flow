@@ -11,69 +11,73 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.5"/>
+        app:layout_constraintGuide_percent="0.5" />
+
     <ImageView
         android:id="@+id/posterImageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:src="@drawable/blanked_image"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintDimensionRatio="W,1:0.7"
         app:layout_constraintBottom_toTopOf="@id/titleMainTextView"
+        app:layout_constraintDimensionRatio="W,1:0.7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        />
+        app:layout_constraintVertical_chainStyle="packed" />
+
     <TextView
         android:id="@+id/titleMainTextView"
-        android:text="Анонер (2024)"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
+        android:text="Анонер (2024)"
         android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/titleExtraTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/posterImageView"
-        app:layout_constraintBottom_toTopOf="@id/titleExtraTextView"
-        />
+        app:layout_constraintTop_toBottomOf="@id/posterImageView" />
+
     <TextView
         android:id="@+id/titleExtraTextView"
-        android:text="Anonymous"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:text="Anonymous"
         android:textAlignment="center"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@id/genresTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleMainTextView"
-        app:layout_constraintBottom_toTopOf="@id/genresTextView"
 
         />
+
     <TextView
         android:id="@+id/genresTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Жанры: триллер, ужасы"
+        android:text="триллер, ужасы"
         android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@id/kinopoiskImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleExtraTextView"
-        app:layout_constraintBottom_toTopOf="@id/kinopoiskImageView"
+        android:textStyle="bold"
         />
+
 
     <ImageView
         android:id="@+id/kinopoiskImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src = "@drawable/kinopoisk_icon"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintEnd_toStartOf="@id/kinopoiskRateTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/genresTextView"
+        android:src="@drawable/kinopoisk_icon"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toStartOf="@id/kinopoiskRateTextView"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/genresTextView" />
+
     <TextView
         android:id="@+id/kinopoiskRateTextView"
         android:layout_width="wrap_content"
@@ -81,23 +85,22 @@
         android:text="8.2"
         android:textSize="28dp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/kinopoiskImageView"
-        app:layout_constraintEnd_toEndOf="@id/guideline"
-        app:layout_constraintTop_toTopOf="@id/kinopoiskImageView"
         app:layout_constraintBottom_toBottomOf="@id/kinopoiskImageView"
-        />
+        app:layout_constraintEnd_toEndOf="@id/guideline"
+        app:layout_constraintStart_toEndOf="@id/kinopoiskImageView"
+        app:layout_constraintTop_toTopOf="@id/kinopoiskImageView" />
 
     <ImageView
         android:id="@+id/imdbImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src = "@drawable/imdb_icon"
+        android:src="@drawable/imdb_icon"
+        app:layout_constraintBottom_toBottomOf="@id/kinopoiskImageView"
+        app:layout_constraintEnd_toStartOf="@id/imdbRateTextView"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/guideline"
-        app:layout_constraintEnd_toStartOf="@id/imdbRateTextView"
-        app:layout_constraintTop_toTopOf="@id/kinopoiskImageView"
-        app:layout_constraintBottom_toBottomOf="@id/kinopoiskImageView"
-        />
+        app:layout_constraintTop_toTopOf="@id/kinopoiskImageView" />
+
     <TextView
         android:id="@+id/imdbRateTextView"
         android:layout_width="wrap_content"
@@ -105,43 +108,71 @@
         android:text="8.1"
         android:textSize="28dp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/kinopoiskImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/imdbImageView"
-        app:layout_constraintTop_toTopOf="@id/kinopoiskImageView"
-        app:layout_constraintBottom_toBottomOf="@id/kinopoiskImageView"
-        />
+        app:layout_constraintTop_toTopOf="@id/kinopoiskImageView" />
 
-    <ImageView
-        android:id="@+id/starImageView"
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/actionsGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="starButton,nextMovieButton,eyeButton" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/starButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:src="@drawable/star_icon"
+        app:tint="@color/purple_500"
+        app:fabCustomSize="48dp"
+        app:maxImageSize="24dp"
+        app:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="@id/nextMovieButton"
         app:layout_constraintEnd_toStartOf="@id/nextMovieButton"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/nextMovieButton"
-        />
-    <Button
-        android:id="@+id/nextMovieButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Next Movie"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/eyeImageView"
-        app:layout_constraintStart_toEndOf="@id/starImageView"
-        app:layout_constraintTop_toBottomOf="@id/kinopoiskImageView" />
+        app:layout_constraintTop_toTopOf="@id/nextMovieButton" />
 
-    <ImageView
-        android:id="@+id/eyeImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/nextMovieButton"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/next_icon"
+        app:tint="@android:color/white"
+        app:fabCustomSize="64dp"
+        app:maxImageSize="32dp"
+        app:backgroundTint="@color/purple_500"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/eyeButton"
+        app:layout_constraintStart_toEndOf="@id/starButton"
+        app:layout_constraintTop_toBottomOf="@id/kinopoiskImageView"
+        android:contentDescription="@string/next_movie" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/eyeButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:src="@drawable/eye_icon"
+        app:tint="@color/purple_500"
+        app:fabCustomSize="48dp"
+        app:maxImageSize="24dp"
+        app:backgroundTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="@id/nextMovieButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/nextMovieButton"
-        app:layout_constraintBottom_toBottomOf="@id/nextMovieButton"
-        app:layout_constraintTop_toTopOf="@id/nextMovieButton"
+        app:layout_constraintTop_toTopOf="@id/nextMovieButton" />
+    <ProgressBar
+        android:id="@+id/errorProgressBar"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="invisible"
+        app:layout_constraintTop_toBottomOf="@id/kinopoiskImageView"
         />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

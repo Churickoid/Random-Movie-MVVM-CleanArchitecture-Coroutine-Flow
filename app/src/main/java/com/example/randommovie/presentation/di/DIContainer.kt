@@ -3,6 +3,8 @@ package com.example.randommovie.presentation.di
 import com.example.randommovie.data.MovieRepositoryImpl
 import com.example.randommovie.data.RetrofitMovieApiInterface
 import com.example.randommovie.domain.MovieRepository
+import com.example.randommovie.domain.usecases.GetRandomMovieUseCase
+import com.example.randommovie.domain.usecases.SetSearchFilterUseCase
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -26,4 +28,6 @@ class DIContainer {
         .create(RetrofitMovieApiInterface::class.java)
 
     val movieRepository = MovieRepositoryImpl(retrofit)
+    val getRandomMovieUseCase = GetRandomMovieUseCase(movieRepository)
+    val setSearchFilterUseCase = SetSearchFilterUseCase(movieRepository)
 }

@@ -12,7 +12,7 @@ class MovieRepositoryImpl(private val retrofitMovieApiInterface: RetrofitMovieAp
     MovieRepository {
 
 
-    override var searchFilter: SearchFilter = SearchFilter()
+    private var searchFilter: SearchFilter = SearchFilter()
 
     override suspend fun getRandomMovie(): Movie {
         val randYear = Random.nextInt(searchFilter.yearBottom, searchFilter.yearTop + 1)
@@ -33,7 +33,9 @@ class MovieRepositoryImpl(private val retrofitMovieApiInterface: RetrofitMovieAp
         return itemToMovie(movieList[randomItemId])
     }
 
-
+    override fun setSearchFilter(searchFilter: SearchFilter) {
+        TODO("Not yet implemented")
+    }
     override fun showMoreInformation(movie: Movie): MovieExtension {
         TODO("Not yet implemented")
     }
@@ -46,17 +48,23 @@ class MovieRepositoryImpl(private val retrofitMovieApiInterface: RetrofitMovieAp
         TODO("Not yet implemented")
     }
 
+
     private fun itemToMovie(item: Item): Movie {
+        val country: MutableList<String> = mutableListOf()
+        val genre: MutableList<String> = mutableListOf()
+        item.genres.forEach { genre.add(it.genre)  }
+        item.countries.forEach{country.add(it.country)}
+
         return Movie(
             id = item.kinopoiskId,
             titleRu = item.nameRu,
             title = item.nameOriginal,
             poster = item.posterUrlPreview,
-            genre = if (item.genres.isNotEmpty()) item.genres[0].genre else "",
+            genre = genre,
             releaseDate = item.year,
             ratingKP = item.ratingKinopoisk,
             ratingIMDB = item.ratingImdb,
-            country = if (item.countries.isNotEmpty()) item.countries[0].country else ""
+            country = country
         )
     }
 

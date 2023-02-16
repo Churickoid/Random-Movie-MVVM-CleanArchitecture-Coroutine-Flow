@@ -6,16 +6,33 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.randommovie.domain.MovieRepository
 import com.example.randommovie.domain.entity.Movie
+import com.example.randommovie.domain.usecases.GetRandomMovieUseCase
 import kotlinx.coroutines.launch
 
-class MovieViewModel(private val movieRepository: MovieRepository) : ViewModel() {
+class MovieViewModel(private val getRandomMovieUseCase: GetRandomMovieUseCase) : ViewModel() {
 
     private val _movie = MutableLiveData<Movie>()
     val movie: LiveData<Movie> = _movie
 
-    fun getRandomMovie(){
+    private val _buttonState = MutableLiveData<Boolean>()
+    val buttonState: LiveData<Boolean> = _buttonState
+
+    private val _error = MutableLiveData<String?>()
+    val error: LiveData<String?> = _error
+
+    fun getRandomMovie() {
         viewModelScope.launch {
-         _movie.value = movieRepository.getRandomMovie()
+            _buttonState.value = false
+            _error.value = null
+            try {
+                _movie.value = getRandomMovieUseCase.invoke()
+
+            } catch (e: Exception) {
+                _error.value = e.toString()
+            } finally {
+                _buttonState.value = true
+            }
+
         }
     }
 

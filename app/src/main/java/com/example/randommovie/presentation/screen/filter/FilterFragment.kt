@@ -1,4 +1,4 @@
-package com.example.randommovie.presentation.screen
+package com.example.randommovie.presentation.screen.filter
 
 import android.os.Bundle
 import android.view.LayoutInflater
