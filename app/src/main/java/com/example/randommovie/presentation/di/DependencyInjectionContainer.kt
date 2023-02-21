@@ -1,16 +1,16 @@
 package com.example.randommovie.presentation.di
 
+import com.example.randommovie.data.FilterRepositoryImpl
 import com.example.randommovie.data.MovieRepositoryImpl
-import com.example.randommovie.data.RetrofitMovieApiInterface
-import com.example.randommovie.domain.MovieRepository
-import com.example.randommovie.domain.usecases.GetRandomMovieUseCase
-import com.example.randommovie.domain.usecases.SetSearchFilterUseCase
+import com.example.randommovie.data.RetrofitApiInterface
+import com.example.randommovie.domain.usecases.movie.GetRandomMovieUseCase
+import com.example.randommovie.domain.usecases.filter.SetSearchFilterUseCase
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class DIContainer {
+class DependencyInjectionContainer {
 
     private val httpLoggingInterceptor = HttpLoggingInterceptor()
         .setLevel(HttpLoggingInterceptor.Level.BODY)
@@ -25,9 +25,10 @@ class DIContainer {
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
         .build()
-        .create(RetrofitMovieApiInterface::class.java)
+        .create(RetrofitApiInterface::class.java)
 
-    val movieRepository = MovieRepositoryImpl(retrofit)
+    private val movieRepository = MovieRepositoryImpl(retrofit)
+    val filterRepository = FilterRepositoryImpl(retrofit)
     val getRandomMovieUseCase = GetRandomMovieUseCase(movieRepository)
-    val setSearchFilterUseCase = SetSearchFilterUseCase(movieRepository)
+    val setSearchFilterUseCase = SetSearchFilterUseCase(filterRepository)
 }

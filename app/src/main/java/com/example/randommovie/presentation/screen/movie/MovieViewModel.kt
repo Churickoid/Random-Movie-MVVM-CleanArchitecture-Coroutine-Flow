@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.randommovie.domain.MovieRepository
 import com.example.randommovie.domain.entity.Movie
-import com.example.randommovie.domain.usecases.GetRandomMovieUseCase
+import com.example.randommovie.domain.entity.SearchFilter
+import com.example.randommovie.domain.usecases.movie.GetRandomMovieUseCase
 import kotlinx.coroutines.launch
 
 class MovieViewModel(private val getRandomMovieUseCase: GetRandomMovieUseCase) : ViewModel() {
@@ -25,7 +25,7 @@ class MovieViewModel(private val getRandomMovieUseCase: GetRandomMovieUseCase) :
             _buttonState.value = false
             _error.value = null
             try {
-                _movie.value = getRandomMovieUseCase.invoke()
+                _movie.value = getRandomMovieUseCase.invoke(SearchFilter())
 
             } catch (e: Exception) {
                 _error.value = e.toString()

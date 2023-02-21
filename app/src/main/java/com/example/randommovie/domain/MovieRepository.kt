@@ -7,13 +7,12 @@ import com.example.randommovie.domain.entity.SearchFilter
 
 interface MovieRepository{
 
-    suspend fun getRandomMovie(): Movie
+    suspend fun getRandomMovie(searchFilter: SearchFilter): Movie
 
     fun showMoreInformation(movie: Movie): MovieExtension
 
     fun addMustWatchedMovie(movie: Movie)
 
     fun addRatedMovie(movie: Movie)
-    fun setSearchFilter(searchFilter: SearchFilter)
 
 }

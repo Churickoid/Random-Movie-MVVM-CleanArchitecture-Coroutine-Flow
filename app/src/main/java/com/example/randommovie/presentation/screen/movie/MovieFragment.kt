@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -15,12 +16,14 @@ import com.example.randommovie.databinding.FragmentMovieBinding
 import com.example.randommovie.domain.entity.SearchFilter
 import com.example.randommovie.presentation.App
 import com.example.randommovie.presentation.screen.factory
+import com.example.randommovie.presentation.screen.filter.FilterViewModel
 import kotlinx.coroutines.launch
 
 class MovieFragment : Fragment() {
 
     private lateinit var binding: FragmentMovieBinding
     private val viewModel: MovieViewModel by viewModels { factory() }
+    private val filterViewModel: FilterViewModel by activityViewModels{ factory() }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,9 +41,7 @@ class MovieFragment : Fragment() {
         }
 
         viewModel.movie.observe(viewLifecycleOwner) {
-
             val year = it.releaseDate ?: "—"
-
             val secondTitle: String
             val firstTitle = if (it.titleRu == null) {
                 secondTitle = "—"
@@ -66,14 +67,9 @@ class MovieFragment : Fragment() {
         }
 
         viewModel.buttonState.observe(viewLifecycleOwner){
-            if(it){
-                binding.actionsGroup.visibility = View.VISIBLE
-                binding.errorProgressBar.visibility = View.INVISIBLE
-            }
-            else{
-                binding.actionsGroup.visibility = View.INVISIBLE
-                binding.errorProgressBar.visibility = View.VISIBLE
-            }
+            if(it) changeStateButton(View.VISIBLE,View.INVISIBLE)
+            else changeStateButton(View.INVISIBLE,View.VISIBLE)
+
         }
 
     }
@@ -83,5 +79,10 @@ class MovieFragment : Fragment() {
             string += "$i, "
         }
         return string.dropLast(2)
+    }
+
+    private fun changeStateButton(buttonState:Int, progressState:Int){
+        binding.actionsGroup.visibility = buttonState
+        binding.loadingProgressBar.visibility = progressState
     }
 }

@@ -23,14 +23,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        if (savedInstanceState == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .add(R.id.fragmentContainer, movieFragment)
-                .add(R.id.fragmentContainer, filterFragment).hide(filterFragment)
-                .add(R.id.fragmentContainer, listFragment).hide(listFragment)
-                .commit()
-        }
+
+        supportFragmentManager
+            .beginTransaction()
+            .add(R.id.fragmentContainer, movieFragment).hide(movieFragment)
+            .add(R.id.fragmentContainer, filterFragment).hide(filterFragment)
+            .add(R.id.fragmentContainer, listFragment).hide(listFragment)
+            .show(activeFragment)
+            .commit()
+
+
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.movie -> replaceFragment(movieFragment)

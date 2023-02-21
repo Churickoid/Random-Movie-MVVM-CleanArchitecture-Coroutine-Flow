@@ -14,7 +14,8 @@ class ViewModelFactory(private val app: App) : ViewModelProvider.Factory {
                 MovieViewModel(app.container.getRandomMovieUseCase)
             }
             FilterViewModel::class.java -> {
-                FilterViewModel(app.container.setSearchFilterUseCase)
+                FilterViewModel(//app.container.setSearchFilterUseCase)
+                    app.container.filterRepository)
             }
             else -> {
                 throw Exception("Unknown View model class")

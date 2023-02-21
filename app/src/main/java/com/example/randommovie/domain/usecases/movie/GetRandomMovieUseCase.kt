@@ -1,4 +1,4 @@
-package com.example.randommovie.domain.usecases
+package com.example.randommovie.domain.usecases.movie
 
 import com.example.randommovie.domain.MovieRepository
 import com.example.randommovie.domain.entity.Movie
@@ -8,7 +8,7 @@ class GetRandomMovieUseCase(
     private val movieRepository: MovieRepository,
 ) {
 
-    suspend operator fun invoke(): Movie {
-        return movieRepository.getRandomMovie()
+    suspend operator fun invoke(searchFilter: SearchFilter): Movie {
+        return movieRepository.getRandomMovie(searchFilter)
     }
 }
