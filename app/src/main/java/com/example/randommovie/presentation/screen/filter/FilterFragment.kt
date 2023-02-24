@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -57,12 +59,16 @@ class FilterFragment : Fragment() {
                 viewModel.changeRatingFilter(slider.values[0].toInt(),slider.values[1].toInt())
             }
         })
-        binding.ratingSlider.addOnChangeListener { slider, _, _ ->
-            binding.ratingTextView.text = getString(
-                R.string.rating, slider.values[0].toInt(), slider.values[1].toInt()
-            )
-        }
 
+        binding.orderSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                viewModel.changeOrderFilter(p2)
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
+
+        }
 
     }
 
@@ -71,8 +77,7 @@ class FilterFragment : Fragment() {
         binding.yearSlider.setValues(filter.yearBottom.toFloat(), filter.yearTop.toFloat())
         binding.ratingSlider.setValues(filter.ratingBottom.toFloat(), filter.ratingTop.toFloat())
         binding.yearTextView.text = getString(R.string.year, filter.yearBottom, filter.yearTop)
-        binding.ratingTextView.text =
-            getString(R.string.rating, filter.ratingBottom, filter.ratingTop)
+
     }
 
     private fun showAlertDialog(list: List<ItemFilter>) {

@@ -4,6 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
+
     <TextView
         android:id="@+id/yearTextView"
         android:layout_width="wrap_content"
@@ -23,11 +26,37 @@
         android:stepSize="1"
         android:valueFrom="1920"
         android:valueTo="2023"
-        app:layout_constraintBottom_toTopOf="@id/ratingSlider"
+        app:layout_constraintBottom_toTopOf="@id/orderSpinner"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
          />
+
+    <Spinner
+
+        android:id="@+id/orderSpinner"
+        android:theme="@style/SpinnerItemStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/order_sort"
+        android:layout_marginEnd="18sp"
+        app:layout_constraintStart_toEndOf="@id/orderTextView"
+        app:layout_constraintTop_toBottomOf="@id/yearSlider"
+        app:layout_constraintBottom_toTopOf="@id/ratingSlider"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    <TextView
+        android:id="@+id/orderTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Order:"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toTopOf="@id/orderSpinner"
+        app:layout_constraintBottom_toBottomOf="@id/orderSpinner"
+        app:layout_constraintEnd_toEndOf="@id/ratingTextView"
+        />
 
     <TextView
         android:id="@+id/ratingTextView"
@@ -35,54 +64,76 @@
         android:layout_height="wrap_content"
         android:text="@string/rating"
         android:textColor="@color/black"
+        android:layout_marginStart="18dp"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/ratingSlider"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/ratingSlider"
+        app:layout_constraintTop_toTopOf="@id/ratingSlider"
+        app:layout_constraintEnd_toStartOf="@id/ratingSlider"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.slider.RangeSlider
         android:id="@+id/ratingSlider"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="18dp"
+        android:layout_marginEnd="18dp"
         android:stepSize="1"
         android:valueFrom="1"
         android:valueTo="10"
         app:layout_constraintBottom_toTopOf="@id/genresEditBox"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/yearSlider"
+        app:layout_constraintStart_toEndOf="@id/ratingTextView"
+        app:layout_constraintTop_toBottomOf="@id/orderSpinner"
         />
 
     <TextView
         android:id="@+id/genresEditBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:background="@android:drawable/editbox_background"
-        android:hint="Choose genres"
+        android:hint="@string/choose_genres"
         android:padding="12dp"
         android:textSize="20sp"
-        app:drawableEndCompat="@android:drawable/arrow_down_float"
+        app:drawableEndCompat="@android:drawable/ic_menu_edit"
         app:layout_constraintBottom_toTopOf="@id/countryEditBox"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/clearGenresButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ratingSlider" />
+    <Button
+        android:id="@+id/clearGenresButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="@string/clear"
+        app:layout_constraintBottom_toBottomOf="@id/genresEditBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/genresEditBox"
+        app:layout_constraintTop_toTopOf="@id/genresEditBox"/>
 
     <TextView
         android:id="@+id/countryEditBox"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:background="@android:drawable/editbox_background"
-        android:hint="Choose countries"
+        android:hint="@string/choose_countries"
         android:padding="12dp"
         android:textSize="20sp"
-        app:drawableEndCompat="@android:drawable/arrow_down_float"
+        app:drawableEndCompat="@android:drawable/ic_menu_edit"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/clearCountriesButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/genresEditBox" />
+    <Button
+        android:id="@+id/clearCountriesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="@string/clear"
+        app:layout_constraintBottom_toBottomOf="@id/countryEditBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/countryEditBox"
+        app:layout_constraintTop_toTopOf="@id/countryEditBox"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

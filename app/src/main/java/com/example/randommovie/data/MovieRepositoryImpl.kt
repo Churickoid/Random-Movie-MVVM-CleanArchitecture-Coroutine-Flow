@@ -16,8 +16,11 @@ class MovieRepositoryImpl(private val retrofitApiInterface: RetrofitApiInterface
     override suspend fun getRandomMovie(searchFilter : SearchFilter): Movie {
         val randYear = Random.nextInt(searchFilter.yearBottom, searchFilter.yearTop + 1)
         val randRating = Random.nextInt(searchFilter.ratingBottom, searchFilter.ratingTop)
-      //  val genre = if (searchFilter.genre != null) searchFilter.genre!!
-       // else Random.nextInt(1, 7)
+
+        val genresList = searchFilter.genres
+        val genre = if (genresList.isNotEmpty()) genresList[Random.nextInt(genresList.size)]
+        else null
+
         val randPage = Random.nextInt(1, 6)
         val movieList = retrofitApiInterface.getMovieList(
             page = randPage,
@@ -25,10 +28,10 @@ class MovieRepositoryImpl(private val retrofitApiInterface: RetrofitApiInterface
             yearTo = randYear,
             ratingFrom = randRating,
             ratingTo = randRating + 1,
-            //genre = genre
+            genre = genre
         ).items
         val randomItemId = Random.nextInt(movieList.size)
-        Log.e("!!!", movieList[randomItemId].toString())
+
         return movieList[randomItemId].toMovie()
     }
 

@@ -1,11 +1,15 @@
 package com.example.randommovie.presentation.screen.filter
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.randommovie.domain.entity.ItemFilter
 import com.example.randommovie.domain.entity.SearchFilter
+import com.example.randommovie.domain.entity.SearchFilter.Companion.NUM_VOTE
+import com.example.randommovie.domain.entity.SearchFilter.Companion.RATING
+import com.example.randommovie.domain.entity.SearchFilter.Companion.YEAR
 import com.example.randommovie.domain.usecases.filter.GetCountriesUseCase
 import com.example.randommovie.domain.usecases.filter.GetGenresUseCase
 import com.example.randommovie.domain.usecases.filter.SetSearchFilterUseCase
@@ -53,6 +57,17 @@ class FilterViewModel(private val setSearchFilterUseCase: SetSearchFilterUseCase
         searchFilter.ratingBottom = ratingBottom
         searchFilter.ratingTop = ratingTop
         setSearchFilter(searchFilter)
+    }
+
+    fun changeOrderFilter(position: Int){
+        val order = when(position){
+            0 -> RATING
+            1 -> NUM_VOTE
+            2 -> YEAR
+            else -> throw Exception("Invalid position")
+        }
+        searchFilter.order = order
+        Log.e("!!!!!",searchFilter.toString())
     }
 
     fun getSearchFilter():SearchFilter{

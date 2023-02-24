@@ -6,6 +6,16 @@
     <string name="filter">Filter</string>
     <string name="next_movie">Next Movie</string>
     <string name="year">Year: %1$d – %2$d</string>
-    <string name="rating">Rating: %1$d – %2$d</string>
+    <string name="rating">Rating:</string>
+    <string name="choose_genres">Choose genres</string>
+    <string name="choose_countries">Choose countries</string>
+    <string name="clear">Clear</string>
+    
+    
+    <string-array name="order_sort">
+        <item>Hidden gem</item>
+        <item>Popular</item>
+        <item>Underground</item>
+    </string-array>
 
 </resources>

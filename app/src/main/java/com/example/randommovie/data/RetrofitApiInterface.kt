@@ -14,7 +14,7 @@ interface RetrofitApiInterface {
     @GET("api/v2.2/films")
     suspend fun getMovieList(
         @Query("page") page: Int = 1,
-        //@Query("genres") genre: Int = 1,
+        @Query("genres") genre: Int?,
         @Query("order") order: String = "RATING",
         @Query("type") type: String = "FILM",
         @Query("ratingFrom") ratingFrom: Int = 1,
