@@ -5,5 +5,7 @@
     <string name="movie">Movie</string>
     <string name="filter">Filter</string>
     <string name="next_movie">Next Movie</string>
+    <string name="year">Year: %1$d – %2$d</string>
+    <string name="rating">Rating: %1$d – %2$d</string>
 
 </resources>

@@ -3,6 +3,7 @@ package com.example.randommovie.presentation.screen
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.randommovie.domain.usecases.filter.GetGenresUseCase
 import com.example.randommovie.presentation.App
 import com.example.randommovie.presentation.screen.filter.FilterViewModel
 import com.example.randommovie.presentation.screen.movie.MovieViewModel
@@ -14,8 +15,10 @@ class ViewModelFactory(private val app: App) : ViewModelProvider.Factory {
                 MovieViewModel(app.container.getRandomMovieUseCase)
             }
             FilterViewModel::class.java -> {
-                FilterViewModel(//app.container.setSearchFilterUseCase)
-                    app.container.filterRepository)
+                FilterViewModel(app.container.setSearchFilterUseCase,
+                    app.container.getGenresUseCase,
+                    app.container.getCountriesUseCase
+                    )
             }
             else -> {
                 throw Exception("Unknown View model class")

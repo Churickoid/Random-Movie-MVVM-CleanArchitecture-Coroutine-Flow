@@ -5,9 +5,10 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/yearTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Year: 1920 - 2023"
+        android:text="@string/year"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/yearSlider"
@@ -26,12 +27,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:values="@array/years" />
+         />
 
     <TextView
+        android:id="@+id/ratingTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rating: 4 - 9"
+        android:text="@string/rating"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@id/ratingSlider"
@@ -50,7 +52,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/yearSlider"
-        app:values="@array/rate" />
+        />
 
     <TextView
         android:id="@+id/genresEditBox"

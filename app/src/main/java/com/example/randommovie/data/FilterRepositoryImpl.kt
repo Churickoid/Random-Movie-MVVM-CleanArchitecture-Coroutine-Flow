@@ -7,11 +7,16 @@ import com.example.randommovie.domain.entity.SearchFilter
 class FilterRepositoryImpl(private val retrofitApiInterface: RetrofitApiInterface): FilterRepository {
 
 
-    var countriesList = listOf<ItemFilter>()
-    var genresList = listOf<ItemFilter>()
+    private var countriesList = listOf<ItemFilter>()
+    private var genresList = listOf<ItemFilter>()
 
+    var filter = SearchFilter()
     override fun setSearchFilter(searchFilter: SearchFilter) {
-        TODO("Not yet implemented")
+         filter = searchFilter
+    }
+
+    override fun getSearchFilter(): SearchFilter {
+        return filter
     }
 
     override suspend fun getCountriesList(): List<ItemFilter> {

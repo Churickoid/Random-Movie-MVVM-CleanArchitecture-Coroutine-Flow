@@ -11,14 +11,15 @@ import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentFilterBinding
 import com.example.randommovie.domain.entity.ItemFilter
 import com.example.randommovie.presentation.screen.factory
+import com.google.android.material.slider.RangeSlider
 
-class FilterFragment: Fragment() {
+class FilterFragment : Fragment() {
     private lateinit var binding: FragmentFilterBinding
-    private val viewModel: FilterViewModel by activityViewModels{ factory() }
+    private val viewModel: FilterViewModel by activityViewModels { factory() }
+
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_filter, container, false)
     }
@@ -27,29 +28,66 @@ class FilterFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentFilterBinding.bind(view)
 
+        setSliders()
+
         binding.genresEditBox.setOnClickListener {
             viewModel.getGenresList()
         }
-        viewModel.genres.observe(viewLifecycleOwner){
+        viewModel.genres.observe(viewLifecycleOwner) {
             showAlertDialog(it)
         }
+        binding.yearSlider.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: RangeSlider) {
+            }
+
+            override fun onStopTrackingTouch(slider: RangeSlider) {
+                viewModel.changeYearFilter(slider.values[0].toInt(),slider.values[1].toInt())
+            }
+        })
+        binding.yearSlider.addOnChangeListener { slider, _, _ ->
+            binding.yearTextView.text = getString(
+                R.string.year, slider.values[0].toInt(), slider.values[1].toInt()
+            )
+        }
+
+        binding.ratingSlider.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener {
+            override fun onStartTrackingTouch(slider: RangeSlider) {
+            }
+            override fun onStopTrackingTouch(slider: RangeSlider) {
+                viewModel.changeRatingFilter(slider.values[0].toInt(),slider.values[1].toInt())
+            }
+        })
+        binding.ratingSlider.addOnChangeListener { slider, _, _ ->
+            binding.ratingTextView.text = getString(
+                R.string.rating, slider.values[0].toInt(), slider.values[1].toInt()
+            )
+        }
+
 
     }
 
-    private fun showAlertDialog(list:List<ItemFilter>){
+    private fun setSliders() {
+        val filter = viewModel.getSearchFilter()
+        binding.yearSlider.setValues(filter.yearBottom.toFloat(), filter.yearTop.toFloat())
+        binding.ratingSlider.setValues(filter.ratingBottom.toFloat(), filter.ratingTop.toFloat())
+        binding.yearTextView.text = getString(R.string.year, filter.yearBottom, filter.yearTop)
+        binding.ratingTextView.text =
+            getString(R.string.rating, filter.ratingBottom, filter.ratingTop)
+    }
+
+    private fun showAlertDialog(list: List<ItemFilter>) {
         var checkboxes = booleanArrayOf()
         var names = arrayOf<String>()
-        list.forEach{names+=it.name
-        checkboxes+=it.isActive
+        list.forEach {
+            names += it.name
+            checkboxes += it.isActive
         }
 
-        val dialog = AlertDialog.Builder(requireContext())
-            .setTitle("Genre")
-            .setMultiChoiceItems(names,checkboxes) {_,index,isChecked ->
+        val dialog = AlertDialog.Builder(requireContext()).setTitle("Genre")
+            .setMultiChoiceItems(names, checkboxes) { _, index, isChecked ->
 
 
-            }
-            .setPositiveButton("Apply") { _, _ ->
+            }.setPositiveButton("Apply") { _, _ ->
 
                 //updateUi()
             }
