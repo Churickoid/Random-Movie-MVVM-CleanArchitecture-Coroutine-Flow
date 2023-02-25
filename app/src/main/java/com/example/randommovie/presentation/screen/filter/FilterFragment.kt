@@ -43,7 +43,7 @@ class FilterFragment : Fragment() {
             }
 
             override fun onStopTrackingTouch(slider: RangeSlider) {
-                viewModel.changeYearFilter(slider.values[0].toInt(),slider.values[1].toInt())
+                viewModel.changeYearFilter(slider.values[0].toInt(), slider.values[1].toInt())
             }
         })
         binding.yearSlider.addOnChangeListener { slider, _, _ ->
@@ -55,19 +55,27 @@ class FilterFragment : Fragment() {
         binding.ratingSlider.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: RangeSlider) {
             }
+
             override fun onStopTrackingTouch(slider: RangeSlider) {
-                viewModel.changeRatingFilter(slider.values[0].toInt(),slider.values[1].toInt())
+                viewModel.changeRatingFilter(slider.values[0].toInt(), slider.values[1].toInt())
             }
         })
 
-        binding.orderSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                viewModel.changeOrderFilter(p2)
+        binding.orderSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                viewModel.changeOrderFilter(position)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
+        }
+        binding.orderSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
+                viewModel.changeTypeFilter(position)
+            }
 
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+            }
         }
 
     }

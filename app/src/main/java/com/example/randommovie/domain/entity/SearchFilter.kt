@@ -5,14 +5,16 @@ data class SearchFilter(
     var yearTop: Int = 2022,
     var ratingBottom: Int = 5,
     var ratingTop: Int = 9,
-    var order:String = RATING,
+    var order:Order = Order.RATING,
+    var type: Type = Type.FILM,
     val genres: MutableList<Int> = mutableListOf(),
     val country: MutableList<Int> = mutableListOf()
 
-){
-    companion object{
-        const val YEAR = "YEAR"
-        const val NUM_VOTE = "NUM_VOTE"
-        const val RATING = "RATING"
-    }
+)
+enum class Order{
+    YEAR,NUM_VOTE,RATING
+}
+
+enum class Type{
+    FILM,TV_SERIES,ALL
 }

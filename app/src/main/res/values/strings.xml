@@ -10,12 +10,20 @@
     <string name="choose_genres">Choose genres</string>
     <string name="choose_countries">Choose countries</string>
     <string name="clear">Clear</string>
-    
-    
-    <string-array name="order_sort">
+    <string name="order">Order:</string>
+    <string name="type">Type:</string>
+
+
+    <string-array name="order">
         <item>Hidden gem</item>
         <item>Popular</item>
         <item>Underground</item>
+    </string-array>
+
+    <string-array name="type">
+        <item>Movie</item>
+        <item>Series</item>
+        <item>All</item>
     </string-array>
 
 </resources>
