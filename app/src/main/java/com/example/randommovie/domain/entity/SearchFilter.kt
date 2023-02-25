@@ -7,8 +7,8 @@ data class SearchFilter(
     var ratingTop: Int = 9,
     var order:Order = Order.RATING,
     var type: Type = Type.FILM,
-    val genres: MutableList<Int> = mutableListOf(),
-    val country: MutableList<Int> = mutableListOf()
+    var genres: List<Int> = listOf(),
+    var country: List<Int> = listOf()
 
 )
 enum class Order{

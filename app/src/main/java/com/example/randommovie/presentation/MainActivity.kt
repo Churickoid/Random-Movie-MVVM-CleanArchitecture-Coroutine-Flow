@@ -34,21 +34,7 @@ class MainActivity : AppCompatActivity() {
                 .show(activeFragment)
                 .commit()
         }
-        else{
-            /*when(activeFragment){
-                is MovieFragment -> flex
-                is FilterFragment ->
-            }*/
 
-            supportFragmentManager
-                .beginTransaction()
-                .remove( activeFragment)
-                .add(R.id.fragmentContainer, movieFragment).hide(movieFragment)
-                .add(R.id.fragmentContainer, filterFragment).hide(filterFragment)
-                .add(R.id.fragmentContainer, listFragment).hide(listFragment)
-                .show(activeFragment)
-                .commit()
-        }
 
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {

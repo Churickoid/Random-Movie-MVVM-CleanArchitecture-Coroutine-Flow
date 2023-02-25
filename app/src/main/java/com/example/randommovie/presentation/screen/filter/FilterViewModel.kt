@@ -1,6 +1,5 @@
 package com.example.randommovie.presentation.screen.filter
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -47,18 +46,18 @@ class FilterViewModel(private val setSearchFilterUseCase: SetSearchFilterUseCase
         }
     }
 
-    fun changeYearFilter(yearBottom: Int, yearTop: Int) {
+    fun setYearFilter(yearBottom: Int, yearTop: Int) {
         searchFilter.yearBottom = yearBottom
         searchFilter.yearTop = yearTop
         setSearchFilter(searchFilter)
     }
-    fun changeRatingFilter(ratingBottom: Int, ratingTop: Int){
+    fun setRatingFilter(ratingBottom: Int, ratingTop: Int){
         searchFilter.ratingBottom = ratingBottom
         searchFilter.ratingTop = ratingTop
         setSearchFilter(searchFilter)
     }
 
-    fun changeOrderFilter(position: Int){
+    fun setOrderFilter(position: Int){
         val order = when(position){
             0 -> Order.RATING
             1 -> Order.NUM_VOTE
@@ -66,8 +65,9 @@ class FilterViewModel(private val setSearchFilterUseCase: SetSearchFilterUseCase
             else -> throw Exception("Invalid position")
         }
         searchFilter.order = order
+        setSearchFilter(searchFilter)
     }
-    fun changeTypeFilter(position: Int){
+    fun setTypeFilter(position: Int){
         val type = when(position){
             0 -> Type.FILM
             1 -> Type.TV_SERIES
@@ -75,10 +75,20 @@ class FilterViewModel(private val setSearchFilterUseCase: SetSearchFilterUseCase
             else -> throw Exception("Invalid position")
         }
         searchFilter.type = type
+        setSearchFilter(searchFilter)
+    }
+    fun setGenresFilter(genresIds: List<Int>){
+        searchFilter.genres = genresIds
+        setSearchFilter(searchFilter)
     }
 
-    fun getSearchFilter():SearchFilter{
-        return searchFilter
+    fun setCountryFilter(countriesIds: List<Int>){
+        searchFilter.country = countriesIds
+        setSearchFilter(searchFilter)
+    }
+
+    fun getDefaultFilterValue():SearchFilter{
+        return SearchFilter()
     }
 
     private fun setSearchFilter(searchFilter: SearchFilter){
