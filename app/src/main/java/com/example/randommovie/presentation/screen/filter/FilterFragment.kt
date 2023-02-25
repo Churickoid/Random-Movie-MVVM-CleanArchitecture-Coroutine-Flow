@@ -44,6 +44,13 @@ class FilterFragment : Fragment() {
             showListDialog(it, DIALOG_COUNTRY)
         }
 
+        binding.clearCountriesButton.setOnClickListener {
+            saveResultAndChangeEditBox(DIALOG_COUNTRY,null, listOf())
+        }
+        binding.clearGenresButton.setOnClickListener {
+            saveResultAndChangeEditBox(DIALOG_GENRES,null, listOf())
+        }
+
         binding.yearSlider.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener {
             override fun onStartTrackingTouch(slider: RangeSlider) {
             }
@@ -76,6 +83,7 @@ class FilterFragment : Fragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
         }
+
         binding.typeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 viewModel.setTypeFilter(position)
@@ -123,14 +131,18 @@ class FilterFragment : Fragment() {
             }
         }
         checkedNames = checkedNames.dropLast(2)
+        saveResultAndChangeEditBox(dialogType,checkedNames,ids)
 
+    }
+
+    private fun saveResultAndChangeEditBox(dialogType: Int, text: String?, ids: List<Int>){
         when (dialogType) {
             DIALOG_GENRES -> {
-                binding.genresEditBox.text = checkedNames
+                binding.genresEditBox.text = text
                 viewModel.setGenresFilter(ids)
             }
             DIALOG_COUNTRY -> {
-                binding.countryEditBox.text = checkedNames
+                binding.countryEditBox.text = text
                 viewModel.setCountryFilter(ids)
             }
         }
