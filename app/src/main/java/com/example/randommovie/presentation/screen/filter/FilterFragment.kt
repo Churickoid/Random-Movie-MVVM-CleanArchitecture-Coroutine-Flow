@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.randommovie.R
@@ -18,7 +17,7 @@ class FilterFragment : Fragment() {
     private lateinit var binding: FragmentFilterBinding
     private val viewModel: FilterViewModel by activityViewModels { factory() }
 
-
+    var dialogType: Int? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -28,27 +27,31 @@ class FilterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentFilterBinding.bind(view)
-
         setSliders()
 
         binding.genresEditBox.setOnClickListener {
+            dialogType = DIALOG_GENRES
             viewModel.getGenresList()
         }
         viewModel.genres.observe(viewLifecycleOwner) {
-            showListDialog(it, DIALOG_GENRES)
+
+            showListDialogFragment(it)
         }
         binding.countryEditBox.setOnClickListener {
+            dialogType = DIALOG_COUNTRY
             viewModel.getCountryList()
         }
         viewModel.countries.observe(viewLifecycleOwner) {
-            showListDialog(it, DIALOG_COUNTRY)
+            showListDialogFragment(it)
         }
 
         binding.clearCountriesButton.setOnClickListener {
-            saveResultAndChangeEditBox(DIALOG_COUNTRY,null, listOf())
+            dialogType = DIALOG_COUNTRY
+            saveResultAndChangeEditBox(null, listOf())
         }
         binding.clearGenresButton.setOnClickListener {
-            saveResultAndChangeEditBox(DIALOG_GENRES,null, listOf())
+            dialogType = DIALOG_GENRES
+            saveResultAndChangeEditBox(null, listOf())
         }
 
         binding.yearSlider.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener {
@@ -92,7 +95,7 @@ class FilterFragment : Fragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
         }
-
+        setupListDialogListener()
     }
 
     private fun setSliders() {
@@ -103,40 +106,13 @@ class FilterFragment : Fragment() {
 
     }
 
-    private fun showListDialog(list: List<ItemFilter>, dialogType: Int) {
-        var checkboxes = booleanArrayOf()
-        var names = arrayOf<String>()
-        list.forEach {
-            names += it.name
-            checkboxes += it.isActive
-        }
 
-        val dialog = AlertDialog.Builder(requireContext()).setTitle("Choose Items")
-            .setMultiChoiceItems(names, checkboxes) { _, index, isChecked ->
-                list[index].isActive = isChecked
-            }.setPositiveButton("Apply") { _, _ ->
-                saveEditBoxResult(dialogType, list)
-            }.create()
-        dialog.show()
-
+    private fun showListDialogFragment(list: List<ItemFilter>) {
+        ListDialogFragment.show(parentFragmentManager, list)
     }
 
-    private fun saveEditBoxResult(dialogType: Int, list: List<ItemFilter>) {
-        var checkedNames = ""
-        val ids = mutableListOf<Int>()
-        list.forEach {
-            if (it.isActive) {
-                checkedNames += "${it.name}, "
-                ids += it.id
-            }
-        }
-        checkedNames = checkedNames.dropLast(2)
-        saveResultAndChangeEditBox(dialogType,checkedNames,ids)
-
-    }
-
-    private fun saveResultAndChangeEditBox(dialogType: Int, text: String?, ids: List<Int>){
-        when (dialogType) {
+    private fun saveResultAndChangeEditBox(text: String?, ids: List<Int>) {
+        when (this.dialogType) {
             DIALOG_GENRES -> {
                 binding.genresEditBox.text = text
                 viewModel.setGenresFilter(ids)
@@ -145,8 +121,25 @@ class FilterFragment : Fragment() {
                 binding.countryEditBox.text = text
                 viewModel.setCountryFilter(ids)
             }
+            else -> throw Exception("Unknown Dialog Type")
+        }
+        dialogType = null
+    }
+    private fun setupListDialogListener() {
+        ListDialogFragment.setupListener(parentFragmentManager, this) { list ->
+            var checkedNames = ""
+            val ids = mutableListOf<Int>()
+            list.forEach {
+                if (it.isActive) {
+                    checkedNames += "${it.name}, "
+                    ids += it.id
+                }
+            }
+            checkedNames = checkedNames.dropLast(2)
+            saveResultAndChangeEditBox(checkedNames,ids)
         }
     }
+
 
     companion object {
 
