@@ -1,4 +1,4 @@
-package com.example.randommovie.presentation.di
+package com.example.randommovie.data.di
 
 import com.example.randommovie.data.FilterRepositoryImpl
 import com.example.randommovie.data.MovieRepositoryImpl
