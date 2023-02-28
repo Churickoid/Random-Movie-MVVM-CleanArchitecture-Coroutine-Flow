@@ -1,6 +1,5 @@
 package com.example.randommovie.presentation.screen.movie
 
-import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,16 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.randommovie.R
-import com.example.randommovie.data.MovieRepositoryImpl
 import com.example.randommovie.databinding.FragmentMovieBinding
-import com.example.randommovie.domain.entity.SearchFilter
-import com.example.randommovie.presentation.App
-import com.example.randommovie.presentation.screen.factory
 import com.example.randommovie.presentation.screen.filter.FilterViewModel
-import kotlinx.coroutines.launch
+import com.example.randommovie.presentation.tools.factory
 
 class MovieFragment : Fragment() {
 

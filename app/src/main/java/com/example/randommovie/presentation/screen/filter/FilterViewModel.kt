@@ -1,5 +1,6 @@
 package com.example.randommovie.presentation.screen.filter
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ import com.example.randommovie.domain.entity.Type
 import com.example.randommovie.domain.usecases.filter.GetCountriesUseCase
 import com.example.randommovie.domain.usecases.filter.GetGenresUseCase
 import com.example.randommovie.domain.usecases.filter.SetSearchFilterUseCase
+import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch
 
 class FilterViewModel(private val setSearchFilterUseCase: SetSearchFilterUseCase,
@@ -20,28 +22,33 @@ class FilterViewModel(private val setSearchFilterUseCase: SetSearchFilterUseCase
 
     private val searchFilter = SearchFilter()
 
-    private val _genres = MutableLiveData<List<ItemFilter>>()
-    val genres: LiveData<List<ItemFilter>> = _genres
+    private var dialogType: Int? = null
 
-    private val _countries = MutableLiveData<List<ItemFilter>>()
-    val countries: LiveData<List<ItemFilter>> = _countries
+    private val _genres = MutableLiveData<Event<List<ItemFilter>>>()
+    val genres: LiveData<Event<List<ItemFilter>>> = _genres
+
+    private val _countries = MutableLiveData<Event<List<ItemFilter>>>()
+    val countries: LiveData<Event<List<ItemFilter>>> = _countries
 
 
+    fun getListDialogType(): Int? = dialogType
     fun getGenresList() {
         viewModelScope.launch {
+            dialogType = DIALOG_GENRES
             try {
-                _genres.value = getGenresUseCase.invoke()
+                _genres.value = Event(getGenresUseCase.invoke())
             }catch (e:Exception){
-
+                Log.e("!!!", e.toString())
             }
         }
     }
     fun getCountryList() {
+        dialogType = DIALOG_COUNTRY
         viewModelScope.launch {
             try {
-                _countries.value = getCountriesUseCase.invoke()
+                _countries.value = Event(getCountriesUseCase.invoke())
             }catch (e:Exception){
-
+                Log.e("!!!", e.toString())
             }
         }
     }
@@ -96,4 +103,9 @@ class FilterViewModel(private val setSearchFilterUseCase: SetSearchFilterUseCase
     }
 
 
+    companion object {
+
+        const val DIALOG_GENRES = 0
+        const val DIALOG_COUNTRY = 1
+    }
 }

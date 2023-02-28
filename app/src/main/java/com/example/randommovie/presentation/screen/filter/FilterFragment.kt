@@ -6,18 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentFilterBinding
 import com.example.randommovie.domain.entity.ItemFilter
-import com.example.randommovie.presentation.screen.factory
+import com.example.randommovie.presentation.tools.factory
 import com.google.android.material.slider.RangeSlider
 
 class FilterFragment : Fragment() {
     private lateinit var binding: FragmentFilterBinding
-    private val viewModel: FilterViewModel by activityViewModels { factory() }
+    private val viewModel: FilterViewModel by viewModels { factory() }
 
-    var dialogType: Int? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -30,27 +29,26 @@ class FilterFragment : Fragment() {
         setSliders()
 
         binding.genresEditBox.setOnClickListener {
-            dialogType = DIALOG_GENRES
             viewModel.getGenresList()
         }
         viewModel.genres.observe(viewLifecycleOwner) {
-
-            showListDialogFragment(it)
+            it.getValue()?.let { list ->
+                showListDialogFragment(list)
+            }
         }
         binding.countryEditBox.setOnClickListener {
-            dialogType = DIALOG_COUNTRY
             viewModel.getCountryList()
         }
         viewModel.countries.observe(viewLifecycleOwner) {
-            showListDialogFragment(it)
+            it.getValue()?.let { list ->
+                showListDialogFragment(list)
+            }
         }
 
         binding.clearCountriesButton.setOnClickListener {
-            dialogType = DIALOG_COUNTRY
             saveResultAndChangeEditBox(null, listOf())
         }
         binding.clearGenresButton.setOnClickListener {
-            dialogType = DIALOG_GENRES
             saveResultAndChangeEditBox(null, listOf())
         }
 
@@ -112,7 +110,7 @@ class FilterFragment : Fragment() {
     }
 
     private fun saveResultAndChangeEditBox(text: String?, ids: List<Int>) {
-        when (this.dialogType) {
+        when (viewModel.getListDialogType()){
             DIALOG_GENRES -> {
                 binding.genresEditBox.text = text
                 viewModel.setGenresFilter(ids)
@@ -123,7 +121,6 @@ class FilterFragment : Fragment() {
             }
             else -> throw Exception("Unknown Dialog Type")
         }
-        dialogType = null
     }
     private fun setupListDialogListener() {
         ListDialogFragment.setupListener(parentFragmentManager, this) { list ->

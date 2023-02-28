@@ -1,4 +1,4 @@
-package com.example.randommovie.presentation.screen
+package com.example.randommovie.presentation.tools
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
