@@ -32,6 +32,8 @@
         app:layout_constraintTop_toTopOf="parent"
          />
 
+
+
     <Spinner
 
         android:id="@+id/orderSpinner"
@@ -124,19 +126,10 @@
         android:maxLines="1"
         app:drawableEndCompat="@android:drawable/arrow_down_float"
         app:layout_constraintBottom_toTopOf="@id/countryEditBox"
-        app:layout_constraintEnd_toStartOf="@id/clearGenresButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ratingSlider" />
-    <Button
-        android:id="@+id/clearGenresButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:text="@string/clear"
-        app:layout_constraintBottom_toBottomOf="@id/genresEditBox"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/genresEditBox"
-        app:layout_constraintTop_toTopOf="@id/genresEditBox"/>
+
 
     <TextView
         android:id="@+id/countryEditBox"
@@ -151,19 +144,10 @@
         android:maxLines="1"
         app:drawableEndCompat="@android:drawable/arrow_down_float"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/clearCountriesButton"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/genresEditBox" />
-    <Button
-        android:id="@+id/clearCountriesButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:text="@string/clear"
-        app:layout_constraintBottom_toBottomOf="@id/countryEditBox"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/countryEditBox"
-        app:layout_constraintTop_toTopOf="@id/countryEditBox"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

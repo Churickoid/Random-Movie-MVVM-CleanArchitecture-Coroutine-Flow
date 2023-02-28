@@ -1,7 +1,7 @@
 package com.example.randommovie.presentation.screen.filter
 
 import android.app.Dialog
-import android.graphics.Color
+import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -9,9 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.LifecycleOwner
-import com.example.randommovie.R
 import com.example.randommovie.domain.entity.ItemFilter
 
 class ListDialogFragment : DialogFragment() {
@@ -28,12 +26,12 @@ class ListDialogFragment : DialogFragment() {
             ) ?: throw IllegalArgumentException("Can't launch without list")
         }
 
+    private val requestKey : String
+        get() = arguments?.getString(ARG_REQUEST_KEY)!!
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         var checkboxes = booleanArrayOf()
         var names = arrayOf<String>()
-
-
         list.forEach {
             names += it.name
             checkboxes += it.isActive
@@ -43,52 +41,67 @@ class ListDialogFragment : DialogFragment() {
             .setMultiChoiceItems(names, checkboxes) { _, index, isChecked ->
                 list[index].isActive = isChecked
             }.setPositiveButton("Apply") { _, _ ->
-                parentFragmentManager.setFragmentResult(
-                    REQUEST_KEY, bundleOf(KEY_LIST_ITEM_RESPONSE to list)
-                )
-            }.create()
+                callResult()
+            }
+            .setNeutralButton("Clear"){ _,_ ->
+                list.forEach { it.isActive = false }
+                callResult()
+            }
+            .create()
 
     }
 
+    override fun onCancel(dialog: DialogInterface) {
+        super.onCancel(dialog)
+        callResult()
+    }
 
-
+    private fun callResult(){
+        parentFragmentManager.setFragmentResult(
+            requestKey, bundleOf(KEY_LIST_ITEM_RESPONSE to list)
+        )
+    }
     companion object {
         private val TAG = ListDialogFragment::class.java.simpleName
-        private val KEY_LIST_ITEM_RESPONSE = "KEY_LIST_ITEM_RESPONSE"
+        private const val KEY_LIST_ITEM_RESPONSE = "KEY_LIST_ITEM_RESPONSE"
 
         private const val ARG_LIST_ITEM = "ARG_LIST_ITEM"
+        private const val ARG_REQUEST_KEY = "ARG_REQUEST_KEY"
 
-        val REQUEST_KEY = "$TAG:defaultRequestKey"
 
-        fun show(manager: FragmentManager, list: List<ItemFilter>) {
+        fun show(manager: FragmentManager, list: List<ItemFilter>, requestKey: String) {
+
             val dialogFragment = ListDialogFragment()
             val args = Bundle()
             args.putParcelableArrayList(ARG_LIST_ITEM, list as ArrayList<ItemFilter>)
+            args.putString(ARG_REQUEST_KEY, requestKey)
             dialogFragment.arguments = args
             dialogFragment.show(manager, TAG)
+
         }
 
         fun setupListener(
             manager: FragmentManager,
+            requestKey: String,
             lifecycleOwner: LifecycleOwner,
-            listener: (ArrayList<ItemFilter>) -> Unit
+            listener: (String ,ArrayList<ItemFilter>) -> Unit
         ) {
             manager.setFragmentResultListener(
-                REQUEST_KEY,
-                lifecycleOwner,
-                FragmentResultListener { _, result ->
-                    listener.invoke(
-                        when {
-                            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> result.getParcelableArrayList(
-                                KEY_LIST_ITEM_RESPONSE, ItemFilter::class.java
-                            ) ?: throw IllegalArgumentException("Can't launch without list")
-                            else -> @Suppress("DEPRECATION")
-                            result.getParcelableArrayList(
-                                KEY_LIST_ITEM_RESPONSE
-                            ) ?: throw IllegalArgumentException("Can't launch without list")
-                        }
-                    )
-                })
+                requestKey,
+                lifecycleOwner
+            ) { _, result ->
+                listener.invoke(requestKey,
+                    when {
+                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> result.getParcelableArrayList(
+                            KEY_LIST_ITEM_RESPONSE, ItemFilter::class.java
+                        ) ?: throw IllegalArgumentException("Can't launch without list")
+                        else -> @Suppress("DEPRECATION")
+                        result.getParcelableArrayList(
+                            KEY_LIST_ITEM_RESPONSE
+                        ) ?: throw IllegalArgumentException("Can't launch without list")
+                    }
+                )
+            }
         }
 
 

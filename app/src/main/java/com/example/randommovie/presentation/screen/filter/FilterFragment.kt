@@ -1,6 +1,7 @@
 package com.example.randommovie.presentation.screen.filter
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +34,7 @@ class FilterFragment : Fragment() {
         }
         viewModel.genres.observe(viewLifecycleOwner) {
             it.getValue()?.let { list ->
-                showListDialogFragment(list)
+                showListDialogFragment(list,REQUEST_KEY_GENRES)
             }
         }
         binding.countryEditBox.setOnClickListener {
@@ -41,15 +42,9 @@ class FilterFragment : Fragment() {
         }
         viewModel.countries.observe(viewLifecycleOwner) {
             it.getValue()?.let { list ->
-                showListDialogFragment(list)
+                Log.e("!!!", list.toString())
+                showListDialogFragment(list, REQUEST_KEY_COUNTRIES)
             }
-        }
-
-        binding.clearCountriesButton.setOnClickListener {
-            saveResultAndChangeEditBox(null, listOf())
-        }
-        binding.clearGenresButton.setOnClickListener {
-            saveResultAndChangeEditBox(null, listOf())
         }
 
         binding.yearSlider.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener {
@@ -105,25 +100,13 @@ class FilterFragment : Fragment() {
     }
 
 
-    private fun showListDialogFragment(list: List<ItemFilter>) {
-        ListDialogFragment.show(parentFragmentManager, list)
+    private fun showListDialogFragment(list: List<ItemFilter>,requestKey: String) {
+        ListDialogFragment.show(parentFragmentManager, list,requestKey)
     }
 
-    private fun saveResultAndChangeEditBox(text: String?, ids: List<Int>) {
-        when (viewModel.getListDialogType()){
-            DIALOG_GENRES -> {
-                binding.genresEditBox.text = text
-                viewModel.setGenresFilter(ids)
-            }
-            DIALOG_COUNTRY -> {
-                binding.countryEditBox.text = text
-                viewModel.setCountryFilter(ids)
-            }
-            else -> throw Exception("Unknown Dialog Type")
-        }
-    }
     private fun setupListDialogListener() {
-        ListDialogFragment.setupListener(parentFragmentManager, this) { list ->
+
+        val listener: (String ,ArrayList<ItemFilter>) -> Unit = { requestKey,list ->
             var checkedNames = ""
             val ids = mutableListOf<Int>()
             list.forEach {
@@ -133,14 +116,29 @@ class FilterFragment : Fragment() {
                 }
             }
             checkedNames = checkedNames.dropLast(2)
-            saveResultAndChangeEditBox(checkedNames,ids)
+            saveResultAndChangeEditBox(requestKey,checkedNames,ids)
+        }
+        ListDialogFragment.setupListener(parentFragmentManager,  REQUEST_KEY_GENRES, this,listener)
+        ListDialogFragment.setupListener(parentFragmentManager,  REQUEST_KEY_COUNTRIES, this,listener)
+    }
+    private fun saveResultAndChangeEditBox(key:String,text: String?, ids: List<Int>) {
+        when (key){
+            REQUEST_KEY_GENRES -> {
+                binding.genresEditBox.text = text
+                viewModel.setGenresFilter(ids)
+            }
+            REQUEST_KEY_COUNTRIES -> {
+                binding.countryEditBox.text = text
+                viewModel.setCountryFilter(ids)
+            }
+            else -> throw Exception("Unknown Dialog Type")
         }
     }
 
 
     companion object {
 
-        const val DIALOG_GENRES = 0
-        const val DIALOG_COUNTRY = 1
+        const val REQUEST_KEY_GENRES = "REQUEST_KEY_GENRES"
+        const val REQUEST_KEY_COUNTRIES = "REQUEST_KEY_COUNTRIES"
     }
 }

@@ -22,7 +22,6 @@ class FilterViewModel(private val setSearchFilterUseCase: SetSearchFilterUseCase
 
     private val searchFilter = SearchFilter()
 
-    private var dialogType: Int? = null
 
     private val _genres = MutableLiveData<Event<List<ItemFilter>>>()
     val genres: LiveData<Event<List<ItemFilter>>> = _genres
@@ -31,10 +30,9 @@ class FilterViewModel(private val setSearchFilterUseCase: SetSearchFilterUseCase
     val countries: LiveData<Event<List<ItemFilter>>> = _countries
 
 
-    fun getListDialogType(): Int? = dialogType
+
     fun getGenresList() {
         viewModelScope.launch {
-            dialogType = DIALOG_GENRES
             try {
                 _genres.value = Event(getGenresUseCase.invoke())
             }catch (e:Exception){
@@ -43,7 +41,6 @@ class FilterViewModel(private val setSearchFilterUseCase: SetSearchFilterUseCase
         }
     }
     fun getCountryList() {
-        dialogType = DIALOG_COUNTRY
         viewModelScope.launch {
             try {
                 _countries.value = Event(getCountriesUseCase.invoke())
@@ -98,14 +95,10 @@ class FilterViewModel(private val setSearchFilterUseCase: SetSearchFilterUseCase
         return SearchFilter()
     }
 
+
     private fun setSearchFilter(searchFilter: SearchFilter){
         setSearchFilterUseCase.invoke(searchFilter)
     }
 
 
-    companion object {
-
-        const val DIALOG_GENRES = 0
-        const val DIALOG_COUNTRY = 1
-    }
 }
