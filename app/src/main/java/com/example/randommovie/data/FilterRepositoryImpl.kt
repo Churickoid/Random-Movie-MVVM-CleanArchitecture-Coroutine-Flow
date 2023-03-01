@@ -33,8 +33,8 @@ class FilterRepositoryImpl(private val retrofitApiInterface: RetrofitApiInterfac
         val request = retrofitApiInterface.getGenresAndCounties()
         val mutableGenres = mutableListOf<ItemFilter>()
         val mutableCountries = mutableListOf<ItemFilter>()
-        request.genres.forEach { mutableGenres.add(it.toItemFilter()) }
-        request.countries.forEach { mutableCountries.add(it.toItemFilter()) }
+        request.genres.forEach { if(it.genre.isNotEmpty())mutableGenres.add(it.toItemFilter()) }
+        request.countries.forEach { if(it.country.isNotEmpty())mutableCountries.add(it.toItemFilter()) }
         genresList = mutableGenres
         countriesList = mutableCountries
     }

@@ -30,6 +30,12 @@ class FilterViewModel(private val setSearchFilterUseCase: SetSearchFilterUseCase
     val countries: LiveData<Event<List<ItemFilter>>> = _countries
 
 
+    private val _countryText = MutableLiveData<String>()
+    val countryText: LiveData<String> = _countryText
+
+    private val _genreText = MutableLiveData<String>()
+    val genreText: LiveData<String> = _genreText
+
 
     fun getGenresList() {
         viewModelScope.launch {
@@ -81,24 +87,47 @@ class FilterViewModel(private val setSearchFilterUseCase: SetSearchFilterUseCase
         searchFilter.type = type
         setSearchFilter(searchFilter)
     }
-    fun setGenresFilter(genresIds: List<Int>){
+    fun getDefaultFilterValue():SearchFilter{
+        return SearchFilter()
+    }
+    fun listDialogHandler(requestKey: String, list: ArrayList<ItemFilter>) {
+        var checkedNames = ""
+        val ids = mutableListOf<Int>()
+        list.forEach {
+            if (it.isActive) {
+                checkedNames += "${it.name}, "
+                ids += it.id
+            }
+        }
+        checkedNames = checkedNames.dropLast(2)
+
+        when (requestKey){
+            FilterFragment.REQUEST_KEY_GENRES -> {
+                _genreText.value = checkedNames
+                setGenresFilter(ids)
+            }
+            FilterFragment.REQUEST_KEY_COUNTRIES -> {
+                _countryText.value = checkedNames
+                setCountryFilter(ids)
+            }
+            else -> throw Exception("Unknown Dialog Type")
+        }
+    }
+    private fun setGenresFilter(genresIds: List<Int>){
         searchFilter.genres = genresIds
         setSearchFilter(searchFilter)
     }
 
-    fun setCountryFilter(countriesIds: List<Int>){
+    private fun setCountryFilter(countriesIds: List<Int>){
         searchFilter.country = countriesIds
         setSearchFilter(searchFilter)
-    }
-
-    fun getDefaultFilterValue():SearchFilter{
-        return SearchFilter()
     }
 
 
     private fun setSearchFilter(searchFilter: SearchFilter){
         setSearchFilterUseCase.invoke(searchFilter)
     }
+
 
 
 }

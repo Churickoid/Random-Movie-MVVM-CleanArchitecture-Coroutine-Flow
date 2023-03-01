@@ -31,6 +31,7 @@ class FilterFragment : Fragment() {
 
         binding.genresEditBox.setOnClickListener {
             viewModel.getGenresList()
+            changeEditBoxState(REQUEST_KEY_GENRES,View.INVISIBLE,View.VISIBLE)
         }
         viewModel.genres.observe(viewLifecycleOwner) {
             it.getValue()?.let { list ->
@@ -39,12 +40,19 @@ class FilterFragment : Fragment() {
         }
         binding.countryEditBox.setOnClickListener {
             viewModel.getCountryList()
+            changeEditBoxState(REQUEST_KEY_COUNTRIES,View.INVISIBLE,View.VISIBLE)
         }
         viewModel.countries.observe(viewLifecycleOwner) {
             it.getValue()?.let { list ->
-                Log.e("!!!", list.toString())
                 showListDialogFragment(list, REQUEST_KEY_COUNTRIES)
             }
+        }
+
+        viewModel.countryText.observe(viewLifecycleOwner){
+            binding.countryEditBox.text = it
+        }
+        viewModel.genreText.observe(viewLifecycleOwner){
+            binding.genresEditBox.text = it
         }
 
         binding.yearSlider.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener {
@@ -105,37 +113,26 @@ class FilterFragment : Fragment() {
     }
 
     private fun setupListDialogListener() {
-
         val listener: (String ,ArrayList<ItemFilter>) -> Unit = { requestKey,list ->
-            var checkedNames = ""
-            val ids = mutableListOf<Int>()
-            list.forEach {
-                if (it.isActive) {
-                    checkedNames += "${it.name}, "
-                    ids += it.id
-                }
-            }
-            checkedNames = checkedNames.dropLast(2)
-            saveResultAndChangeEditBox(requestKey,checkedNames,ids)
+            viewModel.listDialogHandler(requestKey,list)
+            changeEditBoxState(requestKey,View.VISIBLE,View.INVISIBLE)
         }
         ListDialogFragment.setupListener(parentFragmentManager,  REQUEST_KEY_GENRES, this,listener)
         ListDialogFragment.setupListener(parentFragmentManager,  REQUEST_KEY_COUNTRIES, this,listener)
     }
-    private fun saveResultAndChangeEditBox(key:String,text: String?, ids: List<Int>) {
-        when (key){
+
+    private fun changeEditBoxState(requestKey: String, stateView: Int, stateProgressBar: Int){
+        when(requestKey){
             REQUEST_KEY_GENRES -> {
-                binding.genresEditBox.text = text
-                viewModel.setGenresFilter(ids)
+                binding.genresEditBox.visibility = stateView
+                binding.genresProgressBar.visibility = stateProgressBar
             }
-            REQUEST_KEY_COUNTRIES -> {
-                binding.countryEditBox.text = text
-                viewModel.setCountryFilter(ids)
+            REQUEST_KEY_COUNTRIES ->{
+                binding.countryEditBox.visibility = stateView
+                binding.countryProgressBar.visibility = stateProgressBar
             }
-            else -> throw Exception("Unknown Dialog Type")
         }
     }
-
-
     companion object {
 
         const val REQUEST_KEY_GENRES = "REQUEST_KEY_GENRES"
