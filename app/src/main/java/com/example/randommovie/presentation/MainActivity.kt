@@ -25,15 +25,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (savedInstanceState == null) {
-            supportFragmentManager
-                .beginTransaction()
-                .add(R.id.fragmentContainer, movieFragment).hide(movieFragment)
-                .add(R.id.fragmentContainer, filterFragment).hide(filterFragment)
-                .add(R.id.fragmentContainer, listFragment).hide(listFragment)
-                .show(activeFragment)
-                .commit()
-        }
 
 
         binding.bottomNavigation.setOnItemSelectedListener {
