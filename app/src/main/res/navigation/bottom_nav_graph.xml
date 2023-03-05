@@ -4,7 +4,8 @@
     android:id="@+id/bottom_nav_graph"
     app:startDestination="@id/movie">
 
+
+    <include app:graph="@navigation/movie" />
     <include app:graph="@navigation/filter" />
     <include app:graph="@navigation/list" />
-    <include app:graph="@navigation/movie" />
 </navigation>

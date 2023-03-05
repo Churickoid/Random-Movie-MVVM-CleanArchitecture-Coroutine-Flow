@@ -7,9 +7,6 @@
     tools:context=".presentation.screen.filter.FilterFragment"
     >
 
-
-
-
     <TextView
         android:id="@+id/yearTextView"
         android:layout_width="wrap_content"
@@ -24,6 +21,7 @@
     <com.google.android.material.slider.RangeSlider
         android:id="@+id/yearSlider"
         android:layout_width="0dp"
+        android:contentDescription="@string/year"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="18dp"
         android:stepSize="1"
@@ -38,18 +36,15 @@
 
 
     <Spinner
-
         android:id="@+id/orderSpinner"
-        android:theme="@style/SpinnerItemStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:entries="@array/order"
-        android:layout_marginEnd="18sp"
+
         app:layout_constraintStart_toEndOf="@id/orderTextView"
         app:layout_constraintTop_toBottomOf="@id/yearSlider"
         app:layout_constraintBottom_toTopOf="@id/typeSpinner"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="12dp"
+
         />
     <TextView
         android:id="@+id/orderTextView"
@@ -65,16 +60,13 @@
         />
     <Spinner
         android:id="@+id/typeSpinner"
-        android:theme="@style/SpinnerItemStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:entries="@array/type"
-        android:layout_marginEnd="18sp"
+
         app:layout_constraintStart_toEndOf="@id/typeTextView"
         app:layout_constraintTop_toBottomOf="@id/orderSpinner"
         app:layout_constraintBottom_toTopOf="@id/ratingSlider"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="12dp"
         />
     <TextView
         android:id="@+id/typeTextView"
@@ -110,6 +102,7 @@
         android:stepSize="1"
         android:valueFrom="1"
         android:valueTo="10"
+        android:contentDescription="@string/rating"
         app:layout_constraintBottom_toTopOf="@id/genresEditBox"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ratingTextView"

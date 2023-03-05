@@ -17,7 +17,6 @@ class MovieFragment : Fragment() {
 
     private lateinit var binding: FragmentMovieBinding
     private val viewModel: MovieViewModel by viewModels { factory() }
-    private val filterViewModel: FilterViewModel by activityViewModels{ factory() }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

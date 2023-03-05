@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="com.example.randommovie.presentation.screen.list.ListFragment"
-        android:label="fragment_list"
-        tools:layout="@layout/fragment_list" >
+        android:label="@string/list"
+        tools:layout="@layout/fragment_list">
         <action
             android:id="@+id/action_listFragment_to_informationFragment2"
             app:destination="@id/informationFragment2" />

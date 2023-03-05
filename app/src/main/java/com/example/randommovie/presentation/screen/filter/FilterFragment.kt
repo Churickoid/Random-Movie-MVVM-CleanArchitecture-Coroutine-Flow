@@ -1,11 +1,11 @@
 package com.example.randommovie.presentation.screen.filter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.randommovie.R
@@ -27,7 +27,6 @@ class FilterFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentFilterBinding.bind(view)
-        setSliders()
 
         binding.genresEditBox.setOnClickListener {
             viewModel.getGenresList()
@@ -96,10 +95,13 @@ class FilterFragment : Fragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
         }
+
+        setupSlider()
         setupListDialogListener()
     }
 
-    private fun setSliders() {
+
+    private fun setupSlider() {
         val filter = viewModel.getDefaultFilterValue()
         binding.yearSlider.setValues(filter.yearBottom.toFloat(), filter.yearTop.toFloat())
         binding.ratingSlider.setValues(filter.ratingBottom.toFloat(), filter.ratingTop.toFloat())

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:title="@string/movie"
-        android:icon="@drawable/movie_icon"
+        android:icon="@drawable/ic_movie"
         android:id="@+id/movie"
         />
     <item android:title="@string/filter"
@@ -9,7 +9,7 @@
         android:id="@+id/filter"
         />
     <item android:title="@string/list"
-        android:icon="@drawable/list_icon"
+        android:icon="@drawable/ic_list"
         android:id="@+id/list"
         />
 

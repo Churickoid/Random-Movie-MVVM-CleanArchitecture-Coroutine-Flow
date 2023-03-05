@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/filter"
     app:startDestination="@id/filterFragment">
-
     <fragment
         android:id="@+id/filterFragment"
         android:name="com.example.randommovie.presentation.screen.filter.FilterFragment"
-        android:label="fragment_filter"
+        android:label="@string/filter"
         tools:layout="@layout/fragment_filter" />
 </navigation>
