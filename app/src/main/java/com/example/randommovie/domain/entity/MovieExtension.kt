@@ -1,7 +1,8 @@
 package com.example.randommovie.domain.entity
 
-class MovieExtension (
+data class MovieExtension (
     val movie: Movie,
-    val description: String,
-    val background: String
+    val description: String?,
+    val length: Int?,
+    val webUrl: String,
 )

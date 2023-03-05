@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentMovieBinding
-import com.example.randommovie.presentation.screen.filter.FilterViewModel
 import com.example.randommovie.presentation.tools.factory
 
 class MovieFragment : Fragment() {
@@ -49,9 +47,9 @@ class MovieFragment : Fragment() {
             binding.genresTextView.text = parseListToString(it.genre)
             binding.kinopoiskRateTextView.text = it.ratingKP?.toString() ?: " — "
             binding.imdbRateTextView.text = it.ratingIMDB?.toString() ?: " — "
-            if (it.poster != null) {
+            if (it.posterUrl != null) {
                 Glide.with(this@MovieFragment)
-                    .load(it.poster)
+                    .load(it.posterUrl)
                     .skipMemoryCache(true)
                     .into(binding.posterImageView)
             } else {

@@ -27,7 +27,7 @@ data class Item(
             id = this.kinopoiskId,
             titleRu = this.nameRu,
             title = this.nameOriginal,
-            poster = this.posterUrlPreview,
+            posterUrl = this.posterUrlPreview,
             genre = genre,
             releaseDate = this.year,
             ratingKP = this.ratingKinopoisk,
