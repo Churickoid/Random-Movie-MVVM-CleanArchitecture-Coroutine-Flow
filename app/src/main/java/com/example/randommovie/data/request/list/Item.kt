@@ -1,5 +1,7 @@
-package com.example.randommovie.data.request.movie
+package com.example.randommovie.data.request.list
 
+import com.example.randommovie.data.request.Country
+import com.example.randommovie.data.request.Genre
 import com.example.randommovie.domain.entity.Movie
 
 data class Item(

@@ -2,7 +2,7 @@ package com.example.randommovie.data.request.filter
 
 import com.example.randommovie.domain.entity.ItemFilter
 
-data class Genre(
+data class GenreWithId(
     val genre: String,
     val id: Int
 ){

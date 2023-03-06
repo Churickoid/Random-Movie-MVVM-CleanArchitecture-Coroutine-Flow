@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.screen.information.InformationFragment"
+    >
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     >
 
     <ImageView
@@ -101,7 +106,7 @@
         android:layout_height="wrap_content"
         android:text="Details"
         android:textSize="24sp"
-        android:layout_marginVertical="8dp"
+
         android:layout_marginHorizontal="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -157,12 +162,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:text="Чел попал в плен жесткой организации ананимусов и пожалел о том, что родился на этот свет. Ему некуда бежать, лишь Чамскраббер может помочь ему. "
+        android:layout_marginTop="8dp"
+        android:text="Чел попал в плен жесткой организации ананимусов и пожалел о том, что родился на этот свет. Ему некуда бежать, лишь Чамскраббер может помочь ему. Годы беготни,и всё напрасно? Фильм раскрывает все насущные проблемы поколения Z, заигрывает с такими понятиями как рефлексия, сублимация, трансцендентность... В общем зрелище не для слабонервных. "
         android:textColor="@color/black"
         android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/detailsButton" />
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

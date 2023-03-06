@@ -1,7 +1,5 @@
 package com.example.randommovie.data
 
-import android.util.Log
-import com.example.randommovie.data.request.movie.Item
 import com.example.randommovie.domain.MovieRepository
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.MovieExtension

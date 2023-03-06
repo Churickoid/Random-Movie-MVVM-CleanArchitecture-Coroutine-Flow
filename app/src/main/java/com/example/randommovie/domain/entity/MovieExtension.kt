@@ -4,5 +4,5 @@ data class MovieExtension (
     val movie: Movie,
     val description: String?,
     val length: Int?,
-    val webUrl: String,
+    val webUrl: String
 )
