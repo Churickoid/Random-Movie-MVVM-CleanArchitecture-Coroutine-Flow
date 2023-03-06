@@ -6,7 +6,7 @@ import com.example.randommovie.domain.entity.MovieExtension
 
 class InfoRepositoryImpl(private val retrofitApiInterface: RetrofitApiInterface) : InfoRepository {
 
-    override suspend fun showMoreInformation(movie: Movie): MovieExtension {
+    override suspend fun getMoreInformation(movie: Movie): MovieExtension {
         val request = retrofitApiInterface.getMovieById(movie.id)
         return MovieExtension(movie,request.coverUrl, request.description,request.filmLength,request.webUrl)
     }

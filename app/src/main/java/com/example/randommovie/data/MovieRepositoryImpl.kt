@@ -10,10 +10,9 @@ class MovieRepositoryImpl(private val retrofitApiInterface: RetrofitApiInterface
     MovieRepository {
 
 
-
-    override suspend fun getRandomMovie(searchFilter : SearchFilter): Movie {
+    override suspend fun getRandomMovie(searchFilter: SearchFilter): Movie {
         val randYear = Random.nextInt(searchFilter.yearBottom, searchFilter.yearTop + 1)
-        val randRating = Random.nextInt(searchFilter.ratingBottom, searchFilter.ratingTop+1)
+        val randRating = Random.nextInt(searchFilter.ratingBottom, searchFilter.ratingTop + 1)
 
         val genresList = searchFilter.genres
         val genre = if (genresList.isNotEmpty()) genresList[Random.nextInt(genresList.size)]
@@ -23,7 +22,7 @@ class MovieRepositoryImpl(private val retrofitApiInterface: RetrofitApiInterface
         val country = if (countryList.isNotEmpty()) countryList[Random.nextInt(countryList.size)]
         else null
 
-        val randPage =  Random.nextInt(1, 6)
+        val randPage = Random.nextInt(1, 6)
         var movieList = retrofitApiInterface.getMovieList(
             page = randPage,
             yearFrom = randYear,
@@ -36,7 +35,7 @@ class MovieRepositoryImpl(private val retrofitApiInterface: RetrofitApiInterface
             type = searchFilter.type.name
         ).items
 
-        if(movieList.isEmpty()){
+        if (movieList.isEmpty()) {
             movieList = retrofitApiInterface.getMovieList(
                 page = 1,
                 yearFrom = searchFilter.yearBottom,
@@ -53,10 +52,6 @@ class MovieRepositoryImpl(private val retrofitApiInterface: RetrofitApiInterface
         val randomItemId = Random.nextInt(movieList.size)
 
         return movieList[randomItemId].toMovie()
-    }
-
-       override fun showMoreInformation(movie: Movie): MovieExtension {
-        TODO("Not yet implemented")
     }
 
     override fun addMustWatchedMovie(movie: Movie) {

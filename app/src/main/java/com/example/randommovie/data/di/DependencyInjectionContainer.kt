@@ -1,6 +1,7 @@
 package com.example.randommovie.data.di
 
 import com.example.randommovie.data.FilterRepositoryImpl
+import com.example.randommovie.data.InfoRepositoryImpl
 import com.example.randommovie.data.MovieRepositoryImpl
 import com.example.randommovie.data.RetrofitApiInterface
 import com.example.randommovie.domain.usecases.filter.GetCountriesUseCase
@@ -8,6 +9,7 @@ import com.example.randommovie.domain.usecases.filter.GetGenresUseCase
 import com.example.randommovie.domain.usecases.filter.GetSearchFilterUseCase
 import com.example.randommovie.domain.usecases.movie.GetRandomMovieUseCase
 import com.example.randommovie.domain.usecases.filter.SetSearchFilterUseCase
+import com.example.randommovie.domain.usecases.info.GetMoreInformationUseCase
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -27,8 +29,8 @@ class DependencyInjectionContainer {
         .addInterceptor(
             Interceptor { chain ->
             val requestBuilder = chain.request().newBuilder()
-                .header("X-API-KEY","5c2d749b-5c0c-4809-b62d-a3c98a9f527e")
-                //.header("X-API-KEY","6b31e33d-9d30-4513-9ef6-7705aad38ee1")
+                //.header("X-API-KEY","5c2d749b-5c0c-4809-b62d-a3c98a9f527e")
+                .header("X-API-KEY","6b31e33d-9d30-4513-9ef6-7705aad38ee1")
                 .build()
             chain.proceed(requestBuilder)
         })
@@ -50,4 +52,7 @@ class DependencyInjectionContainer {
     val getSearchFilterUseCase = GetSearchFilterUseCase(filterRepository)
     val getGenresUseCase = GetGenresUseCase(filterRepository)
     val getCountriesUseCase = GetCountriesUseCase(filterRepository)
+
+    private val infoRepository = InfoRepositoryImpl(retrofit)
+    val getMoreInformationUseCase = GetMoreInformationUseCase(infoRepository)
 }

@@ -30,14 +30,15 @@ class MovieViewModel(
             _error.value = null
             try {
                 _movie.value = getRandomMovieUseCase.invoke(searchFilterUseCase())
-
             } catch (e: Exception) {
-                _error.value = e.toString()
+                _error.value = e.message
             } finally {
                 _buttonState.value = true
             }
-
         }
+    }
+    fun getCurrentMovie():Movie{
+        return _movie.value!!
     }
 
 }

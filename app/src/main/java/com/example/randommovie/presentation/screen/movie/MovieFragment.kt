@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentMovieBinding
+import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_MOVIE
 import com.example.randommovie.presentation.tools.factory
 
 class MovieFragment : Fragment() {
@@ -29,6 +33,9 @@ class MovieFragment : Fragment() {
 
         binding.nextMovieButton.setOnClickListener {
             viewModel.getRandomMovie()
+        }
+        binding.moreButton.setOnClickListener{
+            findNavController().navigate(R.id.action_movieFragment_to_informationFragment, bundleOf(ARG_MOVIE to viewModel.getCurrentMovie()))
         }
 
         viewModel.movie.observe(viewLifecycleOwner) {
@@ -62,7 +69,9 @@ class MovieFragment : Fragment() {
             else changeStateButton(View.INVISIBLE,View.VISIBLE)
 
         }
-
+        viewModel.error.observe(viewLifecycleOwner){
+            if (it != null) Toast.makeText(requireContext(),it,Toast.LENGTH_SHORT).show()
+        }
     }
     private fun parseListToString(list: List<String>):String{
         var string = ""

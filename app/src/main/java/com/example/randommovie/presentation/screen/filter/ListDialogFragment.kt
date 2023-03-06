@@ -17,7 +17,7 @@ class ListDialogFragment : DialogFragment() {
 
     private val list: ArrayList<ItemFilter>
         get() = when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> arguments?.getParcelableArrayList(
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> requireArguments().getParcelableArrayList(
                 ARG_LIST_ITEM, ItemFilter::class.java
             ) ?: throw IllegalArgumentException("Can't launch without list")
             else -> @Suppress("DEPRECATION")

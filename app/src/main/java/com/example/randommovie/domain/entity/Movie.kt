@@ -1,5 +1,9 @@
 package com.example.randommovie.domain.entity
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Movie(
     val id : Int,
     val titleRu: String?,
@@ -10,4 +14,4 @@ data class Movie(
     val ratingKP: Double?,
     val ratingIMDB: Double?,
     val country: List<String>
-)
+): Parcelable

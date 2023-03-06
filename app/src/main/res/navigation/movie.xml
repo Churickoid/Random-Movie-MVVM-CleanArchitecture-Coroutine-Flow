@@ -12,11 +12,11 @@
         tools:layout="@layout/fragment_movie">
         <action
             android:id="@+id/action_movieFragment_to_informationFragment"
-            app:destination="@id/informationFragment" />
+            app:destination="@id/informationMovieFragment" />
     </fragment>
     <fragment
-        android:id="@+id/informationFragment"
-        android:name="com.example.randommovie.presentation.screen.information.InformationFragment"
+        android:id="@+id/informationMovieFragment"
+        android:name="com.example.randommovie.presentation.screen.info.InfoFragment"
         android:label="fragment_information"
-        tools:layout="@layout/fragment_information" />
+        tools:layout="@layout/fragment_info" />
 </navigation>

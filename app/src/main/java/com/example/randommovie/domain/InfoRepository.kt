@@ -5,5 +5,5 @@ import com.example.randommovie.domain.entity.MovieExtension
 
 interface InfoRepository {
 
-    suspend fun showMoreInformation(movie: Movie): MovieExtension
+    suspend fun getMoreInformation(movie: Movie): MovieExtension
 }

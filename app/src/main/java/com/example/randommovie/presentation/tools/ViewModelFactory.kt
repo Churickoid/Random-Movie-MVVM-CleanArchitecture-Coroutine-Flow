@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.randommovie.presentation.App
 import com.example.randommovie.presentation.screen.filter.FilterViewModel
+import com.example.randommovie.presentation.screen.info.InfoViewModel
 import com.example.randommovie.presentation.screen.movie.MovieViewModel
 
 class ViewModelFactory(private val app: App) : ViewModelProvider.Factory {
@@ -20,6 +21,9 @@ class ViewModelFactory(private val app: App) : ViewModelProvider.Factory {
                     app.container.getGenresUseCase,
                     app.container.getCountriesUseCase
                     )
+            }
+            InfoViewModel::class.java -> {
+                InfoViewModel(app.container.getMoreInformationUseCase)
             }
             else -> {
                 throw Exception("Unknown View model class")
