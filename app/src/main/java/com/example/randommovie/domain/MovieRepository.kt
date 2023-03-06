@@ -9,7 +9,6 @@ interface MovieRepository{
 
     suspend fun getRandomMovie(searchFilter: SearchFilter): Movie
 
-    fun showMoreInformation(movie: Movie): MovieExtension
 
     fun addMustWatchedMovie(movie: Movie)
 

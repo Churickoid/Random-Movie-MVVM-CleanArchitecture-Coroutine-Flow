@@ -1,6 +1,7 @@
 package com.example.randommovie.data
 
 import com.example.randommovie.data.request.filter.GenresAndCountriesRequest
+import com.example.randommovie.data.request.id.MovieIdRequest
 import com.example.randommovie.data.request.list.MovieListRequest
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -21,7 +22,7 @@ interface RetrofitApiInterface {
     ): MovieListRequest
 
     @GET("api/v2.2/films/{id}")
-    suspend fun getMovieById(@Path("id") id: Int)
+    suspend fun getMovieById(@Path("id") id: Int): MovieIdRequest
     @GET("api/v2.2/films/filters")
     suspend fun getGenresAndCounties(): GenresAndCountriesRequest
 
