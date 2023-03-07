@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions.withCrossFade
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentInfoBinding
 import com.example.randommovie.domain.entity.Movie
@@ -41,9 +40,12 @@ class InfoFragment : Fragment() {
                 ARG_MOVIE
             ) ?: throw IllegalArgumentException("error")
         }
-        viewModel.getMovieInfo(movie)
+
         binding.retryButton.setOnClickListener {
-            viewModel.getMovieInfo(movie)
+            viewModel.getMovieInfo(movie.id)
+        }
+        viewModel.load.observe(viewLifecycleOwner){
+            it.getValue()?.let { viewModel.getMovieInfo(movie.id) }
         }
         viewModel.state.observe(viewLifecycleOwner) {
             when (it) {
@@ -67,13 +69,13 @@ class InfoFragment : Fragment() {
             binding.titleMainTextView.text = firstTitle
             binding.titleExtraTextView.text = secondTitle
             binding.yearTextView.text = movie.releaseDate.toString()
-            binding.genreTextView.text = movie.genre.toString()
-            binding.countryTextView.text = movie.country.toString()
-            binding.lengthTextView.text = it.length?.toString() ?: " — "
+            binding.genreTextView.text = movie.genre.joinToString(separator = ", ")
+            binding.countryTextView.text = movie.country.joinToString(separator = ", ")
+            binding.lengthTextView.text = parseTimeToString(it.length)
             binding.kinopoiskTextView.text = movie.ratingKP?.toString() ?: " — "
             binding.imdbTextView.text = movie.ratingIMDB?.toString() ?: " — "
 
-            binding.detailsButton.setOnClickListener { TODO()}
+            binding.detailsButton.setOnClickListener { TODO() }
 
             binding.descriptionTextView.text = it.description ?: "—"
             if (it.headerURL != null) {
@@ -101,6 +103,13 @@ class InfoFragment : Fragment() {
         binding.retryButton.visibility = error
     }
 
+    private fun parseTimeToString(time: Int?): String {
+        if (time == null) return " — "
+        var string = ""
+        if (time > 60) string += "${time / 60}:${time % 60} / "
+        string += "$time min"
+        return string
+    }
 
     companion object {
         const val ARG_MOVIE = "ARG_MOVIE"

@@ -5,24 +5,27 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.randommovie.domain.entity.Movie
-import com.example.randommovie.domain.entity.MovieExtension
+import com.example.randommovie.domain.entity.MovieExtra
 import com.example.randommovie.domain.usecases.info.GetMoreInformationUseCase
+import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch
 
 class InfoViewModel(private val getMoreInformationUseCase: GetMoreInformationUseCase): ViewModel() {
 
-    private var _movieInfo = MutableLiveData<MovieExtension>()
-    val movieInfo : LiveData<MovieExtension> = _movieInfo
+    private val _movieInfo = MutableLiveData<MovieExtra>()
+    val movieInfo : LiveData<MovieExtra> = _movieInfo
 
-    private var _state = MutableLiveData(LOADING_STATE)
+    private val _state = MutableLiveData(LOADING_STATE)
     val state: LiveData<String> = _state
 
+    private val _load = MutableLiveData(Event(true))
+    val load:LiveData<Event<Boolean>> = _load
 
-     fun getMovieInfo(movie: Movie){
+     fun getMovieInfo(id: Int){
         viewModelScope.launch {
             _state.value = LOADING_STATE
             try {
-                _movieInfo.value = getMoreInformationUseCase.invoke(movie)
+                _movieInfo.value = getMoreInformationUseCase.invoke(id)
                 _state.value = VALID_STATE
             }
             catch (e: Exception){

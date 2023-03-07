@@ -1,9 +1,9 @@
 package com.example.randommovie.domain
 
 import com.example.randommovie.domain.entity.Movie
-import com.example.randommovie.domain.entity.MovieExtension
+import com.example.randommovie.domain.entity.MovieExtra
 
 interface InfoRepository {
 
-    suspend fun getMoreInformation(movie: Movie): MovieExtension
+    suspend fun getMoreInformation(id: Int): MovieExtra
 }

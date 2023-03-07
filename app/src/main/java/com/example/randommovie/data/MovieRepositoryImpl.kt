@@ -2,7 +2,6 @@ package com.example.randommovie.data
 
 import com.example.randommovie.domain.MovieRepository
 import com.example.randommovie.domain.entity.Movie
-import com.example.randommovie.domain.entity.MovieExtension
 import com.example.randommovie.domain.entity.SearchFilter
 import kotlin.random.Random
 

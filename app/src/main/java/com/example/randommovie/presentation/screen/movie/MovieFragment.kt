@@ -34,8 +34,11 @@ class MovieFragment : Fragment() {
         binding.nextMovieButton.setOnClickListener {
             viewModel.getRandomMovie()
         }
-        binding.moreButton.setOnClickListener{
-            findNavController().navigate(R.id.action_movieFragment_to_informationFragment, bundleOf(ARG_MOVIE to viewModel.getCurrentMovie()))
+        binding.moreButton.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_movieFragment_to_informationFragment,
+                bundleOf(ARG_MOVIE to viewModel.getCurrentMovie())
+            )
         }
 
         viewModel.movie.observe(viewLifecycleOwner) {
@@ -51,7 +54,7 @@ class MovieFragment : Fragment() {
 
             binding.titleMainTextView.text = firstTitle
             binding.titleExtraTextView.text = secondTitle
-            binding.genresTextView.text = parseListToString(it.genre)
+            binding.genresTextView.text = it.genre.joinToString(separator = ", ")
             binding.kinopoiskRateTextView.text = it.ratingKP?.toString() ?: " — "
             binding.imdbRateTextView.text = it.ratingIMDB?.toString() ?: " — "
             if (it.posterUrl != null) {
@@ -64,24 +67,17 @@ class MovieFragment : Fragment() {
             }
         }
 
-        viewModel.buttonState.observe(viewLifecycleOwner){
-            if(it) changeStateButton(View.VISIBLE,View.INVISIBLE)
-            else changeStateButton(View.INVISIBLE,View.VISIBLE)
+        viewModel.buttonState.observe(viewLifecycleOwner) {
+            if (it) changeStateButton(View.VISIBLE, View.INVISIBLE)
+            else changeStateButton(View.INVISIBLE, View.VISIBLE)
 
         }
-        viewModel.error.observe(viewLifecycleOwner){
-            if (it != null) Toast.makeText(requireContext(),it,Toast.LENGTH_SHORT).show()
+        viewModel.error.observe(viewLifecycleOwner) {
+            it.getValue()?.let {massage -> Toast.makeText(requireContext(), massage, Toast.LENGTH_SHORT).show()}
         }
-    }
-    private fun parseListToString(list: List<String>):String{
-        var string = ""
-        for(i in list.take(3)){
-            string += "$i, "
-        }
-        return string.dropLast(2)
     }
 
-    private fun changeStateButton(buttonState:Int, progressState:Int){
+    private fun changeStateButton(buttonState: Int, progressState: Int) {
         binding.actionsGroup.visibility = buttonState
         binding.loadingProgressBar.visibility = progressState
     }

@@ -8,6 +8,7 @@ import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.SearchFilter
 import com.example.randommovie.domain.usecases.filter.GetSearchFilterUseCase
 import com.example.randommovie.domain.usecases.movie.GetRandomMovieUseCase
+import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch
 
 class MovieViewModel(
@@ -21,17 +22,16 @@ class MovieViewModel(
     private val _buttonState = MutableLiveData<Boolean>()
     val buttonState: LiveData<Boolean> = _buttonState
 
-    private val _error = MutableLiveData<String?>()
-    val error: LiveData<String?> = _error
+    private val _error = MutableLiveData<Event<String?>>()
+    val error: LiveData<Event<String?>> = _error
 
     fun getRandomMovie() {
         viewModelScope.launch {
             _buttonState.value = false
-            _error.value = null
             try {
                 _movie.value = getRandomMovieUseCase.invoke(searchFilterUseCase())
             } catch (e: Exception) {
-                _error.value = e.message
+                _error.value =  Event(e.message)
             } finally {
                 _buttonState.value = true
             }

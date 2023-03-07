@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.randommovie.R
 
-class ListFragment : Fragment() {
+ class ListFragment : Fragment() {
+
 
     override fun onCreateView(
         inflater: LayoutInflater,

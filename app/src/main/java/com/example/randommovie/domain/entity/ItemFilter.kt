@@ -9,5 +9,6 @@ data class ItemFilter(
     val id: Int,
     val name: String,
     var isActive: Boolean = false,
-): Parcelable
+): Parcelable {
+}
 
