@@ -2,21 +2,19 @@ package com.example.randommovie.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.example.randommovie.R
 import com.example.randommovie.databinding.ActivityMainBinding
-import com.example.randommovie.presentation.screen.list.ListFragment
-import com.example.randommovie.presentation.screen.filter.FilterFragment
-import com.example.randommovie.presentation.screen.movie.MovieFragment
+import com.example.randommovie.presentation.tools.CustomTitle
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CustomTitle {
 
     private lateinit var binding: ActivityMainBinding
-
+    private lateinit var navController: NavController
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -25,13 +23,19 @@ class MainActivity : AppCompatActivity() {
 
 
         val navHost = supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
-        val navController = navHost.navController
-        val destinationListener = NavController.OnDestinationChangedListener {_, destination, arguments ->
-            supportActionBar?.title = destination.label
-        }
-        navController.addOnDestinationChangedListener(destinationListener)
+        navController = navHost.navController
+        val appBarConfiguration = AppBarConfiguration(setOf(R.id.filterFragment,R.id.listFragment,R.id.movieFragment))
+        NavigationUI.setupActionBarWithNavController(this,navController,appBarConfiguration)
 
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
 
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    override fun changeTitle(label: String) {
+        supportActionBar?.title = label
     }
 }

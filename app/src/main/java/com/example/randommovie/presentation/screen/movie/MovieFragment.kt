@@ -1,6 +1,7 @@
 package com.example.randommovie.presentation.screen.movie
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ class MovieFragment : Fragment() {
 
     private lateinit var binding: FragmentMovieBinding
     private val viewModel: MovieViewModel by viewModels { factory() }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,18 +44,10 @@ class MovieFragment : Fragment() {
         }
 
         viewModel.movie.observe(viewLifecycleOwner) {
-            val year = it.releaseDate ?: "—"
-            val secondTitle: String
-            val firstTitle = if (it.titleRu == null) {
-                secondTitle = "—"
-                "${it.title} ($year)"
-            } else {
-                secondTitle = it.title ?: "—"
-                "${it.titleRu} ($year)"
-            }
+            val year = it.releaseDate?.toString() ?: "—"
 
-            binding.titleMainTextView.text = firstTitle
-            binding.titleExtraTextView.text = secondTitle
+            binding.titleMainTextView.text = "${it.titleMain} ($year)"
+            binding.titleExtraTextView.text = it.titleSecond
             binding.genresTextView.text = it.genre.joinToString(separator = ", ")
             binding.kinopoiskRateTextView.text = it.ratingKP?.toString() ?: " — "
             binding.imdbRateTextView.text = it.ratingIMDB?.toString() ?: " — "

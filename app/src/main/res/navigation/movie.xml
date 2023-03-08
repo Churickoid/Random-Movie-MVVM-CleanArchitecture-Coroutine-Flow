@@ -17,6 +17,6 @@
     <fragment
         android:id="@+id/informationMovieFragment"
         android:name="com.example.randommovie.presentation.screen.info.InfoFragment"
-        android:label="fragment_information"
-        tools:layout="@layout/fragment_info" />
+        tools:layout="@layout/fragment_info">
+           </fragment>
 </navigation>

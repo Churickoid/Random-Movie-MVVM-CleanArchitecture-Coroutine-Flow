@@ -2,6 +2,7 @@ package com.example.randommovie.presentation.screen.info
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,32 +15,41 @@ import com.example.randommovie.databinding.FragmentInfoBinding
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.LOADING_STATE
 import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.VALID_STATE
+import com.example.randommovie.presentation.tools.changeTitle
 import com.example.randommovie.presentation.tools.factory
 
 class InfoFragment : Fragment() {
 
     private val viewModel: InfoViewModel by viewModels { factory() }
     private lateinit var binding: FragmentInfoBinding
+
+    private val movie : Movie
+    get()= when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> requireArguments().getParcelable(
+            ARG_MOVIE, Movie::class.java
+        ) ?: throw IllegalArgumentException("error")
+        else -> @Suppress("DEPRECATION")
+        requireArguments().getParcelable(
+            ARG_MOVIE
+        ) ?: throw IllegalArgumentException("error")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        changeTitle(movie.titleMain)
+
         return inflater.inflate(R.layout.fragment_info, container, false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentInfoBinding.bind(view)
-        val movie = when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> requireArguments().getParcelable(
-                ARG_MOVIE, Movie::class.java
-            ) ?: throw IllegalArgumentException("error")
-            else -> @Suppress("DEPRECATION")
-            requireArguments().getParcelable(
-                ARG_MOVIE
-            ) ?: throw IllegalArgumentException("error")
-        }
+
+
 
         binding.retryButton.setOnClickListener {
             viewModel.getMovieInfo(movie.id)
@@ -58,17 +68,10 @@ class InfoFragment : Fragment() {
             }
         }
         viewModel.movieInfo.observe(viewLifecycleOwner) {
-            val secondTitle: String
-            val firstTitle = if (movie.titleRu == null) {
-                secondTitle = "—"
-                movie.title
-            } else {
-                secondTitle = movie.title ?: "—"
-                movie.titleRu
-            }
-            binding.titleMainTextView.text = firstTitle
-            binding.titleExtraTextView.text = secondTitle
-            binding.yearTextView.text = movie.releaseDate.toString()
+
+            binding.titleMainTextView.text = movie.titleMain
+            binding.titleExtraTextView.text = movie.titleSecond
+            binding.yearTextView.text = movie.releaseDate?.toString() ?: " — "
             binding.genreTextView.text = movie.genre.joinToString(separator = ", ")
             binding.countryTextView.text = movie.country.joinToString(separator = ", ")
             binding.lengthTextView.text = parseTimeToString(it.length)
@@ -82,13 +85,11 @@ class InfoFragment : Fragment() {
                 Glide.with(this@InfoFragment)
                     .load(it.headerURL)
                     .skipMemoryCache(true)
-                    .centerCrop()
                     .into(binding.headerImageView)
             } else {
                 Glide.with(this@InfoFragment)
                     .load(movie.posterUrl)
                     .skipMemoryCache(true)
-                    .centerCrop()
                     .into(binding.headerImageView)
 
             }
@@ -97,6 +98,8 @@ class InfoFragment : Fragment() {
 
     }
 
+
+
     private fun changeState(loading: Int, info: Int, error: Int) {
         binding.loadingProgressBar.visibility = loading
         binding.infoLayout.visibility = info
@@ -104,9 +107,9 @@ class InfoFragment : Fragment() {
     }
 
     private fun parseTimeToString(time: Int?): String {
-        if (time == null) return " — "
+        if (time == null || time == 0) return " — "
         var string = ""
-        if (time > 60) string += "${time / 60}:${time % 60} / "
+        if (time > 60) string += "${time / 60}:${String.format("%02d", time % 60)} / "
         string += "$time min"
         return string
     }

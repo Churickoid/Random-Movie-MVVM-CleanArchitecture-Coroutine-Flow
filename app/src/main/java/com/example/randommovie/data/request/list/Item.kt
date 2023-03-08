@@ -24,11 +24,18 @@ data class Item(
         val genre: MutableList<String> = mutableListOf()
         this.genres.forEach { genre.add(it.genre)  }
         this.countries.forEach{country.add(it.country)}
-
+        val secondTitle: String
+        val firstTitle = if (this.nameRu== null) {
+            secondTitle = "—"
+            this.nameOriginal!!
+        } else {
+            secondTitle = this.nameOriginal ?: "—"
+            this.nameRu
+        }
         return Movie(
             id = this.kinopoiskId,
-            titleRu = this.nameRu,
-            title = this.nameOriginal,
+            titleMain = firstTitle,
+            titleSecond = secondTitle,
             posterUrl = this.posterUrlPreview,
             genre = genre,
             releaseDate = this.year,
