@@ -147,15 +147,25 @@
                 app:layout_constraintBottom_toBottomOf="@id/kinopoiskImageView"
                 app:layout_constraintStart_toEndOf="@id/kinopoiskImageView"
                 app:layout_constraintTop_toTopOf="@id/kinopoiskImageView" />
+            <TextView
+                android:id="@+id/kinopoiskVoteTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="23441"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/kinopoiskRateTextView"
+                app:layout_constraintStart_toEndOf="@id/kinopoiskRateTextView"
+                 />
 
             <ImageView
                 android:id="@+id/imdbImageView"
                 android:layout_width="56dp"
                 android:layout_height="28dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:src="@drawable/logo_imdb"
                 app:layout_constraintBottom_toBottomOf="@id/kinopoiskImageView"
-                app:layout_constraintStart_toEndOf="@id/kinopoiskRateTextView"
+                app:layout_constraintStart_toEndOf="@id/kinopoiskVoteTextView"
                 app:layout_constraintTop_toTopOf="@id/kinopoiskImageView" />
 
             <TextView
@@ -181,6 +191,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detailsButton" />
+            <TextView
+                android:id="@+id/imdbVoteTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="23441"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/imdbRateTextView"
+                app:layout_constraintStart_toEndOf="@id/imdbRateTextView"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

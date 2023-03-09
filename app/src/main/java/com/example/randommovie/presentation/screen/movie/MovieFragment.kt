@@ -52,8 +52,10 @@ class MovieFragment : BaseFragment() {
             binding.genresTextView.text = it.genre.joinToString(separator = ", ")
             binding.kinopoiskRateTextView.text = it.ratingKP?.toString() ?: " — "
             binding.imdbRateTextView.text = it.ratingIMDB?.toString() ?: " — "
+
             binding.kinopoiskRateTextView.setTextColor(getRatingColor(it.ratingKP))
             binding.imdbRateTextView.setTextColor(getRatingColor(it.ratingIMDB))
+
             if (it.posterUrl != null) {
                 Glide.with(this@MovieFragment)
                     .load(it.posterUrl)

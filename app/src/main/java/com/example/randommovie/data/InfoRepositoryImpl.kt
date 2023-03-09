@@ -8,7 +8,15 @@ class InfoRepositoryImpl(private val retrofitApiInterface: RetrofitApiInterface)
 
     override suspend fun getMoreInformation(id: Int): MovieExtra {
         val request = retrofitApiInterface.getMovieById(id)
-        return MovieExtra(request.coverUrl, request.description,request.filmLength,request.webUrl)
+        return MovieExtra(
+            headerURL = request.coverUrl,
+            description = request.description,
+            length = request.filmLength,
+            webUrl = request.webUrl,
+            type = request.type,
+            kinopoiskVoteCount = request.ratingKinopoiskVoteCount,
+            imdbVoteCount = request.ratingImdbVoteCount
+        )
     }
 
 }
