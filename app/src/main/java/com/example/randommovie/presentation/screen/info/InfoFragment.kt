@@ -2,23 +2,22 @@ package com.example.randommovie.presentation.screen.info
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentInfoBinding
 import com.example.randommovie.domain.entity.Movie
+import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.LOADING_STATE
 import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.VALID_STATE
 import com.example.randommovie.presentation.tools.changeTitle
 import com.example.randommovie.presentation.tools.factory
 
-class InfoFragment : Fragment() {
+class InfoFragment : BaseFragment() {
 
     private val viewModel: InfoViewModel by viewModels { factory() }
     private lateinit var binding: FragmentInfoBinding
@@ -75,9 +74,10 @@ class InfoFragment : Fragment() {
             binding.genreTextView.text = movie.genre.joinToString(separator = ", ")
             binding.countryTextView.text = movie.country.joinToString(separator = ", ")
             binding.lengthTextView.text = parseTimeToString(it.length)
-            binding.kinopoiskTextView.text = movie.ratingKP?.toString() ?: " — "
-            binding.imdbTextView.text = movie.ratingIMDB?.toString() ?: " — "
-
+            binding.kinopoiskRateTextView.text = movie.ratingKP?.toString() ?: " — "
+            binding.imdbRateTextView.text = movie.ratingIMDB?.toString() ?: " — "
+            binding.kinopoiskRateTextView.setTextColor(getRatingColor(movie.ratingKP))
+            binding.imdbRateTextView.setTextColor(getRatingColor(movie.ratingIMDB))
             binding.detailsButton.setOnClickListener { TODO() }
 
             binding.descriptionTextView.text = it.description ?: "—"

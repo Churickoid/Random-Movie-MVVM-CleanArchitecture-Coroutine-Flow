@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.randommovie.R
+import com.example.randommovie.presentation.screen.BaseFragment
 
- class ListFragment : Fragment() {
+class ListFragment : BaseFragment() {
 
 
     override fun onCreateView(

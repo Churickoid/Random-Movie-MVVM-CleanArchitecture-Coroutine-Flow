@@ -13,10 +13,11 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentMovieBinding
+import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_MOVIE
 import com.example.randommovie.presentation.tools.factory
 
-class MovieFragment : Fragment() {
+class MovieFragment : BaseFragment() {
 
     private lateinit var binding: FragmentMovieBinding
     private val viewModel: MovieViewModel by viewModels { factory() }
@@ -51,6 +52,8 @@ class MovieFragment : Fragment() {
             binding.genresTextView.text = it.genre.joinToString(separator = ", ")
             binding.kinopoiskRateTextView.text = it.ratingKP?.toString() ?: " — "
             binding.imdbRateTextView.text = it.ratingIMDB?.toString() ?: " — "
+            binding.kinopoiskRateTextView.setTextColor(getRatingColor(it.ratingKP))
+            binding.imdbRateTextView.setTextColor(getRatingColor(it.ratingIMDB))
             if (it.posterUrl != null) {
                 Glide.with(this@MovieFragment)
                     .load(it.posterUrl)

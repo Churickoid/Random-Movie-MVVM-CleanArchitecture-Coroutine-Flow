@@ -12,10 +12,11 @@ import androidx.fragment.app.viewModels
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentFilterBinding
 import com.example.randommovie.domain.entity.ItemFilter
+import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.tools.factory
 import com.google.android.material.slider.RangeSlider
 
-class FilterFragment : Fragment() {
+class FilterFragment : BaseFragment() {
     private lateinit var binding: FragmentFilterBinding
     private val viewModel: FilterViewModel by viewModels { factory() }
 
