@@ -154,7 +154,7 @@
         android:id="@+id/moreButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:src="@drawable/ic_more"
+        android:src="@drawable/ic_more_horizontal"
         app:tint="@color/purple_500"
         app:fabCustomSize="48dp"
         app:maxImageSize="32dp"

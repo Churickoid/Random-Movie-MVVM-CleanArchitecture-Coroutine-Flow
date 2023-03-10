@@ -1,5 +1,6 @@
 package com.example.randommovie.presentation.screen.info
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -102,11 +103,20 @@ class InfoFragment : BaseFragment() {
 
             }
             binding.detailsButton.setOnClickListener {
-                val url = "https://www.kinopoisk.ru/${movieExtra.type.lowercase()}/${movie.id}"
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(url)
-                intent.setPackage("ru.kinopoisk.android")
-                startActivity(intent)
+                val url = "https://www.kinopoisk.ru/${movieExtra.type}/${movie.id}"
+                try {
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = Uri.parse(url)
+                    intent.setPackage("ru.kinopoisk")
+                    startActivity(intent)
+                } catch (e: ActivityNotFoundException) {
+                    startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse(url)
+                        )
+                    )
+                }
             }
 
         }

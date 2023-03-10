@@ -5,4 +5,10 @@
     android:layout_height="match_parent"
     tools:context=".presentation.screen.list.ListFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/item_movie"
+        />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
