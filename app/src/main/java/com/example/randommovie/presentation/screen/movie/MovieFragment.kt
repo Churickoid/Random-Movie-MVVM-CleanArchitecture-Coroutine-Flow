@@ -1,13 +1,11 @@
 package com.example.randommovie.presentation.screen.movie
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -39,31 +37,28 @@ class MovieFragment : BaseFragment() {
         }
         binding.moreButton.setOnClickListener {
             findNavController().navigate(
-                R.id.action_movieFragment_to_informationFragment,
+                R.id.action_movieFragment_to_informationMovieFragment,
                 bundleOf(ARG_MOVIE to viewModel.getCurrentMovie())
             )
         }
 
-        viewModel.movie.observe(viewLifecycleOwner) {
-            val year = it.releaseDate?.toString() ?: "—"
+        viewModel.movie.observe(viewLifecycleOwner) { movie ->
+            val year = movie.releaseDate?.toString() ?: "—"
 
-            binding.titleMainTextView.text = "${it.titleMain} ($year)"
-            binding.titleExtraTextView.text = it.titleSecond
-            binding.genresTextView.text = it.genre.joinToString(separator = ", ")
-            binding.kinopoiskRateTextView.text = it.ratingKP?.toString() ?: " — "
-            binding.imdbRateTextView.text = it.ratingIMDB?.toString() ?: " — "
+            binding.titleMainTextView.text = "${movie.titleMain} ($year)"
+            binding.titleExtraTextView.text = movie.titleSecond
+            binding.genresTextView.text = movie.genre.joinToString(separator = ", ")
+            binding.kinopoiskRateTextView.text = getRatingText(movie.ratingKP)
+            binding.imdbRateTextView.text = getRatingText(movie.ratingIMDB)
 
-            binding.kinopoiskRateTextView.setTextColor(getRatingColor(it.ratingKP))
-            binding.imdbRateTextView.setTextColor(getRatingColor(it.ratingIMDB))
+            binding.kinopoiskRateTextView.setTextColor(getRatingColor(movie.ratingKP,requireContext()))
+            binding.imdbRateTextView.setTextColor(getRatingColor(movie.ratingIMDB,requireContext()))
 
-            if (it.posterUrl != null) {
-                Glide.with(this@MovieFragment)
-                    .load(it.posterUrl)
-                    .skipMemoryCache(true)
-                    .into(binding.posterImageView)
-            } else {
-                binding.posterImageView.setImageResource(R.drawable.blanked_image)
-            }
+            Glide.with(this@MovieFragment)
+                .load(movie.posterUrl)
+                .skipMemoryCache(true)
+                .into(binding.posterImageView)
+
         }
 
         viewModel.buttonState.observe(viewLifecycleOwner) {
@@ -72,7 +67,9 @@ class MovieFragment : BaseFragment() {
 
         }
         viewModel.error.observe(viewLifecycleOwner) {
-            it.getValue()?.let {massage -> Toast.makeText(requireContext(), massage, Toast.LENGTH_SHORT).show()}
+            it.getValue()?.let { massage ->
+                Toast.makeText(requireContext(), massage, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

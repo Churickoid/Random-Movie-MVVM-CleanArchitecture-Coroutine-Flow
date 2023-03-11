@@ -3,6 +3,7 @@ package com.example.randommovie.data.request.list
 import com.example.randommovie.data.request.Country
 import com.example.randommovie.data.request.Genre
 import com.example.randommovie.domain.entity.Movie
+import com.example.randommovie.domain.entity.Movie.Companion.RATING_NULL
 
 data class Item(
     val countries: List<Country>,
@@ -29,7 +30,7 @@ data class Item(
             secondTitle = "—"
             this.nameOriginal!!
         } else {
-            secondTitle = this.nameOriginal ?: "—"
+            secondTitle = this.nameOriginal ?: " — "
             this.nameRu
         }
         return Movie(
@@ -38,10 +39,11 @@ data class Item(
             titleSecond = secondTitle,
             posterUrl = this.posterUrlPreview,
             genre = genre,
+            country = country,
             releaseDate = this.year,
-            ratingKP = this.ratingKinopoisk,
-            ratingIMDB = this.ratingImdb,
-            country = country
+            ratingKP = this.ratingKinopoisk ?: RATING_NULL,
+            ratingIMDB = this.ratingImdb?: RATING_NULL
+
         )
     }
 }

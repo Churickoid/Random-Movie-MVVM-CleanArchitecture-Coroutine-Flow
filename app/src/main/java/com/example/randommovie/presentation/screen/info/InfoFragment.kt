@@ -80,11 +80,11 @@ class InfoFragment : BaseFragment() {
             binding.countryTextView.text = movie.country.joinToString(separator = ", ")
             binding.lengthTextView.text = parseTimeToString(movieExtra.length)
 
-            binding.kinopoiskRateTextView.text = movie.ratingKP?.toString() ?: " — "
-            binding.imdbRateTextView.text = movie.ratingIMDB?.toString() ?: " — "
+            binding.kinopoiskRateTextView.text = getRatingText(movie.ratingKP)
+            binding.imdbRateTextView.text = getRatingText(movie.ratingIMDB)
 
-            binding.kinopoiskRateTextView.setTextColor(getRatingColor(movie.ratingKP))
-            binding.imdbRateTextView.setTextColor(getRatingColor(movie.ratingIMDB))
+            binding.kinopoiskRateTextView.setTextColor(getRatingColor(movie.ratingKP,requireContext()))
+            binding.imdbRateTextView.setTextColor(getRatingColor(movie.ratingIMDB,requireContext()))
 
             binding.imdbVoteTextView.text = movieExtra.imdbVoteCount.toString()
             binding.kinopoiskVoteTextView.text = movieExtra.kinopoiskVoteCount.toString()

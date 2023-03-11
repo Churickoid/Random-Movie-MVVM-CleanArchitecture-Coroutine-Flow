@@ -11,7 +11,11 @@ data class Movie(
     val posterUrl: String,
     val genre: List<String>,
     val releaseDate: Int?,
-    val ratingKP: Double?,
-    val ratingIMDB: Double?,
+    val ratingKP: Double,
+    val ratingIMDB: Double,
     val country: List<String>
-): Parcelable
+): Parcelable{
+    companion object{
+        const val RATING_NULL = 0.0
+    }
+}

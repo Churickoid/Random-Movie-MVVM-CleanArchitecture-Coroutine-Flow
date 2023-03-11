@@ -11,7 +11,7 @@
         android:label="@string/movie"
         tools:layout="@layout/fragment_movie">
         <action
-            android:id="@+id/action_movieFragment_to_informationFragment"
+            android:id="@+id/action_movieFragment_to_informationMovieFragment"
             app:destination="@id/informationMovieFragment" />
     </fragment>
     <fragment
