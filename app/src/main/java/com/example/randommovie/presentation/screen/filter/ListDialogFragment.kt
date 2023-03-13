@@ -40,11 +40,11 @@ class ListDialogFragment : DialogFragment() {
             .setMultiChoiceItems(names, checkboxes) { _, index, isChecked ->
                 list[index].isActive = isChecked
             }.setPositiveButton("Apply") { _, _ ->
-                callResult()
+                callResult(list)
             }
             .setNeutralButton("Clear") { _, _ ->
                 list.forEach { it.isActive = false }
-                callResult()
+                callResult(list)
             }
             .create()
 
@@ -52,10 +52,10 @@ class ListDialogFragment : DialogFragment() {
 
     override fun onCancel(dialog: DialogInterface) {
         super.onCancel(dialog)
-        callResult()
+        callResult(list)
     }
 
-    private fun callResult() {
+    private fun callResult(list: ArrayList<ItemFilter>) {
         parentFragmentManager.setFragmentResult(
             requestKey, bundleOf(KEY_LIST_ITEM_RESPONSE to list)
         )
