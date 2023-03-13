@@ -41,6 +41,9 @@ class MovieFragment : BaseFragment() {
                 bundleOf(ARG_MOVIE to viewModel.getCurrentMovie())
             )
         }
+        binding.starButton.setOnClickListener {
+            showRatingDialogFragment(parentFragmentManager)
+        }
 
         viewModel.movie.observe(viewLifecycleOwner) { movie ->
             val year = movie.releaseDate?.toString() ?: "—"
@@ -71,6 +74,8 @@ class MovieFragment : BaseFragment() {
                 Toast.makeText(requireContext(), massage, Toast.LENGTH_SHORT).show()
             }
         }
+
+        setupRatingDialogFragmentListener(parentFragmentManager)
     }
 
     private fun changeStateButton(buttonState: Int, progressState: Int) {

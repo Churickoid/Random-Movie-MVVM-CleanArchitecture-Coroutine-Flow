@@ -2,6 +2,7 @@ package com.example.randommovie.data
 
 import com.example.randommovie.domain.MovieRepository
 import com.example.randommovie.domain.entity.Movie
+import com.example.randommovie.domain.entity.MovieExtra
 import com.example.randommovie.domain.entity.SearchFilter
 import kotlin.random.Random
 
@@ -17,7 +18,7 @@ class MovieRepositoryImpl(private val retrofitApiInterface: RetrofitApiInterface
         val genre = if (genresList.isNotEmpty()) genresList[Random.nextInt(genresList.size)]
         else null
 
-        val countryList = searchFilter.country
+        val countryList = searchFilter.countries
         val country = if (countryList.isNotEmpty()) countryList[Random.nextInt(countryList.size)]
         else null
 
@@ -52,7 +53,22 @@ class MovieRepositoryImpl(private val retrofitApiInterface: RetrofitApiInterface
 
         return movieList[randomItemId].toMovie()
     }
+    override suspend fun getMoreInformation(id: Long): MovieExtra {
+        val request = retrofitApiInterface.getMovieById(id)
 
+        val isMovie = (request.type != "TV_SERIES")
+
+        return MovieExtra(
+            headerUrl = request.coverUrl,
+            posterUrlHQ = request.posterUrl,
+            description = request.description,
+            length = request.filmLength,
+            webUrl = request.webUrl,
+            isMovie = isMovie,
+            kinopoiskVoteCount = request.ratingKinopoiskVoteCount,
+            imdbVoteCount = request.ratingImdbVoteCount
+        )
+    }
     override fun addMustWatchedMovie(movie: Movie) {
         TODO("Not yet implemented")
     }

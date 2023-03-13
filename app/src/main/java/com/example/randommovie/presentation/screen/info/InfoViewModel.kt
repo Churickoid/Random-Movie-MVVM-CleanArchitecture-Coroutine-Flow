@@ -21,7 +21,7 @@ class InfoViewModel(private val getMoreInformationUseCase: GetMoreInformationUse
     private val _load = MutableLiveData(Event(true))
     val load:LiveData<Event<Boolean>> = _load
 
-     fun getMovieInfo(id: Int){
+     fun getMovieInfo(id: Long){
         viewModelScope.launch {
             _state.value = LOADING_STATE
             try {

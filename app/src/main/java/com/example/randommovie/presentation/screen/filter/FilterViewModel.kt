@@ -15,12 +15,17 @@ import com.example.randommovie.domain.usecases.filter.SetSearchFilterUseCase
 import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch
 
-class FilterViewModel(private val setSearchFilterUseCase: SetSearchFilterUseCase,
-                      private val getGenresUseCase :GetGenresUseCase,
-                      private val getCountriesUseCase : GetCountriesUseCase
+class FilterViewModel(
+    private val setSearchFilterUseCase: SetSearchFilterUseCase,
+    private val getGenresUseCase: GetGenresUseCase,
+    private val getCountriesUseCase: GetCountriesUseCase
 ) : ViewModel() {
 
-    private val searchFilter = SearchFilter()
+    private var filter = SearchFilter()
+        set(value) {
+            field = value
+            setSearchFilterUseCase(value)
+        }
 
 
     private val _genres = MutableLiveData<Event<List<ItemFilter>>>()
@@ -41,55 +46,54 @@ class FilterViewModel(private val setSearchFilterUseCase: SetSearchFilterUseCase
         viewModelScope.launch {
             try {
                 _genres.value = Event(getGenresUseCase.invoke())
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 Log.e("!!!", e.toString())
             }
         }
     }
+
     fun getCountryList() {
         viewModelScope.launch {
             try {
                 _countries.value = Event(getCountriesUseCase.invoke())
-            }catch (e:Exception){
+            } catch (e: Exception) {
                 Log.e("!!!", e.toString())
             }
         }
     }
 
     fun setYearFilter(yearBottom: Int, yearTop: Int) {
-        searchFilter.yearBottom = yearBottom
-        searchFilter.yearTop = yearTop
-        setSearchFilter(searchFilter)
-    }
-    fun setRatingFilter(ratingBottom: Int, ratingTop: Int){
-        searchFilter.ratingBottom = ratingBottom
-        searchFilter.ratingTop = ratingTop
-        setSearchFilter(searchFilter)
+        filter = filter.copy(yearBottom = yearBottom, yearTop =yearTop)
     }
 
-    fun setOrderFilter(position: Int){
-        val order = when(position){
+    fun setRatingFilter(ratingBottom: Int, ratingTop: Int) {
+        filter = filter.copy(ratingBottom = ratingBottom, ratingTop =ratingTop)
+    }
+
+    fun setOrderFilter(position: Int) {
+        val order = when (position) {
             0 -> Order.RATING
             1 -> Order.NUM_VOTE
             2 -> Order.YEAR
             else -> throw Exception("Invalid position")
         }
-        searchFilter.order = order
-        setSearchFilter(searchFilter)
+        filter = filter.copy(order = order)
     }
-    fun setTypeFilter(position: Int){
-        val type = when(position){
+
+    fun setTypeFilter(position: Int) {
+        val type = when (position) {
             0 -> Type.FILM
             1 -> Type.TV_SERIES
             2 -> Type.ALL
             else -> throw Exception("Invalid position")
         }
-        searchFilter.type = type
-        setSearchFilter(searchFilter)
+        filter = filter.copy(type = type)
     }
-    fun getDefaultFilterValue():SearchFilter{
+
+    fun getDefaultFilterValue(): SearchFilter {
         return SearchFilter()
     }
+
     fun listDialogHandler(requestKey: String, list: ArrayList<ItemFilter>) {
         var checkedNames = ""
         val ids = mutableListOf<Int>()
@@ -101,7 +105,7 @@ class FilterViewModel(private val setSearchFilterUseCase: SetSearchFilterUseCase
         }
         checkedNames = checkedNames.dropLast(2)
 
-        when (requestKey){
+        when (requestKey) {
             FilterFragment.REQUEST_KEY_GENRES -> {
                 _genreText.value = checkedNames
                 setGenresFilter(ids)
@@ -113,21 +117,13 @@ class FilterViewModel(private val setSearchFilterUseCase: SetSearchFilterUseCase
             else -> throw Exception("Unknown Dialog Type")
         }
     }
-    private fun setGenresFilter(genresIds: List<Int>){
-        searchFilter.genres = genresIds
-        setSearchFilter(searchFilter)
+
+    private fun setGenresFilter(genresIds: List<Int>) {
+        filter = filter.copy(genres = genresIds)
     }
-
-    private fun setCountryFilter(countriesIds: List<Int>){
-        searchFilter.country = countriesIds
-        setSearchFilter(searchFilter)
+    private fun setCountryFilter(countriesIds: List<Int>) {
+        filter = filter.copy(countries = countriesIds)
     }
-
-
-    private fun setSearchFilter(searchFilter: SearchFilter){
-        setSearchFilterUseCase.invoke(searchFilter)
-    }
-
 
 
 }

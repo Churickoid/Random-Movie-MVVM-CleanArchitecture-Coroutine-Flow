@@ -1,7 +1,6 @@
 package com.example.randommovie.data.di
 
 import com.example.randommovie.data.FilterRepositoryImpl
-import com.example.randommovie.data.InfoRepositoryImpl
 import com.example.randommovie.data.MovieRepositoryImpl
 import com.example.randommovie.data.RetrofitApiInterface
 import com.example.randommovie.domain.usecases.filter.GetCountriesUseCase
@@ -12,11 +11,9 @@ import com.example.randommovie.domain.usecases.filter.SetSearchFilterUseCase
 import com.example.randommovie.domain.usecases.info.GetMoreInformationUseCase
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Headers
 
 class DependencyInjectionContainer {
 
@@ -47,12 +44,12 @@ class DependencyInjectionContainer {
     private val movieRepository = MovieRepositoryImpl(retrofit)
     val getRandomMovieUseCase = GetRandomMovieUseCase(movieRepository)
 
+    val getMoreInformationUseCase = GetMoreInformationUseCase(movieRepository)
+
     private val filterRepository = FilterRepositoryImpl(retrofit)
     val setSearchFilterUseCase = SetSearchFilterUseCase(filterRepository)
     val getSearchFilterUseCase = GetSearchFilterUseCase(filterRepository)
     val getGenresUseCase = GetGenresUseCase(filterRepository)
     val getCountriesUseCase = GetCountriesUseCase(filterRepository)
 
-    private val infoRepository = InfoRepositoryImpl(retrofit)
-    val getMoreInformationUseCase = GetMoreInformationUseCase(infoRepository)
 }

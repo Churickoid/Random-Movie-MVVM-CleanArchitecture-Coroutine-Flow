@@ -9,7 +9,7 @@ data class Item(
     val countries: List<Country>,
     val genres: List<Genre>,
     val imdbId: String?,
-    val kinopoiskId: Int,
+    val kinopoiskId: Long,
     val nameEn: String?,
     val nameOriginal: String?,
     val nameRu: String?,

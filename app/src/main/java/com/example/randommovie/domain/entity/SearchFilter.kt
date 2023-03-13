@@ -1,14 +1,14 @@
 package com.example.randommovie.domain.entity
 
 data class SearchFilter(
-    var yearBottom: Int = 1980,
-    var yearTop: Int = 2022,
-    var ratingBottom: Int = 6,
-    var ratingTop: Int = 9,
-    var order:Order = Order.RATING,
-    var type: Type = Type.FILM,
-    var genres: List<Int> = listOf(),
-    var country: List<Int> = listOf()
+    val yearBottom: Int = 1980,
+    val yearTop: Int = 2022,
+    val ratingBottom: Int = 6,
+    val ratingTop: Int = 9,
+    val order:Order = Order.RATING,
+    val type: Type = Type.FILM,
+    val genres: List<Int> = listOf(),
+    val countries: List<Int> = listOf()
 
 )
 enum class Order{

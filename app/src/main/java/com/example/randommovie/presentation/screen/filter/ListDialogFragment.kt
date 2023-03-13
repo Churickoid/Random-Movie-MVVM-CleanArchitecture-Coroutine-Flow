@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
@@ -26,7 +25,7 @@ class ListDialogFragment : DialogFragment() {
             ) ?: throw IllegalArgumentException("Can't launch without list")
         }
 
-    private val requestKey : String
+    private val requestKey: String
         get() = arguments?.getString(ARG_REQUEST_KEY)!!
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -43,7 +42,7 @@ class ListDialogFragment : DialogFragment() {
             }.setPositiveButton("Apply") { _, _ ->
                 callResult()
             }
-            .setNeutralButton("Clear"){ _,_ ->
+            .setNeutralButton("Clear") { _, _ ->
                 list.forEach { it.isActive = false }
                 callResult()
             }
@@ -56,11 +55,12 @@ class ListDialogFragment : DialogFragment() {
         callResult()
     }
 
-    private fun callResult(){
+    private fun callResult() {
         parentFragmentManager.setFragmentResult(
             requestKey, bundleOf(KEY_LIST_ITEM_RESPONSE to list)
         )
     }
+
     companion object {
         private val TAG = ListDialogFragment::class.java.simpleName
         private const val KEY_LIST_ITEM_RESPONSE = "KEY_LIST_ITEM_RESPONSE"
@@ -84,13 +84,14 @@ class ListDialogFragment : DialogFragment() {
             manager: FragmentManager,
             requestKey: String,
             lifecycleOwner: LifecycleOwner,
-            listener: (String ,ArrayList<ItemFilter>) -> Unit
+            listener: (String, ArrayList<ItemFilter>) -> Unit
         ) {
             manager.setFragmentResultListener(
                 requestKey,
                 lifecycleOwner
             ) { _, result ->
-                listener.invoke(requestKey,
+                listener.invoke(
+                    requestKey,
                     when {
                         Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> result.getParcelableArrayList(
                             KEY_LIST_ITEM_RESPONSE, ItemFilter::class.java

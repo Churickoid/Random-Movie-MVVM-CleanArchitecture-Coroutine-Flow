@@ -74,6 +74,7 @@ class InfoFragment : BaseFragment() {
 
             binding.titleMainTextView.text = movie.titleMain
             binding.titleExtraTextView.text = movie.titleSecond
+            binding.typeTextView.text = if (movieExtra.isMovie) "Фильм" else "Сериал"
             binding.yearTextView.text = movie.releaseDate?.toString() ?: " — "
 
             binding.genreTextView.text = movie.genre.joinToString(separator = ", ")
@@ -90,20 +91,21 @@ class InfoFragment : BaseFragment() {
             binding.kinopoiskVoteTextView.text = movieExtra.kinopoiskVoteCount.toString()
 
             binding.descriptionTextView.text = movieExtra.description ?: ""
-            if (movieExtra.headerURL != null) {
+            if (movieExtra.headerUrl != null) {
                 Glide.with(this@InfoFragment)
-                    .load(movieExtra.headerURL)
+                    .load(movieExtra.headerUrl)
                     .skipMemoryCache(true)
                     .into(binding.headerImageView)
             } else {
                 Glide.with(this@InfoFragment)
-                    .load(movie.posterUrl)
+                    .load(movieExtra.posterUrlHQ)
                     .skipMemoryCache(true)
                     .into(binding.headerImageView)
 
             }
             binding.detailsButton.setOnClickListener {
-                val url = "https://www.kinopoisk.ru/${movieExtra.type}/${movie.id}"
+                val urlTag = if (movieExtra.isMovie) "film" else "series"
+                val url = "https://www.kinopoisk.ru/${urlTag}/${movie.id}"
                 try {
                     val intent = Intent(Intent.ACTION_VIEW)
                     intent.data = Uri.parse(url)

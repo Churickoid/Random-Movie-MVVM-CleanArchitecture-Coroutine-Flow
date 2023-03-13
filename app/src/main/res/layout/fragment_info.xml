@@ -38,8 +38,7 @@
             <ImageView
                 android:id="@+id/headerImageView"
                 android:layout_width="0dp"
-                android:layout_height="216dp"
-                android:scaleType="centerCrop"
+                android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:src="@drawable/blanked_image"
                 app:layout_constraintBottom_toTopOf="@id/titleMainTextView"
@@ -67,32 +66,33 @@
                 android:layout_marginHorizontal="18dp"
                 android:text="Anonymous"
                 android:textSize="20sp"
-
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/titleMainTextView" />
+
+
+            <TextView
+                android:id="@+id/typeTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18dp"
+                android:text="Фильм"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/titleExtraTextView" />
 
             <TextView
                 android:id="@+id/yearTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
-                android:paddingBottom="16dp"
                 android:text="2024"
+                android:paddingBottom="24dp"
                 android:textColor="@color/black"
-                android:textSize="24sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/titleExtraTextView" />
-
-            <TextView
-                android:id="@+id/genreTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="18dp"
-                android:text="триллер, ужасы"
-                android:textStyle="bold"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/countryTextView" />
+                app:layout_constraintTop_toBottomOf="@id/typeTextView" />
+
 
             <TextView
                 android:id="@+id/countryTextView"
@@ -104,13 +104,24 @@
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/yearTextView" />
+            <TextView
+                android:id="@+id/genreTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="18dp"
+                android:text="триллер, ужасы"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/countryTextView" />
+
 
             <TextView
                 android:id="@+id/lengthTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
-                android:paddingBottom="16dp"
+                android:paddingBottom="24dp"
                 android:text="1ч 55мин"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"

@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Movie(
-    val id : Int,
+    val id : Long,
     val titleMain: String,
     val titleSecond: String,
     val posterUrl: String,

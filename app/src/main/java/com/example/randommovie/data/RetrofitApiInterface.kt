@@ -22,7 +22,7 @@ interface RetrofitApiInterface {
     ): MovieListRequest
 
     @GET("api/v2.2/films/{id}")
-    suspend fun getMovieById(@Path("id") id: Int): MovieIdRequest
+    suspend fun getMovieById(@Path("id") id: Long): MovieIdRequest
     @GET("api/v2.2/films/filters")
     suspend fun getGenresAndCounties(): GenresAndCountriesRequest
 
