@@ -4,5 +4,10 @@ import android.app.Application
 import com.example.randommovie.data.di.DependencyInjectionContainer
 
 class App: Application() {
-    val container = DependencyInjectionContainer()
+
+    lateinit var container: DependencyInjectionContainer
+    override fun onCreate() {
+        super.onCreate()
+        container = DependencyInjectionContainer(applicationContext)
+    }
 }

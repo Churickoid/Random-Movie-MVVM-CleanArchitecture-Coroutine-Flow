@@ -1,5 +1,6 @@
 package com.example.randommovie.domain
 
+import com.example.randommovie.data.room.entity.MovieDb
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.MovieExtra
 import com.example.randommovie.domain.entity.SearchFilter
@@ -11,8 +12,8 @@ interface MovieRepository{
 
     suspend fun getMoreInformation(id: Long): MovieExtra
 
-    fun addMustWatchedMovie(movie: Movie)
+    suspend fun addMovieToWatchlist(movie: Movie)
 
-    fun addRatedMovie(movie: Movie)
+    suspend fun addRatedMovie(movie: Movie)
 
 }

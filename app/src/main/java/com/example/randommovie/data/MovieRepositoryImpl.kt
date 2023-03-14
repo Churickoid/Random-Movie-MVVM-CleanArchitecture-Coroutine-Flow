@@ -1,12 +1,18 @@
 package com.example.randommovie.data
 
+import com.example.randommovie.data.retrofit.RetrofitApiInterface
+import com.example.randommovie.data.room.dao.MoviesDao
+import com.example.randommovie.data.room.entity.MovieDb
 import com.example.randommovie.domain.MovieRepository
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.MovieExtra
 import com.example.randommovie.domain.entity.SearchFilter
 import kotlin.random.Random
 
-class MovieRepositoryImpl(private val retrofitApiInterface: RetrofitApiInterface) :
+class MovieRepositoryImpl(
+    private val retrofitApiInterface: RetrofitApiInterface,
+    private val moviesDao: MoviesDao
+) :
     MovieRepository {
 
 
@@ -38,8 +44,8 @@ class MovieRepositoryImpl(private val retrofitApiInterface: RetrofitApiInterface
         if (movieList.isEmpty()) {
             movieList = retrofitApiInterface.getMovieList(
                 page = 1,
-                yearFrom = searchFilter.yearBottom,
-                yearTo = searchFilter.yearTop,
+                yearFrom = randYear,
+                yearTo = randYear,
                 ratingFrom = searchFilter.ratingBottom,
                 ratingTo = searchFilter.ratingTop,
                 genre = genre,
@@ -53,6 +59,7 @@ class MovieRepositoryImpl(private val retrofitApiInterface: RetrofitApiInterface
 
         return movieList[randomItemId].toMovie()
     }
+
     override suspend fun getMoreInformation(id: Long): MovieExtra {
         val request = retrofitApiInterface.getMovieById(id)
 
@@ -69,11 +76,12 @@ class MovieRepositoryImpl(private val retrofitApiInterface: RetrofitApiInterface
             imdbVoteCount = request.ratingImdbVoteCount
         )
     }
-    override fun addMustWatchedMovie(movie: Movie) {
-        TODO("Not yet implemented")
+
+    override suspend fun addMovieToWatchlist(movie: Movie) {
+        moviesDao.addMovie(MovieDb.fromMovie(movie))
     }
 
-    override fun addRatedMovie(movie: Movie) {
+    override suspend fun addRatedMovie(movie: Movie) {
         TODO("Not yet implemented")
     }
 
