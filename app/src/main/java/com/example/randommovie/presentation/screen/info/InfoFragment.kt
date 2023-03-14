@@ -75,7 +75,7 @@ class InfoFragment : BaseFragment() {
             binding.titleMainTextView.text = movie.titleMain
             binding.titleExtraTextView.text = movie.titleSecond
             binding.typeTextView.text = if (movieExtra.isMovie) "Фильм" else "Сериал"
-            binding.yearTextView.text = movie.releaseDate?.toString() ?: " — "
+            binding.yearTextView.text = movie.year?.toString() ?: " — "
 
             binding.genreTextView.text = movie.genre.joinToString(separator = ", ")
             binding.countryTextView.text = movie.country.joinToString(separator = ", ")

@@ -46,7 +46,7 @@ class MovieFragment : BaseFragment() {
         }
 
         viewModel.movie.observe(viewLifecycleOwner) { movie ->
-            val year = movie.releaseDate?.toString() ?: "—"
+            val year = movie.year?.toString() ?: "—"
 
             binding.titleMainTextView.text = "${movie.titleMain} ($year)"
             binding.titleExtraTextView.text = movie.titleSecond

@@ -1,7 +1,7 @@
-package com.example.randommovie.data.request.list
+package com.example.randommovie.data.retrofit.request.list
 
-import com.example.randommovie.data.request.Country
-import com.example.randommovie.data.request.Genre
+import com.example.randommovie.data.retrofit.request.Country
+import com.example.randommovie.data.retrofit.request.Genre
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.Movie.Companion.RATING_NULL
 
@@ -40,7 +40,7 @@ data class Item(
             posterUrl = this.posterUrlPreview,
             genre = genre,
             country = country,
-            releaseDate = this.year,
+            year = this.year,
             ratingKP = this.ratingKinopoisk ?: RATING_NULL,
             ratingIMDB = this.ratingImdb?: RATING_NULL
 

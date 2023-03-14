@@ -1,7 +1,7 @@
-package com.example.randommovie.data.request.id
+package com.example.randommovie.data.retrofit.request.id
 
-import com.example.randommovie.data.request.Country
-import com.example.randommovie.data.request.Genre
+import com.example.randommovie.data.retrofit.request.Country
+import com.example.randommovie.data.retrofit.request.Genre
 
 data class MovieIdRequest(
     val completed: Boolean,

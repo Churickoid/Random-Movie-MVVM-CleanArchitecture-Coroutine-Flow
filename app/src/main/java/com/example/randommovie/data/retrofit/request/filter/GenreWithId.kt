@@ -1,4 +1,4 @@
-package com.example.randommovie.data.request.filter
+package com.example.randommovie.data.retrofit.request.filter
 
 import com.example.randommovie.domain.entity.ItemFilter
 

@@ -6,10 +6,8 @@ import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.LifecycleOwner
 import com.example.randommovie.databinding.DialogRatingBinding
-import com.example.randommovie.presentation.screen.filter.ListDialogFragment
 
 class RatingDialogFragment : DialogFragment() {
 

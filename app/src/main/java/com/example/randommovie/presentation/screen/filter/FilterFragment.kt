@@ -138,7 +138,6 @@ class FilterFragment : BaseFragment() {
         }
     }
     companion object {
-
         const val REQUEST_KEY_GENRES = "REQUEST_KEY_GENRES"
         const val REQUEST_KEY_COUNTRIES = "REQUEST_KEY_COUNTRIES"
     }

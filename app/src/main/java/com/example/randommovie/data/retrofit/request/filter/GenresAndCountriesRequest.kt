@@ -1,4 +1,4 @@
-package com.example.randommovie.data.request.filter
+package com.example.randommovie.data.retrofit.request.filter
 
 data class GenresAndCountriesRequest(
     val countries: List<CountryWithId>,

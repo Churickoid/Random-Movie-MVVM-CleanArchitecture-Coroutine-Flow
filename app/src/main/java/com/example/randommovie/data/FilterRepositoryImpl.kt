@@ -1,5 +1,6 @@
 package com.example.randommovie.data
 
+import com.example.randommovie.data.retrofit.RetrofitApiInterface
 import com.example.randommovie.domain.FilterRepository
 import com.example.randommovie.domain.entity.ItemFilter
 import com.example.randommovie.domain.entity.SearchFilter

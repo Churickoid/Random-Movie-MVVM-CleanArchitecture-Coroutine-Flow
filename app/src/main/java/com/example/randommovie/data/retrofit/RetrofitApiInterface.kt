@@ -1,8 +1,8 @@
-package com.example.randommovie.data
+package com.example.randommovie.data.retrofit
 
-import com.example.randommovie.data.request.filter.GenresAndCountriesRequest
-import com.example.randommovie.data.request.id.MovieIdRequest
-import com.example.randommovie.data.request.list.MovieListRequest
+import com.example.randommovie.data.retrofit.request.filter.GenresAndCountriesRequest
+import com.example.randommovie.data.retrofit.request.id.MovieIdRequest
+import com.example.randommovie.data.retrofit.request.list.MovieListRequest
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

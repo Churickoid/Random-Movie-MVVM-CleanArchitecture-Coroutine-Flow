@@ -1,4 +1,4 @@
-package com.example.randommovie.data.request.list
+package com.example.randommovie.data.retrofit.request.list
 
 data class MovieListRequest(
     val items: List<Item>,
