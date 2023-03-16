@@ -9,7 +9,7 @@ import com.example.randommovie.data.room.entity.MovieDb
 @Dao
 interface MoviesDao {
 
-    @Query("SELECT *  FROM movies")
+    @Query("SELECT *  FROM movies ORDER BY title_main")
     suspend fun getAllMovies() : List<MovieDb>
 
     @Insert

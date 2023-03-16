@@ -5,26 +5,29 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.viewModels
 import com.example.randommovie.R
+import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.Movie.Companion.RATING_NULL
+import com.example.randommovie.presentation.screen.list.ListViewModel
 import com.example.randommovie.presentation.screen.list.MovieListAdapter
+import com.example.randommovie.presentation.tools.factory
 
 open class BaseFragment : Fragment() {
 
-
+    private val viewModel: BaseViewModel by viewModels{factory()}
     fun getRatingText(rating: Double): String {
         return if (rating== RATING_NULL) " — "
         else rating.toString()
     }
 
 
-    fun showRatingDialogFragment(manager:FragmentManager){
-        RatingDialogFragment.show(manager)
+    fun showRatingDialogFragment(manager:FragmentManager, movie: Movie){
+        RatingDialogFragment.show(manager,movie)
     }
     fun setupRatingDialogFragmentListener(manager:FragmentManager) {
-        RatingDialogFragment.setupListener(manager, this) {
-            Toast.makeText(context,it.toString(),Toast.LENGTH_SHORT).show()
-            //TODO Room realisation
+        RatingDialogFragment.setupListener(manager, this) { movie, rating ->
+            viewModel.addRatedMovie(movie)
         }
     }
     companion object{

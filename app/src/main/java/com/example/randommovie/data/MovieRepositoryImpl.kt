@@ -82,7 +82,7 @@ class MovieRepositoryImpl(
     }
 
     override suspend fun addRatedMovie(movie: Movie) {
-        TODO("Not yet implemented")
+        moviesDao.addMovie(MovieDb.fromMovie(movie))
     }
 
 

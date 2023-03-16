@@ -3,6 +3,7 @@ package com.example.randommovie.data.di
 import android.content.Context
 import androidx.room.Room
 import com.example.randommovie.data.FilterRepositoryImpl
+import com.example.randommovie.data.ListRepositoryImpl
 import com.example.randommovie.data.MovieRepositoryImpl
 import com.example.randommovie.data.retrofit.RetrofitApiInterface
 import com.example.randommovie.data.room.AppDatabase
@@ -12,6 +13,8 @@ import com.example.randommovie.domain.usecases.filter.GetSearchFilterUseCase
 import com.example.randommovie.domain.usecases.movie.GetRandomMovieUseCase
 import com.example.randommovie.domain.usecases.filter.SetSearchFilterUseCase
 import com.example.randommovie.domain.usecases.info.GetMoreInformationUseCase
+import com.example.randommovie.domain.usecases.list.GetAllMoviesUseCase
+import com.example.randommovie.domain.usecases.movie.AddRatedMovieUseCase
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -47,8 +50,12 @@ class DependencyInjectionContainer(context:Context) {
     private val appDatabase:AppDatabase by lazy {
         Room.databaseBuilder(context, AppDatabase::class.java, "database").build()
     }
-    private val movieRepository = MovieRepositoryImpl(retrofit,appDatabase.getMoviesDao())
+
+    private val movieDao = appDatabase.getMoviesDao()
+
+    private val movieRepository = MovieRepositoryImpl(retrofit, movieDao)
     val getRandomMovieUseCase = GetRandomMovieUseCase(movieRepository)
+    val addRatedMovieUseCase = AddRatedMovieUseCase(movieRepository)
 
     val getMoreInformationUseCase = GetMoreInformationUseCase(movieRepository)
 
@@ -57,5 +64,8 @@ class DependencyInjectionContainer(context:Context) {
     val getSearchFilterUseCase = GetSearchFilterUseCase(filterRepository)
     val getGenresUseCase = GetGenresUseCase(filterRepository)
     val getCountriesUseCase = GetCountriesUseCase(filterRepository)
+
+    private val listRepository = ListRepositoryImpl(movieDao)
+    val getAllMoviesUseCase = GetAllMoviesUseCase(listRepository)
 
 }

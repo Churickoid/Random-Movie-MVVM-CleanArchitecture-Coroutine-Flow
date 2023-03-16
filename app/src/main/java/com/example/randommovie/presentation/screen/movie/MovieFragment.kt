@@ -42,7 +42,7 @@ class MovieFragment : BaseFragment() {
             )
         }
         binding.starButton.setOnClickListener {
-            showRatingDialogFragment(parentFragmentManager)
+            showRatingDialogFragment(parentFragmentManager, viewModel.getCurrentMovie())
         }
 
         viewModel.movie.observe(viewLifecycleOwner) { movie ->

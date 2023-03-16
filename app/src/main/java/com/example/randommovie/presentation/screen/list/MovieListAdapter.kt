@@ -37,8 +37,11 @@ class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>(
         val movie = moviesList[position]
 
         val context = holder.itemView.context
-        val rating = (movie.ratingKP + movie.ratingIMDB)/2
-
+        val rating = when{
+            movie.ratingKP > 0.0 && movie.ratingIMDB > 0.0-> (movie.ratingKP + movie.ratingIMDB) / 2
+            movie.ratingKP > 0.0 -> movie.ratingKP
+            else -> movie.ratingIMDB
+        }
         with(holder.binding) {
             titleMainTextView.text = movie.titleMain
             titleExtraTextView.text = movie.titleSecond

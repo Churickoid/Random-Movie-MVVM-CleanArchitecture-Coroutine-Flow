@@ -18,8 +18,6 @@ data class MovieDb(
     @ColumnInfo("title_main") val titleMain: String,
     @ColumnInfo("title_second") val titleSecond: String,
     @ColumnInfo("poster_url") val posterUrl: String,
-    //val genre: List<String>,
-    //val country: List<String>,
     val year: Int?,
     @ColumnInfo("rating_kp") val ratingKP: Double,
     @ColumnInfo("rating_imdb") val ratingIMDB: Double,
@@ -33,8 +31,6 @@ data class MovieDb(
         this.posterUrl,
         listOf(),
         listOf(),
-        //this.genre,
-        // this.country,
         this.year,
         this.ratingKP,
         this.ratingIMDB
