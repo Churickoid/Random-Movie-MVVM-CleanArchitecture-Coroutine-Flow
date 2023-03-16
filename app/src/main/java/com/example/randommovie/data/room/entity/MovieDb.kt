@@ -8,10 +8,7 @@ import com.example.randommovie.domain.entity.Movie
 
 
 @Entity(
-    tableName = "movies",
-    indices = [
-        Index("id", unique = true)
-    ]
+    tableName = "movies"
 )
 data class MovieDb(
     @PrimaryKey(autoGenerate = false) val id: Long,

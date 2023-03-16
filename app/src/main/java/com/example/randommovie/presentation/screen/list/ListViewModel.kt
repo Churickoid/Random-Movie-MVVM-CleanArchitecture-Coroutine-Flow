@@ -16,8 +16,9 @@ class ListViewModel(private val getAllMoviesUseCase: GetAllMoviesUseCase): ViewM
     private val _movieList = MutableLiveData<List<Movie>>()
     val movieList : LiveData<List<Movie>> = _movieList
 
-
-
+    init {
+        //TODO get countries and genres checker
+    }
      fun getAllMovies(){
         viewModelScope.launch {
             try {
