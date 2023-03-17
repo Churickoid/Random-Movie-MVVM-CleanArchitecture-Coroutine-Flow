@@ -79,6 +79,7 @@ class MovieRepositoryImpl(
 
     override suspend fun addMovieToWatchlist(movie: Movie) {
         moviesDao.addMovie(MovieDb.fromMovie(movie))
+        movie.country.forEach {  }
     }
 
     override suspend fun addRatedMovie(movie: Movie) {
