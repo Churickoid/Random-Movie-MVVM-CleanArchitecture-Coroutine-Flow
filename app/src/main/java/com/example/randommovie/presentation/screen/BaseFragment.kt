@@ -26,8 +26,8 @@ open class BaseFragment : Fragment() {
         RatingDialogFragment.show(manager,movie)
     }
     fun setupRatingDialogFragmentListener(manager:FragmentManager) {
-        RatingDialogFragment.setupListener(manager, this) { movie, rating ->
-            viewModel.addRatedMovie(movie)
+        RatingDialogFragment.setupListener(manager, this) { userInfoAndMovie ->
+            viewModel.addRatedMovie(userInfoAndMovie)
         }
     }
     companion object{

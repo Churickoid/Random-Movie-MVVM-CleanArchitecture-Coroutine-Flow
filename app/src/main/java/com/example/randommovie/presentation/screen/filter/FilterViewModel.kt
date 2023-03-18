@@ -9,8 +9,8 @@ import com.example.randommovie.domain.entity.ItemFilter
 import com.example.randommovie.domain.entity.Order
 import com.example.randommovie.domain.entity.SearchFilter
 import com.example.randommovie.domain.entity.Type
-import com.example.randommovie.domain.usecases.filter.GetCountriesUseCase
-import com.example.randommovie.domain.usecases.filter.GetGenresUseCase
+import com.example.randommovie.domain.usecases.GetCountriesUseCase
+import com.example.randommovie.domain.usecases.GetGenresUseCase
 import com.example.randommovie.domain.usecases.filter.SetSearchFilterUseCase
 import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch

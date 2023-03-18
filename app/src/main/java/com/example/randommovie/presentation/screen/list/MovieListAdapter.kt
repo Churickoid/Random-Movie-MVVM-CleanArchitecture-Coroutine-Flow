@@ -1,15 +1,13 @@
 package com.example.randommovie.presentation.screen.list
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.randommovie.R
 import com.example.randommovie.databinding.ItemMovieBinding
 import com.example.randommovie.domain.entity.Movie
-import com.example.randommovie.domain.entity.Movie.Companion.RATING_NULL
+import com.example.randommovie.domain.entity.UserInfoAndMovie
 import com.example.randommovie.presentation.screen.getRatingColor
 
 class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>() {
@@ -17,7 +15,7 @@ class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>(
 
     class MovieViewHolder(val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root)
 
-    var moviesList = listOf<Movie>()
+    var userInfoAndMovieList = listOf<UserInfoAndMovie>()
         set(it) {
             field = it
             notifyDataSetChanged()
@@ -31,11 +29,11 @@ class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>(
         return MovieViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = moviesList.size
+    override fun getItemCount(): Int = userInfoAndMovieList.size
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        val movie = moviesList[position]
-
+        val userInfo = userInfoAndMovieList[position]
+        val movie = userInfo.movie
         val context = holder.itemView.context
         val rating = when{
             movie.ratingKP > 0.0 && movie.ratingIMDB > 0.0-> (movie.ratingKP + movie.ratingIMDB) / 2
@@ -50,6 +48,13 @@ class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>(
             ratingTextView.text = if (rating == 0.0) " — "
             else String.format("%.1f", rating)
             ratingTextView.setTextColor(getRatingColor(rating,context))
+
+            yourRatingTextView.text = userInfo.userRating.toString()
+            yourRatingTextView.background.setTint(getRatingColor(userInfo.userRating.toDouble(),context))
+
+            if (userInfo.inWatchlist) bookmarkImageView.visibility = View.VISIBLE
+            else bookmarkImageView.visibility = View.INVISIBLE
+
             Glide.with(holder.itemView)
                 .load(movie.posterUrl)
                 .skipMemoryCache(true)

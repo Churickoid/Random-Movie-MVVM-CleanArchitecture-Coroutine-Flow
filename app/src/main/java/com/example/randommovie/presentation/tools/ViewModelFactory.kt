@@ -31,7 +31,7 @@ class ViewModelFactory(private val app: App) : ViewModelProvider.Factory {
                 ListViewModel(app.container.getAllMoviesUseCase)
             }
             BaseViewModel::class.java -> {
-                BaseViewModel(app.container.addRatedMovieUseCase)
+                BaseViewModel(app.container.addUserInfoForMovieUseCase)
             }
             else -> {
                 throw Exception("Unknown View model class")

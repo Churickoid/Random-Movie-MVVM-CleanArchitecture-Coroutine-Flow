@@ -4,9 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.MovieExtra
-import com.example.randommovie.domain.usecases.info.GetMoreInformationUseCase
+import com.example.randommovie.domain.usecases.movie.GetMoreInformationUseCase
 import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch
 

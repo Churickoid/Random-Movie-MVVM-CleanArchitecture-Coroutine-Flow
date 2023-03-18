@@ -7,14 +7,14 @@ import com.example.randommovie.data.ListRepositoryImpl
 import com.example.randommovie.data.MovieRepositoryImpl
 import com.example.randommovie.data.retrofit.RetrofitApiInterface
 import com.example.randommovie.data.room.AppDatabase
-import com.example.randommovie.domain.usecases.filter.GetCountriesUseCase
-import com.example.randommovie.domain.usecases.filter.GetGenresUseCase
+import com.example.randommovie.domain.usecases.GetCountriesUseCase
+import com.example.randommovie.domain.usecases.GetGenresUseCase
 import com.example.randommovie.domain.usecases.filter.GetSearchFilterUseCase
 import com.example.randommovie.domain.usecases.movie.GetRandomMovieUseCase
 import com.example.randommovie.domain.usecases.filter.SetSearchFilterUseCase
-import com.example.randommovie.domain.usecases.info.GetMoreInformationUseCase
+import com.example.randommovie.domain.usecases.movie.GetMoreInformationUseCase
 import com.example.randommovie.domain.usecases.list.GetAllMoviesUseCase
-import com.example.randommovie.domain.usecases.movie.AddRatedMovieUseCase
+import com.example.randommovie.domain.usecases.list.AddUserInfoForMovieUseCase
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -55,19 +55,18 @@ class DependencyInjectionContainer(context:Context) {
     private val genresDao = appDatabase.getGenresDao()
     private val countriesDao = appDatabase.getCountriesDao()
 
-    private val movieRepository = MovieRepositoryImpl(retrofit, movieDao,countriesDao,genresDao)
+    private val movieRepository = MovieRepositoryImpl(retrofit)
     val getRandomMovieUseCase = GetRandomMovieUseCase(movieRepository)
-    val addRatedMovieUseCase = AddRatedMovieUseCase(movieRepository)
-
     val getMoreInformationUseCase = GetMoreInformationUseCase(movieRepository)
 
-    private val filterRepository = FilterRepositoryImpl(retrofit,countriesDao,genresDao)
+    private val filterRepository = FilterRepositoryImpl()
     val setSearchFilterUseCase = SetSearchFilterUseCase(filterRepository)
     val getSearchFilterUseCase = GetSearchFilterUseCase(filterRepository)
-    val getGenresUseCase = GetGenresUseCase(filterRepository)
-    val getCountriesUseCase = GetCountriesUseCase(filterRepository)
 
-    private val listRepository = ListRepositoryImpl(movieDao,countriesDao,genresDao)
+    private val listRepository = ListRepositoryImpl(retrofit,movieDao,countriesDao,genresDao)
     val getAllMoviesUseCase = GetAllMoviesUseCase(listRepository)
+    val getGenresUseCase = GetGenresUseCase(listRepository)
+    val getCountriesUseCase = GetCountriesUseCase(listRepository)
+    val addUserInfoForMovieUseCase = AddUserInfoForMovieUseCase(listRepository)
 
 }

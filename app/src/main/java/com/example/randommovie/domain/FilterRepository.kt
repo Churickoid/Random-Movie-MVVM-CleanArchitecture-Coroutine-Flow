@@ -8,7 +8,4 @@ interface FilterRepository {
 
     fun getSearchFilter(): SearchFilter
 
-    suspend fun getCountriesList(): List<ItemFilter>
-
-    suspend fun getGenresList(): List<ItemFilter>
 }

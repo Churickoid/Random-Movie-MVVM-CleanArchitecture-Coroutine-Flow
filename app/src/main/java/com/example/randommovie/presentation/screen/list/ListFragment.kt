@@ -9,10 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentListBinding
-import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.info.InfoFragment
-import com.example.randommovie.presentation.screen.info.InfoViewModel
 import com.example.randommovie.presentation.tools.factory
 
 class ListFragment : BaseFragment() {
@@ -33,7 +31,7 @@ class ListFragment : BaseFragment() {
         setRecyclerView()
         viewModel.getAllMovies()
         viewModel.movieList.observe(viewLifecycleOwner){
-            movieListAdapter.moviesList = it
+            movieListAdapter.userInfoAndMovieList = it
         }
 
     }

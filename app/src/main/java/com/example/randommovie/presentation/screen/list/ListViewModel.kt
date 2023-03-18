@@ -7,14 +7,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.randommovie.domain.entity.Movie
+import com.example.randommovie.domain.entity.UserInfoAndMovie
 import com.example.randommovie.domain.usecases.list.GetAllMoviesUseCase
 import kotlinx.coroutines.launch
 
 class ListViewModel(private val getAllMoviesUseCase: GetAllMoviesUseCase): ViewModel() {
 
 
-    private val _movieList = MutableLiveData<List<Movie>>()
-    val movieList : LiveData<List<Movie>> = _movieList
+    private val _movieList = MutableLiveData<List<UserInfoAndMovie>>()
+    val movieList : LiveData<List<UserInfoAndMovie>> = _movieList
 
     init {
         //TODO get countries and genres checker

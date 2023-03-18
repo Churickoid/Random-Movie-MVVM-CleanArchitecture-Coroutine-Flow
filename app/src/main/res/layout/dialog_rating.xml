@@ -12,7 +12,7 @@
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:layout_gravity="center_horizontal"
-        android:text="?"
+        android:text="\?"
         android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="@color/white"
@@ -35,10 +35,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
         android:numStars="10"
         android:isIndicator="false"
         android:stepSize="1"
         />
+    <CheckBox
+        android:id="@+id/watchlistCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Add to watchlist"
+        android:textSize="20sp"
+        android:textColor="@color/gray"
+        android:textStyle="bold"
+        />
+
 
 
 </LinearLayout>

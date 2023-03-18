@@ -24,5 +24,5 @@ data class UserActionsForMovieDb(
     @PrimaryKey(autoGenerate = true) val id: Long,
     @ColumnInfo("movie_id") val movieId: Long,
     val rating: Int,
-    @ColumnInfo("in_watchlist") val inWatchlist: Int
+    @ColumnInfo("in_watchlist") val inWatchlist: Boolean
 )
