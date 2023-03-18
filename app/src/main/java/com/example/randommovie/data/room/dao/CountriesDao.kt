@@ -1,34 +1,30 @@
 package com.example.randommovie.data.room.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Upsert
+import androidx.room.*
 import com.example.randommovie.data.room.entity.CountriesForMoviesDb
 import com.example.randommovie.data.room.entity.CountryDb
-import com.example.randommovie.data.room.entity.MovieDb
 
 
 @Dao
 interface CountriesDao {
 
-    @Query("SELECT * FROM countries ORDER BY country")
+    @Query("SELECT * FROM countries")
     suspend fun getAllCountries() : List<CountryDb>
 
-    @Upsert
-    suspend fun addOrReplaceCountry(country :CountryDb)
+    @Insert
+    suspend fun insertCountry(country :CountryDb)
 
     @Query("SELECT countries.country FROM countries "
             +"JOIN countries_for_movies "
             +"ON countries.id = countries_for_movies.country_id "
             +"WHERE countries_for_movies.movie_id = :movieId "
     )
-    suspend fun getCountriesByMovieId(movieId: Int): List<String>
+    suspend fun getCountriesByMovieId(movieId: Long): List<String>
 
     @Query("SELECT id FROM countries WHERE country = :name")
-    suspend fun getCountryByName(name: String): String
+    suspend fun getCountryIdByName(name: String): Long
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertCountryForMovie(countriesForMoviesDb: CountriesForMoviesDb)
 
 }

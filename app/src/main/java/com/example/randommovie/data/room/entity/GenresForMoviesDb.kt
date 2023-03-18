@@ -25,6 +25,6 @@ import androidx.room.ForeignKey
     ]
 )
 data class GenresForMoviesDb(
-    @ColumnInfo("movie_id") val movieId: Long,
+    @ColumnInfo("movie_id",index = true) val movieId: Long,
     @ColumnInfo("genre_id") val genreId: Long
 )

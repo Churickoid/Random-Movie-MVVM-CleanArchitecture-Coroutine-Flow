@@ -23,8 +23,9 @@ import androidx.room.ForeignKey
             onUpdate = ForeignKey.CASCADE
         )
     ]
+
 )
 data class CountriesForMoviesDb(
-    @ColumnInfo("movie_id") val movieId: Long,
+    @ColumnInfo("movie_id", index = true) val movieId: Long,
     @ColumnInfo("country_id") val genreId: Long
 )

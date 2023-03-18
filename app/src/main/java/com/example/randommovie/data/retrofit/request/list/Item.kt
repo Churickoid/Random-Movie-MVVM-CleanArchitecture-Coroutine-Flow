@@ -21,10 +21,8 @@ data class Item(
     val year: Int?
 ){
     fun toMovie(): Movie {
-        val country: MutableList<String> = mutableListOf()
-        val genre: MutableList<String> = mutableListOf()
-        this.genres.forEach { genre.add(it.genre)  }
-        this.countries.forEach{country.add(it.country)}
+        val country =  this.countries.map{it.country}
+        val genre= this.genres.map { it.genre }
         val secondTitle: String
         val firstTitle = if (this.nameRu== null) {
             secondTitle = "—"

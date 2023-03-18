@@ -1,8 +1,6 @@
 package com.example.randommovie.data.room.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.randommovie.data.room.entity.MovieDb
 
 
@@ -12,6 +10,6 @@ interface MoviesDao {
     @Query("SELECT *  FROM movies ORDER BY title_main")
     suspend fun getAllMovies() : List<MovieDb>
 
-    @Insert
-    suspend fun addMovie(movieDb: MovieDb)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertMovie(movieDb: MovieDb)
 }

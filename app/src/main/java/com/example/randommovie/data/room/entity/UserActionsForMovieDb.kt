@@ -2,6 +2,7 @@ package com.example.randommovie.data.room.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 
@@ -14,7 +15,10 @@ import androidx.room.PrimaryKey
             childColumns = ["movie_id"],
             onDelete = androidx.room.ForeignKey.CASCADE,
             onUpdate = androidx.room.ForeignKey.CASCADE
-        )]
+        )],
+    indices = [
+        Index("movie_id", unique = true)
+    ]
 )
 data class UserActionsForMovieDb(
     @PrimaryKey(autoGenerate = true) val id: Long,

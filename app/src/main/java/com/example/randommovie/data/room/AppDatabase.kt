@@ -3,6 +3,7 @@ package com.example.randommovie.data.room
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.example.randommovie.data.room.dao.CountriesDao
+import com.example.randommovie.data.room.dao.GenresDao
 import com.example.randommovie.data.room.dao.MoviesDao
 import com.example.randommovie.data.room.entity.*
 
@@ -20,5 +21,9 @@ import com.example.randommovie.data.room.entity.*
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getMoviesDao(): MoviesDao
+
+    abstract fun getGenresDao(): GenresDao
+
+    abstract fun getCountriesDao(): CountriesDao
 
 }

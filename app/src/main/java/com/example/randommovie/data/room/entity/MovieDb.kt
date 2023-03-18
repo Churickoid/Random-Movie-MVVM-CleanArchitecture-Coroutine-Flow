@@ -21,16 +21,16 @@ data class MovieDb(
 
 ) {
 
-    fun toMovie(): Movie = Movie(
-        this.id,
-        this.titleMain,
-        this.titleSecond,
-        this.posterUrl,
-        listOf(),
-        listOf(),
-        this.year,
-        this.ratingKP,
-        this.ratingIMDB
+    fun toMovie(genres: List<String>,countries: List<String>): Movie = Movie(
+        id = this.id,
+        titleMain = this.titleMain,
+        titleSecond = this.titleSecond,
+        posterUrl = this.posterUrl,
+        genre = genres,
+        country = countries,
+        year = this.year,
+        ratingKP = this.ratingKP,
+        ratingIMDB = this.ratingIMDB
     )
 
     companion object{

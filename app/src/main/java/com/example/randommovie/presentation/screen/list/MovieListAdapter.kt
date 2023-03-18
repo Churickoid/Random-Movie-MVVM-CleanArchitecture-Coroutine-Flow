@@ -43,7 +43,7 @@ class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>(
             else -> movie.ratingIMDB
         }
         with(holder.binding) {
-            titleMainTextView.text = movie.titleMain
+            titleMainTextView.text = "${movie.titleMain} (${movie.year})"
             titleExtraTextView.text = movie.titleSecond
             countryTextView.text = movie.country.joinToString(", ")
             genresTextView.text = movie.genre.joinToString(", ")

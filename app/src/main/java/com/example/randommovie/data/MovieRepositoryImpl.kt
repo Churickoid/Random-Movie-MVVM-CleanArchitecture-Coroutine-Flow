@@ -1,7 +1,11 @@
 package com.example.randommovie.data
 
 import com.example.randommovie.data.retrofit.RetrofitApiInterface
+import com.example.randommovie.data.room.dao.CountriesDao
+import com.example.randommovie.data.room.dao.GenresDao
 import com.example.randommovie.data.room.dao.MoviesDao
+import com.example.randommovie.data.room.entity.CountriesForMoviesDb
+import com.example.randommovie.data.room.entity.GenresForMoviesDb
 import com.example.randommovie.data.room.entity.MovieDb
 import com.example.randommovie.domain.MovieRepository
 import com.example.randommovie.domain.entity.Movie
@@ -11,7 +15,9 @@ import kotlin.random.Random
 
 class MovieRepositoryImpl(
     private val retrofitApiInterface: RetrofitApiInterface,
-    private val moviesDao: MoviesDao
+    private val moviesDao: MoviesDao,
+    private val countriesDao: CountriesDao,
+    private val genresDao: GenresDao,
 ) :
     MovieRepository {
 
@@ -78,12 +84,28 @@ class MovieRepositoryImpl(
     }
 
     override suspend fun addMovieToWatchlist(movie: Movie) {
-        moviesDao.addMovie(MovieDb.fromMovie(movie))
-        movie.country.forEach {  }
+
     }
 
     override suspend fun addRatedMovie(movie: Movie) {
-        moviesDao.addMovie(MovieDb.fromMovie(movie))
+        moviesDao.insertMovie(MovieDb.fromMovie(movie))
+        movie.country.forEach {
+            countriesDao.insertCountryForMovie(
+                CountriesForMoviesDb(
+                    movie.id,
+                    countriesDao.getCountryIdByName(it)
+                )
+            )
+        }
+        movie.genre.forEach {
+            genresDao.insertGenreForMovie(
+                GenresForMoviesDb(
+                    movie.id,
+                    genresDao.getGenreIdByName(it)
+                )
+            )
+        }
+
     }
 
 

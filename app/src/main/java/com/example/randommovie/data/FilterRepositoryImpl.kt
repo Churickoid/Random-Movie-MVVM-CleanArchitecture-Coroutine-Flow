@@ -1,19 +1,24 @@
 package com.example.randommovie.data
 
 import com.example.randommovie.data.retrofit.RetrofitApiInterface
+import com.example.randommovie.data.room.dao.CountriesDao
+import com.example.randommovie.data.room.dao.GenresDao
+import com.example.randommovie.data.room.entity.CountryDb
+import com.example.randommovie.data.room.entity.GenreDb
 import com.example.randommovie.domain.FilterRepository
 import com.example.randommovie.domain.entity.ItemFilter
 import com.example.randommovie.domain.entity.SearchFilter
 
-class FilterRepositoryImpl(private val retrofitApiInterface: RetrofitApiInterface): FilterRepository {
+class FilterRepositoryImpl(
+    private val retrofitApiInterface: RetrofitApiInterface,
+    private val countriesDao: CountriesDao,
+    private val genresDao: GenresDao
 
-
-    private var countriesList = listOf<ItemFilter>()
-    private var genresList = listOf<ItemFilter>()
+) : FilterRepository {
 
     var filter = SearchFilter()
     override fun setSearchFilter(searchFilter: SearchFilter) {
-         filter = searchFilter
+        filter = searchFilter
     }
 
     override fun getSearchFilter(): SearchFilter {
@@ -21,23 +26,31 @@ class FilterRepositoryImpl(private val retrofitApiInterface: RetrofitApiInterfac
     }
 
     override suspend fun getCountriesList(): List<ItemFilter> {
-        if (countriesList.isEmpty()) setGenresAndCountries()
-        return countriesList
+        setGenresAndCountries()
+        return countriesDao.getAllCountries().map { it.toItemFilter() }
     }
 
     override suspend fun getGenresList(): List<ItemFilter> {
-        if (genresList.isEmpty()) setGenresAndCountries()
-        return genresList
+        setGenresAndCountries()
+        return genresDao.getAllGenres().map { it.toItemFilter() }
+
     }
 
-    private suspend fun setGenresAndCountries(){
-        val request = retrofitApiInterface.getGenresAndCounties()
-        val mutableGenres = mutableListOf<ItemFilter>()
-        val mutableCountries = mutableListOf<ItemFilter>()
-        request.genres.forEach { if(it.genre.isNotEmpty())mutableGenres.add(it.toItemFilter()) }
-        request.countries.forEach { if(it.country.isNotEmpty())mutableCountries.add(it.toItemFilter()) }
-        genresList = mutableGenres
-        countriesList = mutableCountries
+
+    private suspend fun setGenresAndCountries() {
+        if (genresDao.getAllGenres().isEmpty() || countriesDao.getAllCountries().isEmpty()) {
+            val request = retrofitApiInterface.getGenresAndCounties()
+            request.genres.forEach {
+                if (it.genre != "") genresDao.insertGenre(
+                    GenreDb(it.id, it.genre)
+                )
+            }
+            request.countries.forEach {
+                if (it.country != "") countriesDao.insertCountry(
+                    CountryDb(it.id, it.country)
+                )
+            }
+        }
     }
 
 }
