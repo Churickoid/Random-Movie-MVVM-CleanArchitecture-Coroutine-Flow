@@ -18,6 +18,7 @@ class ListRepositoryImpl(
 ) : ListRepository {
 
     private var isDataExist = false
+
     override suspend fun getCountriesList(): List<ItemFilter> {
         setGenresAndCountries()
         return countriesDao.getAllCountries().map { it.toItemFilter() }
@@ -44,32 +45,37 @@ class ListRepositoryImpl(
     }
 
     override suspend fun addUserInfoForMovie(userInfoAndMovie: UserInfoAndMovie) {
-        setGenresAndCountries()
-        val movie = userInfoAndMovie.movie
+        try {
+            setGenresAndCountries()
+            val movie = userInfoAndMovie.movie
 
-        moviesDao.insertMovie(MovieDb.fromMovie(movie))
-        movie.country.forEach {
-            countriesDao.insertCountryForMovie(
-                CountriesForMoviesDb(
-                    movie.id, countriesDao.getCountryIdByName(it)
+            movie.country.forEach {
+                countriesDao.insertCountryForMovie(
+                    CountriesForMoviesDb(
+                        movie.id, countriesDao.getCountryIdByName(it)
+                    )
+                )
+            }
+            movie.genre.forEach {
+                genresDao.insertGenreForMovie(
+                    GenresForMoviesDb(
+                        movie.id, genresDao.getGenreIdByName(it)
+                    )
+                )
+            }
+            moviesDao.insertMovie(MovieDb.fromMovie(movie))
+            moviesDao.upsertUserActionsForMovie(
+                UserActionsForMovieDb(
+                    userInfoAndMovie.id,
+                    userInfoAndMovie.movie.id,
+                    userInfoAndMovie.userRating,
+                    userInfoAndMovie.inWatchlist
                 )
             )
+        } catch (e: Exception) {
+            Log.e("!!!", e.message!!)
         }
-        movie.genre.forEach {
-            genresDao.insertGenreForMovie(
-                GenresForMoviesDb(
-                    movie.id, genresDao.getGenreIdByName(it)
-                )
-            )
-        }
-        moviesDao.upsertUserActionsForMovie(
-            UserActionsForMovieDb(
-                userInfoAndMovie.id,
-                userInfoAndMovie.movie.id,
-                userInfoAndMovie.userRating,
-                userInfoAndMovie.inWatchlist
-            )
-        )
+
     }
 
     private suspend fun setGenresAndCountries() {

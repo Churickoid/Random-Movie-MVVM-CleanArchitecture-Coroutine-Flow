@@ -32,8 +32,8 @@ class DependencyInjectionContainer(context:Context) {
         .addInterceptor(
             Interceptor { chain ->
             val requestBuilder = chain.request().newBuilder()
-                .header("X-API-KEY","5c2d749b-5c0c-4809-b62d-a3c98a9f527e")
-                //.header("X-API-KEY","6b31e33d-9d30-4513-9ef6-7705aad38ee1")
+                //.header("X-API-KEY","5c2d749b-5c0c-4809-b62d-a3c98a9f527e")
+                .header("X-API-KEY","6b31e33d-9d30-4513-9ef6-7705aad38ee1")
                 .build()
             chain.proceed(requestBuilder)
         })
@@ -51,9 +51,9 @@ class DependencyInjectionContainer(context:Context) {
         Room.databaseBuilder(context, AppDatabase::class.java, "database").build()
     }
 
-    private val movieDao = appDatabase.getMoviesDao()
-    private val genresDao = appDatabase.getGenresDao()
-    private val countriesDao = appDatabase.getCountriesDao()
+    private val movieDao = appDatabase.moviesDao()
+    private val genresDao = appDatabase.genresDao()
+    private val countriesDao = appDatabase.countriesDao()
 
     private val movieRepository = MovieRepositoryImpl(retrofit)
     val getRandomMovieUseCase = GetRandomMovieUseCase(movieRepository)

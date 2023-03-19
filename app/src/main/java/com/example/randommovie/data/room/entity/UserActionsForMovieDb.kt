@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.example.randommovie.domain.entity.Movie
 
 
 @Entity(
@@ -26,3 +27,17 @@ data class UserActionsForMovieDb(
     val rating: Int,
     @ColumnInfo("in_watchlist") val inWatchlist: Boolean
 )
+{
+    companion object{
+        //TODO переделать
+        fun fromMovie(movie: Movie): MovieDb = MovieDb(
+            movie.id,
+            movie.titleMain,
+            movie.titleSecond,
+            movie.posterUrl,
+            movie.year,
+            movie.ratingKP,
+            movie.ratingIMDB
+        )
+    }
+}

@@ -14,10 +14,10 @@ interface MoviesDao {
 
     @Query(
         "SELECT * FROM user_actions_for_movie " +
-        "JOIN movies ON movies.id = user_actions_for_movie.movie_id"
-    )
+        "JOIN movies ON movies.id = user_actions_for_movie.movie_id")
     suspend fun getAllMoviesWithUserActions(): Map<UserActionsForMovieDb, MovieDb>
 
-    @Upsert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertUserActionsForMovie(userActionsForMovieDb: UserActionsForMovieDb)
+
 }

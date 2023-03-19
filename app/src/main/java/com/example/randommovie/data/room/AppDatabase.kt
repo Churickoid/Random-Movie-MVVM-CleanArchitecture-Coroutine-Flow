@@ -20,10 +20,10 @@ import com.example.randommovie.data.room.entity.*
 )
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun getMoviesDao(): MoviesDao
+    abstract fun moviesDao(): MoviesDao
 
-    abstract fun getGenresDao(): GenresDao
+    abstract fun genresDao(): GenresDao
 
-    abstract fun getCountriesDao(): CountriesDao
+    abstract fun countriesDao(): CountriesDao
 
 }
