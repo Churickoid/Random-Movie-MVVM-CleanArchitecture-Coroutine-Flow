@@ -9,6 +9,8 @@ import com.example.randommovie.data.room.entity.*
 import com.example.randommovie.domain.ListRepository
 import com.example.randommovie.domain.entity.ItemFilter
 import com.example.randommovie.domain.entity.UserInfoAndMovie
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 
 class ListRepositoryImpl(
     private val retrofitApiInterface: RetrofitApiInterface,
@@ -29,53 +31,52 @@ class ListRepositoryImpl(
         return genresDao.getAllGenres().map { it.toItemFilter() }
     }
 
-    override suspend fun getAllMoviesWithUserActions(): List<UserInfoAndMovie> {
+    override suspend fun getAllMoviesWithUserActions(): Flow<List<UserInfoAndMovie>> {
         setGenresAndCountries()
-        return moviesDao.getAllMoviesWithUserActions().map {
-            UserInfoAndMovie(
-                it.key.id,
-                it.value.toMovie(
-                    genresDao.getGenresByMovieId(it.value.id),
-                    countriesDao.getCountriesByMovieId(it.value.id)
-                ),
-                it.key.rating,
-                it.key.inWatchlist
-            )
+        return moviesDao.getAllMoviesWithUserActions().map { list ->
+            list.map {
+                UserInfoAndMovie(
+                    it.key.id,
+                    it.value.toMovie(
+                        genresDao.getGenresByMovieId(it.value.id),
+                        countriesDao.getCountriesByMovieId(it.value.id)
+                    ),
+                    it.key.rating,
+                    it.key.inWatchlist
+                )
+            }
         }
     }
 
     override suspend fun addUserInfoForMovie(userInfoAndMovie: UserInfoAndMovie) {
-        try {
-            setGenresAndCountries()
-            val movie = userInfoAndMovie.movie
 
-            movie.country.forEach {
-                countriesDao.insertCountryForMovie(
-                    CountriesForMoviesDb(
-                        movie.id, countriesDao.getCountryIdByName(it)
-                    )
-                )
-            }
-            movie.genre.forEach {
-                genresDao.insertGenreForMovie(
-                    GenresForMoviesDb(
-                        movie.id, genresDao.getGenreIdByName(it)
-                    )
-                )
-            }
-            moviesDao.insertMovie(MovieDb.fromMovie(movie))
-            moviesDao.upsertUserActionsForMovie(
-                UserActionsForMovieDb(
-                    userInfoAndMovie.id,
-                    userInfoAndMovie.movie.id,
-                    userInfoAndMovie.userRating,
-                    userInfoAndMovie.inWatchlist
+        setGenresAndCountries()
+        val movie = userInfoAndMovie.movie
+
+
+        moviesDao.insertMovie(MovieDb.fromMovie(movie))
+        moviesDao.upsertUserActionsForMovie(
+            UserActionsForMovieDb(
+                userInfoAndMovie.id,
+                userInfoAndMovie.movie.id,
+                userInfoAndMovie.userRating,
+                userInfoAndMovie.inWatchlist
+            )
+        )
+        movie.country.forEach {
+            countriesDao.insertCountryForMovie(
+                CountriesForMoviesDb(
+                    movie.id, countriesDao.getCountryIdByName(it)
                 )
             )
-        } catch (e: Exception) {
-            Log.e("!!!", e.message!!)
         }
-
+        movie.genre.forEach {
+            genresDao.insertGenreForMovie(
+                GenresForMoviesDb(
+                    movie.id, genresDao.getGenreIdByName(it)
+                )
+            )
+        }
     }
 
     private suspend fun setGenresAndCountries() {
@@ -94,9 +95,10 @@ class ListRepositoryImpl(
                         )
                     }
                     isDataExist = true
-                } catch (e: Exception) {
-                    Log.e("!!!", e.message!!)
+                }catch (e : Exception){
+                    Log.e("!!!!",e.message!!)
                 }
+
 
             } else isDataExist = true
         }

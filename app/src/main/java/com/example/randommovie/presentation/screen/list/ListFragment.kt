@@ -17,7 +17,6 @@ class ListFragment : BaseFragment() {
 
     private lateinit var binding : FragmentListBinding
     private val viewModel: ListViewModel by viewModels{factory()}
-    private lateinit var movieListAdapter: MovieListAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,22 +27,15 @@ class ListFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentListBinding.bind(view)
-        setRecyclerView()
-        viewModel.getAllMovies()
+
+        val adapter = MovieListAdapter()
+        binding.moviesRecyclerView.adapter = adapter
+
         viewModel.movieList.observe(viewLifecycleOwner){
-            movieListAdapter.userInfoAndMovieList = it
+            adapter.submitList(it)
         }
 
     }
 
-    private fun setRecyclerView(){
-        movieListAdapter = MovieListAdapter()
-        binding.moviesRecyclerView.adapter = movieListAdapter
-          movieListAdapter.onItemClickListener = {
-            findNavController().navigate(
-                R.id.action_listFragment_to_informationListFragment,
-                bundleOf(InfoFragment.ARG_MOVIE to it)
-            )
-        }
-    }
+
 }

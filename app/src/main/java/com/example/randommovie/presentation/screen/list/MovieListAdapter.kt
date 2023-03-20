@@ -3,24 +3,18 @@ package com.example.randommovie.presentation.screen.list
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.randommovie.databinding.ItemMovieBinding
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.UserInfoAndMovie
 import com.example.randommovie.presentation.screen.getRatingColor
+import com.example.randommovie.presentation.screen.list.MovieListAdapter.MovieViewHolder
 
-class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>() {
+class MovieListAdapter : ListAdapter<UserInfoAndMovie, MovieViewHolder>(ItemCallback) {
 
-
-    class MovieViewHolder(val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root)
-
-    var userInfoAndMovieList = listOf<UserInfoAndMovie>()
-        set(it) {
-            field = it
-            notifyDataSetChanged()
-        }
-    var onItemClickListener: ((Movie) -> Unit)? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
@@ -29,10 +23,9 @@ class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>(
         return MovieViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = userInfoAndMovieList.size
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        val userInfo = userInfoAndMovieList[position]
+        val userInfo = getItem(position)
         val movie = userInfo.movie
         val context = holder.itemView.context
         val rating = when{
@@ -41,7 +34,8 @@ class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>(
             else -> movie.ratingIMDB
         }
         with(holder.binding) {
-            titleMainTextView.text = "${movie.titleMain} (${movie.year})"
+            val year = movie.year?.toString() ?: " — "
+            titleMainTextView.text = "${movie.titleMain} ($year)"
             titleExtraTextView.text = movie.titleSecond
             countryTextView.text = movie.country.joinToString(", ")
             genresTextView.text = movie.genre.joinToString(", ")
@@ -49,25 +43,37 @@ class MovieListAdapter : RecyclerView.Adapter<MovieListAdapter.MovieViewHolder>(
             else String.format("%.1f", rating)
             ratingTextView.setTextColor(getRatingColor(rating,context))
 
-            yourRatingTextView.text = userInfo.userRating.toString()
-            yourRatingTextView.background.setTint(getRatingColor(userInfo.userRating.toDouble(),context))
-
-            if (userInfo.inWatchlist) bookmarkImageView.visibility = View.VISIBLE
-            else bookmarkImageView.visibility = View.INVISIBLE
+            if (userInfo.userRating == 0) {
+                yourRatingTextView.visibility = View.INVISIBLE
+                bookmarkImageView.visibility = View.VISIBLE
+            }
+            else{
+                bookmarkImageView.visibility = View.INVISIBLE
+                yourRatingTextView.visibility = View.VISIBLE
+                yourRatingTextView.text = userInfo.userRating.toString()
+                yourRatingTextView.background.setTint(getRatingColor(userInfo.userRating.toDouble(),context))
+            }
 
             Glide.with(holder.itemView)
                 .load(movie.posterUrl)
                 .skipMemoryCache(true)
                 .into(posterImageView)
 
-            holder.itemView.setOnClickListener {
-                onItemClickListener?.invoke(movie)
-            }
 
         }
 
     }
 
+    class MovieViewHolder(val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root)
 
+    object ItemCallback : DiffUtil.ItemCallback<UserInfoAndMovie>() {
+        override fun areItemsTheSame(oldItem: UserInfoAndMovie, newItem: UserInfoAndMovie): Boolean {
+            return oldItem.movie.id == oldItem.movie.id
+        }
+
+        override fun areContentsTheSame(oldItem: UserInfoAndMovie, newItem: UserInfoAndMovie): Boolean {
+            return oldItem == newItem
+        }
+    }
 
 }

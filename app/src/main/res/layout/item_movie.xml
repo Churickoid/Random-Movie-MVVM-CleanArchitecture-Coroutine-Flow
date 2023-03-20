@@ -7,18 +7,6 @@
     android:background="@android:drawable/editbox_background"
     android:padding="16dp"
     >
-<ImageView
-    android:id="@+id/bookmarkImageView"
-    android:layout_width="52dp"
-    android:layout_height="52dp"
-    android:layout_marginLeft="-10dp"
-    android:layout_marginTop="-10dp"
-    android:src="@drawable/ic_bookmark"
-    app:tint="@color/purple_500"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    android:elevation="1dp"
-    />
 
     <ImageView
         android:id="@+id/posterImageView"
@@ -38,10 +26,10 @@
         android:layout_height="wrap_content"
         android:text="Анонер (2024)"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:maxLines="1"
-        android:ellipsize="end"
+        android:maxLines="2"
+        android:ellipsize="middle"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintBottom_toTopOf="@id/titleExtraTextView"
         app:layout_constraintEnd_toStartOf="@id/moreButton"
@@ -132,6 +120,18 @@
         app:layout_constraintStart_toStartOf="@id/moreButton"
         app:layout_constraintEnd_toEndOf="@id/moreButton"
 
+        />
+    <ImageView
+        android:visibility="invisible"
+        android:id="@+id/bookmarkImageView"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:src="@drawable/ic_bookmark"
+        app:tint="@color/purple_500"
+        app:layout_constraintTop_toTopOf="@id/countryTextView"
+        app:layout_constraintBottom_toBottomOf="@id/genresTextView"
+        app:layout_constraintStart_toStartOf="@id/moreButton"
+        app:layout_constraintEnd_toEndOf="@id/moreButton"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
