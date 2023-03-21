@@ -13,6 +13,9 @@ interface MoviesDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertMovie(movieDb: MovieDb)
 
+    @Query("DELETE FROM movies WHERE id = :movieId")
+    suspend fun deleteMovieById(movieId: Long)
+
     @Query(
         "SELECT * FROM user_actions_for_movie " +
         "JOIN movies ON movies.id = user_actions_for_movie.movie_id")

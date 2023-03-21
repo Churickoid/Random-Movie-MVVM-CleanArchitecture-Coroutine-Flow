@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="@string/rate"
+        android:icon="@drawable/ic_star"
+        android:id="@+id/star"
+        />
+    <item android:title="@string/delete"
+        android:icon="@drawable/ic_delete"
+        android:id="@+id/delete"
+        />
+
+</menu>

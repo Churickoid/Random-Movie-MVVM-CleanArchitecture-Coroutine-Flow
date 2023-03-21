@@ -13,4 +13,6 @@ interface ListRepository {
     suspend fun getAllMoviesWithUserActions(): Flow<List<UserInfoAndMovie>>
 
     suspend fun addUserInfoForMovie(userInfoAndMovie: UserInfoAndMovie)
+
+    suspend fun deleteMovieById(id: Long)
 }

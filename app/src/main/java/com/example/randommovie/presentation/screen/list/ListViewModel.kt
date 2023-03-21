@@ -5,10 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.randommovie.domain.entity.UserInfoAndMovie
+import com.example.randommovie.domain.usecases.list.DeleteMovieByIdUseCase
 import com.example.randommovie.domain.usecases.list.GetAllMoviesUseCase
 import kotlinx.coroutines.launch
 
-class ListViewModel(private val getAllMoviesUseCase: GetAllMoviesUseCase) : ViewModel() {
+class ListViewModel(
+    private val getAllMoviesUseCase: GetAllMoviesUseCase,
+    private val deleteMovieByIdUseCase: DeleteMovieByIdUseCase
+) : ViewModel() {
 
 
     private val _movieList = MutableLiveData<List<UserInfoAndMovie>>()
@@ -18,8 +22,14 @@ class ListViewModel(private val getAllMoviesUseCase: GetAllMoviesUseCase) : View
         getAllMovies()
     }
 
-    private fun getAllMovies() {
+    fun deleteMovieById(id: Long){
         viewModelScope.launch {
+            deleteMovieByIdUseCase(id)
+        }
+    }
+
+    private fun getAllMovies() {
+        viewModelScope.launch() {
             getAllMoviesUseCase().collect{
                 _movieList.value = it
             }

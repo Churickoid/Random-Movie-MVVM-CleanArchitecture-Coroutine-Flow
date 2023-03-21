@@ -52,7 +52,6 @@ class MovieRepositoryImpl(
         }
 
         val randomItemId = Random.nextInt(movieList.size)
-
         return movieList[randomItemId].toMovie()
     }
 

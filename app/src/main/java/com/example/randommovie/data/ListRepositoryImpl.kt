@@ -79,6 +79,10 @@ class ListRepositoryImpl(
         }
     }
 
+    override suspend fun deleteMovieById(id: Long) {
+        moviesDao.deleteMovieById(id)
+    }
+
     private suspend fun setGenresAndCountries() {
         if (!isDataExist) {
             if (genresDao.getAllGenres().isEmpty() || countriesDao.getAllCountries().isEmpty()) {

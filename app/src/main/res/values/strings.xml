@@ -12,6 +12,8 @@
     <string name="clear">Clear</string>
     <string name="order">Order:</string>
     <string name="type">Type:</string>
+    <string name="rate">Rate</string>
+    <string name="delete">Delete</string>
 
 
     <string-array name="order">
