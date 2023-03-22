@@ -42,7 +42,9 @@ class RatingDialogFragment : DialogFragment() {
 
         return AlertDialog.Builder(requireContext())
             .setPositiveButton("Apply") { _, _ ->
-                callResult(binding.ratingBar.rating.toInt(),binding.watchlistCheckBox.isChecked)
+                val rating = binding.ratingBar.rating
+                val inWatchlist = binding.watchlistCheckBox.isChecked
+                if (inWatchlist || rating>0.0) callResult(rating.toInt(),inWatchlist)
             }
             .setNegativeButton("Cancel") { _, _ ->
 

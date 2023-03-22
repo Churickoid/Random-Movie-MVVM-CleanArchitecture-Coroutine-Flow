@@ -18,8 +18,15 @@ interface MoviesDao {
 
     @Query(
         "SELECT * FROM user_actions_for_movie " +
-        "JOIN movies ON movies.id = user_actions_for_movie.movie_id")
-    fun getAllMoviesWithUserActions(): Flow<Map<UserActionsForMovieDb, MovieDb>>
+        "JOIN movies ON movies.id = user_actions_for_movie.movie_id "+
+        "WHERE user_actions_for_movie.in_watchlist = 1")
+    fun getWatchlistMovies(): Flow<Map<UserActionsForMovieDb, MovieDb>>
+
+    @Query(
+        "SELECT * FROM user_actions_for_movie " +
+                "JOIN movies ON movies.id = user_actions_for_movie.movie_id "+
+                "WHERE user_actions_for_movie.rating > 0")
+    fun getRatedMovies(): Flow<Map<UserActionsForMovieDb, MovieDb>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertUserActionsForMovie(userActionsForMovieDb: UserActionsForMovieDb)

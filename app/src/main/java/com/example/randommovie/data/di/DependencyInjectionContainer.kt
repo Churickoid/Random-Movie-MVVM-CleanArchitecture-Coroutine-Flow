@@ -13,7 +13,7 @@ import com.example.randommovie.domain.usecases.filter.GetSearchFilterUseCase
 import com.example.randommovie.domain.usecases.movie.GetRandomMovieUseCase
 import com.example.randommovie.domain.usecases.filter.SetSearchFilterUseCase
 import com.example.randommovie.domain.usecases.movie.GetMoreInformationUseCase
-import com.example.randommovie.domain.usecases.list.GetAllMoviesUseCase
+import com.example.randommovie.domain.usecases.list.GetMovieListByTypeUseCase
 import com.example.randommovie.domain.usecases.list.AddUserInfoForMovieUseCase
 import com.example.randommovie.domain.usecases.list.DeleteMovieByIdUseCase
 import okhttp3.Interceptor
@@ -65,7 +65,7 @@ class DependencyInjectionContainer(context:Context) {
     val getSearchFilterUseCase = GetSearchFilterUseCase(filterRepository)
 
     private val listRepository = ListRepositoryImpl(retrofit,movieDao,countriesDao,genresDao)
-    val getAllMoviesUseCase = GetAllMoviesUseCase(listRepository)
+    val getMovieListByTypeUseCase = GetMovieListByTypeUseCase(listRepository)
     val getGenresUseCase = GetGenresUseCase(listRepository)
     val getCountriesUseCase = GetCountriesUseCase(listRepository)
     val addUserInfoForMovieUseCase = AddUserInfoForMovieUseCase(listRepository)

@@ -28,7 +28,7 @@ class ViewModelFactory(private val app: App) : ViewModelProvider.Factory {
                 InfoViewModel(app.container.getMoreInformationUseCase)
             }
             ListViewModel::class.java -> {
-                ListViewModel(app.container.getAllMoviesUseCase,
+                ListViewModel(app.container.getMovieListByTypeUseCase,
                     app.container.deleteMovieByIdUseCase
                     )
             }

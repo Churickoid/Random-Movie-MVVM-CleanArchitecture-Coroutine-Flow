@@ -10,7 +10,7 @@ interface ListRepository {
 
     suspend fun getGenresList(): List<ItemFilter>
 
-    suspend fun getAllMoviesWithUserActions(): Flow<List<UserInfoAndMovie>>
+    suspend fun getMovieListByType(type: Int): Flow<List<UserInfoAndMovie>>
 
     suspend fun addUserInfoForMovie(userInfoAndMovie: UserInfoAndMovie)
 
