@@ -31,38 +31,21 @@ class ListRepositoryImpl(
         return genresDao.getAllGenres().map { it.toItemFilter() }
     }
 
-    override suspend fun getMovieListByType(type:Int): Flow<List<UserInfoAndMovie>> {
+    override suspend fun getMovieListByType(type: Int): Flow<List<UserInfoAndMovie>> {
         setGenresAndCountries()
-        return when(type) {
-            WATCHLIST_TYPE -> moviesDao.getWatchlistMovies().map { list ->
-                list.map {
-                    //TODO МЕТОД ПЕРЕДЕЛКИ
-                    UserInfoAndMovie(
-                        it.key.id,
-                        it.value.toMovie(
-                            genresDao.getGenresByMovieId(it.value.id),
-                            countriesDao.getCountriesByMovieId(it.value.id)
-                        ),
-                        it.key.rating,
-                        it.key.inWatchlist
-                    )
-                }
+        return moviesDao.getMovieListByType(type).map { list ->
+            list.map {
+                //TODO МЕТОД ПЕРЕДЕЛКИ
+                UserInfoAndMovie(
+                    it.key.id,
+                    it.value.toMovie(
+                        genresDao.getGenresByMovieId(it.value.id),
+                        countriesDao.getCountriesByMovieId(it.value.id)
+                    ),
+                    it.key.rating,
+                    it.key.inWatchlist
+                )
             }
-            RATED_TYPE -> moviesDao.getRatedMovies().map { list ->
-                list.map {
-                    //TODO МЕТОД ПЕРЕДЕЛКИ
-                    UserInfoAndMovie(
-                        it.key.id,
-                        it.value.toMovie(
-                            genresDao.getGenresByMovieId(it.value.id),
-                            countriesDao.getCountriesByMovieId(it.value.id)
-                        ),
-                        it.key.rating,
-                        it.key.inWatchlist
-                    )
-                }
-            }
-            else -> throw IllegalArgumentException("Unknown type")
         }
     }
 
@@ -100,6 +83,7 @@ class ListRepositoryImpl(
     override suspend fun deleteMovieById(id: Long) {
         moviesDao.deleteMovieById(id)
     }
+
     private suspend fun setGenresAndCountries() {
         if (!isDataExist) {
             if (genresDao.getAllGenres().isEmpty() || countriesDao.getAllCountries().isEmpty()) {
@@ -116,7 +100,7 @@ class ListRepositoryImpl(
                         )
                     }
                     isDataExist = true
-                }catch (e : Exception){
+                } catch (e: Exception) {
                     Log.e("!!!!", "Need Internet connection to get genres list in local database")
                 }
 
@@ -124,8 +108,5 @@ class ListRepositoryImpl(
             } else isDataExist = true
         }
     }
-    companion object{
-        const val WATCHLIST_TYPE = 0
-        const val RATED_TYPE = 1
-    }
+
 }

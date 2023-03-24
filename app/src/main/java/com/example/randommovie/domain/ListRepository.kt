@@ -15,4 +15,9 @@ interface ListRepository {
     suspend fun addUserInfoForMovie(userInfoAndMovie: UserInfoAndMovie)
 
     suspend fun deleteMovieById(id: Long)
+
+    companion object{
+        const val WATCHLIST_TYPE = 0
+        const val RATED_TYPE = 1
+    }
 }

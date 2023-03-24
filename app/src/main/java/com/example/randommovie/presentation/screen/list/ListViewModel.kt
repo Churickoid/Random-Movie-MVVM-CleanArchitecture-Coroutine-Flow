@@ -1,13 +1,14 @@
 package com.example.randommovie.presentation.screen.list
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.randommovie.data.ListRepositoryImpl.Companion.WATCHLIST_TYPE
+import android.util.Log
+import androidx.lifecycle.*
+import com.example.randommovie.domain.ListRepository.Companion.RATED_TYPE
+import com.example.randommovie.domain.ListRepository.Companion.WATCHLIST_TYPE
 import com.example.randommovie.domain.entity.UserInfoAndMovie
 import com.example.randommovie.domain.usecases.list.DeleteMovieByIdUseCase
 import com.example.randommovie.domain.usecases.list.GetMovieListByTypeUseCase
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
 
 class ListViewModel(
@@ -16,24 +17,17 @@ class ListViewModel(
 ) : ViewModel() {
 
 
-    private val _movieList = MutableLiveData<List<UserInfoAndMovie>>()
-    val movieList: LiveData<List<UserInfoAndMovie>> = _movieList
+    val type = MutableStateFlow(WATCHLIST_TYPE)
 
-    init {
-        getMovieList(WATCHLIST_TYPE)
-    }
+    //val watchlistCounter =
 
-    fun deleteMovieById(id: Long){
+    val movieList = type.flatMapLatest { getMovieListByTypeUseCase(it) }.asLiveData()
+
+
+    fun deleteMovieById(id: Long) {
         viewModelScope.launch {
             deleteMovieByIdUseCase(id)
         }
     }
-
-     fun getMovieList(type: Int) {
-        viewModelScope.launch{
-            getMovieListByTypeUseCase(type).collect{
-                _movieList.value = it
-            }
-        }
-    }
 }
+

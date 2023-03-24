@@ -5,12 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
-import com.example.randommovie.data.ListRepositoryImpl.Companion.RATED_TYPE
-import com.example.randommovie.data.ListRepositoryImpl.Companion.WATCHLIST_TYPE
 import com.example.randommovie.databinding.FragmentListBinding
+import com.example.randommovie.domain.ListRepository.Companion.RATED_TYPE
+import com.example.randommovie.domain.ListRepository.Companion.WATCHLIST_TYPE
 import com.example.randommovie.domain.entity.UserInfoAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.info.InfoFragment
@@ -32,19 +33,7 @@ class ListFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentListBinding.bind(view)
 
-        binding.listTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                when(tab.position){
-                    WATCHLIST_TYPE -> viewModel.getMovieList(WATCHLIST_TYPE)
-                    RATED_TYPE -> viewModel.getMovieList(RATED_TYPE)
-                }
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab) {}
-
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-
-        })
+        binding.listTabLayout.getTabAt(viewModel.type.value)?.select() ?: throw IllegalArgumentException("Unknown tab")
 
         val adapter = MovieListAdapter(object : MovieListAdapter.ItemListener {
             override fun onChooseMovie(infoAndMovie: UserInfoAndMovie) =
@@ -61,11 +50,30 @@ class ListFragment : BaseFragment() {
 
 
         })
+
+
         binding.moviesRecyclerView.adapter = adapter
 
         viewModel.movieList.observe(viewLifecycleOwner){
             adapter.submitList(it)
+            binding.moviesRecyclerView.smoothScrollToPosition(0)
         }
+
+        binding.listTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                when(tab.position){
+                    0 -> viewModel.type.value = WATCHLIST_TYPE
+                    1 -> viewModel.type.value = RATED_TYPE
+
+                }
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
+
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+
+        })
+
         setupRatingDialogFragmentListener(parentFragmentManager)
     }
 
