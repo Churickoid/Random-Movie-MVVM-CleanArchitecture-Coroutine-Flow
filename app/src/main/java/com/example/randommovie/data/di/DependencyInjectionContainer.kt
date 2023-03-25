@@ -13,9 +13,10 @@ import com.example.randommovie.domain.usecases.filter.GetSearchFilterUseCase
 import com.example.randommovie.domain.usecases.movie.GetRandomMovieUseCase
 import com.example.randommovie.domain.usecases.filter.SetSearchFilterUseCase
 import com.example.randommovie.domain.usecases.movie.GetMoreInformationUseCase
-import com.example.randommovie.domain.usecases.list.GetMovieListByTypeUseCase
+import com.example.randommovie.domain.usecases.list.GetMovieListByFiltersUseCase
 import com.example.randommovie.domain.usecases.list.AddUserInfoForMovieUseCase
 import com.example.randommovie.domain.usecases.list.DeleteMovieByIdUseCase
+import com.example.randommovie.domain.usecases.list.GetMoviesCountByTypeUseCase
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -33,8 +34,8 @@ class DependencyInjectionContainer(context:Context) {
         .addInterceptor(
             Interceptor { chain ->
             val requestBuilder = chain.request().newBuilder()
-                .header("X-API-KEY","5c2d749b-5c0c-4809-b62d-a3c98a9f527e")
-                //.header("X-API-KEY","6b31e33d-9d30-4513-9ef6-7705aad38ee1")
+                //.header("X-API-KEY","5c2d749b-5c0c-4809-b62d-a3c98a9f527e")
+                .header("X-API-KEY","6b31e33d-9d30-4513-9ef6-7705aad38ee1")
                 .build()
             chain.proceed(requestBuilder)
         })
@@ -65,7 +66,8 @@ class DependencyInjectionContainer(context:Context) {
     val getSearchFilterUseCase = GetSearchFilterUseCase(filterRepository)
 
     private val listRepository = ListRepositoryImpl(retrofit,movieDao,countriesDao,genresDao)
-    val getMovieListByTypeUseCase = GetMovieListByTypeUseCase(listRepository)
+    val getMovieListByFiltersUseCase = GetMovieListByFiltersUseCase(listRepository)
+    val getMoviesCountByTypeUseCase = GetMoviesCountByTypeUseCase(listRepository)
     val getGenresUseCase = GetGenresUseCase(listRepository)
     val getCountriesUseCase = GetCountriesUseCase(listRepository)
     val addUserInfoForMovieUseCase = AddUserInfoForMovieUseCase(listRepository)

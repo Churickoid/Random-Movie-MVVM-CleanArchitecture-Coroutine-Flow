@@ -40,6 +40,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
+
+                android:maxHeight="300dp"
+                android:scaleType="center"
                 android:src="@drawable/blanked_image"
                 app:layout_constraintBottom_toTopOf="@id/titleMainTextView"
                 app:layout_constraintEnd_toEndOf="parent"

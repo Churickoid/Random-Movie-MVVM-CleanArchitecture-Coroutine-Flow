@@ -10,7 +10,10 @@ interface ListRepository {
 
     suspend fun getGenresList(): List<ItemFilter>
 
-    suspend fun getMovieListByType(type: Int): Flow<List<UserInfoAndMovie>>
+
+    fun getMoviesCountByType(type: Int) : Flow<Int>
+
+    suspend fun getMovieListByFilters(type: Int,order: Int, isAsc: Boolean): Flow<List<UserInfoAndMovie>>
 
     suspend fun addUserInfoForMovie(userInfoAndMovie: UserInfoAndMovie)
 
@@ -19,5 +22,11 @@ interface ListRepository {
     companion object{
         const val WATCHLIST_TYPE = 0
         const val RATED_TYPE = 1
+
+        const val QUEUE_ORDER = 0
+        const val ALPHABET_ORDER = 1
+        const val RATING_ORDER = 2
+        const val USER_RATING_ORDER = 3
+
     }
 }

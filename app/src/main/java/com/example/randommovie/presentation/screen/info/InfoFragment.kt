@@ -100,6 +100,7 @@ class InfoFragment : BaseFragment() {
                 Glide.with(this@InfoFragment)
                     .load(movieExtra.posterUrlHQ)
                     .skipMemoryCache(true)
+                    .centerCrop()
                     .into(binding.headerImageView)
 
             }

@@ -36,4 +36,21 @@ class InfoViewModel(private val getMoreInformationUseCase: GetMoreInformationUse
         const val LOADING_STATE = "LOADING_STATE"
         const val VALID_STATE = "VALID_STATE"
     }
+
+
+    //TODO Обработчик ошибок всем добавить для красоты =)
+    /*private fun launchDataLoad(block: suspend () -> Unit){
+        viewModelScope.launch {
+            try {
+                _spinner.value = true
+                block()
+            } catch (error: TitleRefreshError) {
+                _snackBar.value = error.message
+            } finally {
+                _spinner.value = false
+            }
+        }
+        }
+    }*/
+
 }

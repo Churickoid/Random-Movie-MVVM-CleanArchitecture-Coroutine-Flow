@@ -31,9 +31,13 @@ class ListRepositoryImpl(
         return genresDao.getAllGenres().map { it.toItemFilter() }
     }
 
-    override suspend fun getMovieListByType(type: Int): Flow<List<UserInfoAndMovie>> {
+    override fun getMoviesCountByType(type: Int): Flow<Int> {
+        return moviesDao.getMoviesCountByType(type)
+    }
+
+    override suspend fun getMovieListByFilters(type: Int,order: Int, isAsc: Boolean): Flow<List<UserInfoAndMovie>> {
         setGenresAndCountries()
-        return moviesDao.getMovieListByType(type).map { list ->
+        return moviesDao.getMovieListByFilters(type,isAsc).map { list ->
             list.map {
                 //TODO МЕТОД ПЕРЕДЕЛКИ
                 UserInfoAndMovie(
@@ -56,6 +60,7 @@ class ListRepositoryImpl(
 
 
         moviesDao.insertMovie(MovieDb.fromMovie(movie))
+        //TODO МЕТОД ПЕРЕДЕЛКИ
         moviesDao.upsertUserActionsForMovie(
             UserActionsForMovieDb(
                 userInfoAndMovie.id,

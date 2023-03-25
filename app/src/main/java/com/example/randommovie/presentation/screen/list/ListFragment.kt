@@ -1,12 +1,14 @@
 package com.example.randommovie.presentation.screen.list
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.core.view.get
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentListBinding
@@ -14,6 +16,7 @@ import com.example.randommovie.domain.ListRepository.Companion.RATED_TYPE
 import com.example.randommovie.domain.ListRepository.Companion.WATCHLIST_TYPE
 import com.example.randommovie.domain.entity.UserInfoAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment
+import com.example.randommovie.presentation.screen.filter.FilterFragment
 import com.example.randommovie.presentation.screen.info.InfoFragment
 import com.example.randommovie.presentation.tools.factory
 import com.google.android.material.tabs.TabLayout
@@ -22,6 +25,7 @@ class ListFragment : BaseFragment() {
 
     private lateinit var binding : FragmentListBinding
     private val viewModel: ListViewModel by viewModels{factory()}
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -52,11 +56,31 @@ class ListFragment : BaseFragment() {
         })
 
 
+
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.appbar_list_icons, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.action_sort -> {
+                        // navigate to settings screen
+                        true
+                    }
+                    R.id.action_reverse -> {
+                        viewModel.isAsc.value = !viewModel.isAsc.value
+                        true
+                    }
+                    else -> false
+            }
+        }}, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
         binding.moviesRecyclerView.adapter = adapter
 
         viewModel.movieList.observe(viewLifecycleOwner){
             adapter.submitList(it)
-            binding.moviesRecyclerView.smoothScrollToPosition(0)
         }
 
         binding.listTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
@@ -67,12 +91,24 @@ class ListFragment : BaseFragment() {
 
                 }
             }
-
             override fun onTabUnselected(tab: TabLayout.Tab) {}
-
             override fun onTabReselected(tab: TabLayout.Tab) {}
-
         })
+
+        viewModel.watchlistCounter.observe(viewLifecycleOwner){
+            binding.listTabLayout.getTabAt(0)!!.text = "Watchlist ($it)"
+        }
+
+        viewModel.ratedCounter.observe(viewLifecycleOwner){
+            binding.listTabLayout.getTabAt(1)!!.text = "Rated ($it)"
+        }
+
+        viewModel.toTop.observe(viewLifecycleOwner){
+            Log.e("!!!","UUU")
+            it.getValue()?.let {
+                binding.moviesRecyclerView.smoothScrollToPosition(0)
+            }
+        }
 
         setupRatingDialogFragmentListener(parentFragmentManager)
     }

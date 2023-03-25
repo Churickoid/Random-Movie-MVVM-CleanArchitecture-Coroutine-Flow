@@ -14,6 +14,8 @@
     <string name="type">Type:</string>
     <string name="rate">Rate</string>
     <string name="delete">Delete</string>
+    <string name="reverse">Reverse Sorting</string>
+    <string name="sort">Sort list</string>
 
 
     <string-array name="order">
