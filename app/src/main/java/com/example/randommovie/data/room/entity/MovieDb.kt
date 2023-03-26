@@ -2,7 +2,6 @@ package com.example.randommovie.data.room.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.example.randommovie.domain.entity.Movie
 

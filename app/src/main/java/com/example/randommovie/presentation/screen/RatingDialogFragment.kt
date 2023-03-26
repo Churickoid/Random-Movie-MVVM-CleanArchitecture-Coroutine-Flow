@@ -11,31 +11,23 @@ import androidx.lifecycle.LifecycleOwner
 import com.example.randommovie.databinding.DialogRatingBinding
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.UserInfoAndMovie
+import com.example.randommovie.presentation.screen.filter.FilterListDialogFragment
+import com.example.randommovie.presentation.tools.parcelable
+import com.example.randommovie.presentation.tools.parcelableArrayList
 
 class RatingDialogFragment : DialogFragment() {
 
     private val movie: Movie
-        get() = when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> requireArguments().getParcelable(
-                ARG_MOVIE, Movie::class.java
-            ) ?: throw IllegalArgumentException("Can't launch without list")
-            else -> @Suppress("DEPRECATION")
-            requireArguments().getParcelable(
-                ARG_MOVIE
-            ) ?: throw IllegalArgumentException("Can't launch without list")
-        }
+        get() = requireArguments().parcelable(ARG_MOVIE)
+            ?: throw IllegalArgumentException("Can't work without movie")
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val binding = DialogRatingBinding.inflate(layoutInflater)
 
         binding.ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
             binding.selectedRatingTextView.text = rating.toInt().toString()
-            binding.selectedRatingTextView.background.setTint(
-                getRatingColor(
-                    rating.toDouble(),
-                    requireContext()
-                )
-            )
+            binding.selectedRatingTextView.background
+                .setTint(getRatingColor(rating.toDouble(),requireContext()))
         }
 
 
@@ -46,9 +38,7 @@ class RatingDialogFragment : DialogFragment() {
                 val inWatchlist = binding.watchlistCheckBox.isChecked
                 if (inWatchlist || rating>0.0) callResult(rating.toInt(),inWatchlist)
             }
-            .setNegativeButton("Cancel") { _, _ ->
-
-            }
+            .setNegativeButton("Cancel") { _, _ -> }
             .setView(binding.root)
             .create()
     }
@@ -78,7 +68,8 @@ class RatingDialogFragment : DialogFragment() {
             listener: (UserInfoAndMovie) -> Unit
         ) {
             manager.setFragmentResultListener(TAG, lifecycleOwner) { _, result ->
-                listener.invoke(result.getParcelable(KEY_USER_INFO_AND_MOVIE)!!)
+                listener.invoke(result.parcelable(KEY_USER_INFO_AND_MOVIE) ?:
+                throw IllegalArgumentException("Result doesn't exist"))
             }
         }
     }

@@ -2,7 +2,6 @@ package com.example.randommovie.presentation.screen.filter
 
 import android.app.Dialog
 import android.content.DialogInterface
-import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
@@ -10,23 +9,19 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import com.example.randommovie.domain.entity.ItemFilter
+import com.example.randommovie.presentation.tools.parcelableArrayList
 
 class FilterListDialogFragment : DialogFragment() {
 
 
     private val list: ArrayList<ItemFilter>
-        get() = when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> requireArguments().getParcelableArrayList(
-                ARG_LIST_ITEM, ItemFilter::class.java
-            ) ?: throw IllegalArgumentException("Can't launch without list")
-            else -> @Suppress("DEPRECATION")
-            arguments?.getParcelableArrayList(
-                ARG_LIST_ITEM
-            ) ?: throw IllegalArgumentException("Can't launch without list")
-        }
+        get() = requireArguments().parcelableArrayList(ARG_LIST_ITEM)
+            ?: throw IllegalArgumentException("Can't launch without list")
+
 
     private val requestKey: String
-        get() = arguments?.getString(ARG_REQUEST_KEY)!!
+        get() = arguments?.getString(ARG_REQUEST_KEY)
+            ?: throw IllegalArgumentException("Can't launch without key")
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         var checkboxes = booleanArrayOf()
@@ -92,15 +87,8 @@ class FilterListDialogFragment : DialogFragment() {
             ) { _, result ->
                 listener.invoke(
                     requestKey,
-                    when {
-                        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> result.getParcelableArrayList(
-                            KEY_LIST_ITEM_RESPONSE, ItemFilter::class.java
-                        ) ?: throw IllegalArgumentException("Can't launch without list")
-                        else -> @Suppress("DEPRECATION")
-                        result.getParcelableArrayList(
-                            KEY_LIST_ITEM_RESPONSE
-                        ) ?: throw IllegalArgumentException("Can't launch without list")
-                    }
+                    result.parcelableArrayList(KEY_LIST_ITEM_RESPONSE)
+                        ?: throw IllegalArgumentException("Array List doesn't exist")
                 )
             }
         }

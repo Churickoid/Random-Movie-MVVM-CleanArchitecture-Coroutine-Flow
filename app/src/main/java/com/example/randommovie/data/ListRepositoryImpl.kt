@@ -47,17 +47,10 @@ class ListRepositoryImpl(
         }
         if (isAsc) filter += 1
         return moviesDao.getMovieListByFilters(type,filter).map { list ->
-            list.map {
-                //TODO МЕТОД ПЕРЕДЕЛКИ
-                UserInfoAndMovie(
-                    it.key.id,
-                    it.value.toMovie(
-                        genresDao.getGenresByMovieId(it.value.id),
-                        countriesDao.getCountriesByMovieId(it.value.id)
-                    ),
-                    it.key.rating,
-                    it.key.inWatchlist
-                )
+            list.map {(userAct, movie) ->
+                userAct.toUserInfoAndMovie(movie,
+                    genresDao.getGenresByMovieId(movie.id),
+                    countriesDao.getCountriesByMovieId(movie.id))
             }
         }
     }
@@ -69,14 +62,9 @@ class ListRepositoryImpl(
 
 
         moviesDao.insertMovie(MovieDb.fromMovie(movie))
-        //TODO МЕТОД ПЕРЕДЕЛКИ
+
         moviesDao.upsertUserActionsForMovie(
-            UserActionsForMovieDb(
-                userInfoAndMovie.id,
-                userInfoAndMovie.movie.id,
-                userInfoAndMovie.userRating,
-                userInfoAndMovie.inWatchlist
-            )
+            UserActionsForMovieDb.fromUserInfoAndMovie(userInfoAndMovie)
         )
         movie.country.forEach {
             countriesDao.insertCountryForMovie(

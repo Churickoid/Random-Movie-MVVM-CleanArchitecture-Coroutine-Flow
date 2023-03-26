@@ -15,10 +15,12 @@ import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentInfoBinding
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.presentation.screen.BaseFragment
+import com.example.randommovie.presentation.screen.RatingDialogFragment
 import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.LOADING_STATE
 import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.VALID_STATE
 import com.example.randommovie.presentation.tools.changeTitle
 import com.example.randommovie.presentation.tools.factory
+import com.example.randommovie.presentation.tools.parcelable
 
 
 class InfoFragment : BaseFragment() {
@@ -27,15 +29,8 @@ class InfoFragment : BaseFragment() {
     private lateinit var binding: FragmentInfoBinding
 
     private val movie: Movie
-        get() = when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> requireArguments().getParcelable(
-                ARG_MOVIE, Movie::class.java
-            ) ?: throw IllegalArgumentException("error")
-            else -> @Suppress("DEPRECATION")
-            requireArguments().getParcelable(
-                ARG_MOVIE
-            ) ?: throw IllegalArgumentException("error")
-        }
+        get() = requireArguments().parcelable(ARG_MOVIE)
+            ?: throw IllegalArgumentException("Can't work without movie")
 
     override fun onCreateView(
         inflater: LayoutInflater,

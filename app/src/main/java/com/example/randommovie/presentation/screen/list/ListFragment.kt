@@ -35,7 +35,7 @@ class ListFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding = FragmentListBinding.bind(view)
-
+        var listToTop = false
         binding.listTabLayout.getTabAt(viewModel.type.value)?.select() ?: throw IllegalArgumentException("Unknown tab")
 
         val adapter = MovieListAdapter(object : MovieListAdapter.ItemListener {
@@ -80,6 +80,10 @@ class ListFragment : BaseFragment() {
 
         viewModel.movieList.observe(viewLifecycleOwner){
             adapter.submitList(it)
+            if (listToTop) {
+                binding.moviesRecyclerView.smoothScrollToPosition(0)
+                listToTop = false
+            }
         }
 
         binding.listTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
@@ -88,6 +92,7 @@ class ListFragment : BaseFragment() {
                     0 -> viewModel.type.value = WATCHLIST_TYPE
                     1 -> viewModel.type.value = RATED_TYPE
                 }
+                listToTop = true
             }
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
@@ -104,7 +109,7 @@ class ListFragment : BaseFragment() {
         setupOrderDialogFragmentListener(parentFragmentManager)
         setupRatingDialogFragmentListener(parentFragmentManager)
     }
-    fun setupOrderDialogFragmentListener(manager: FragmentManager) {
+    private fun setupOrderDialogFragmentListener(manager: FragmentManager) {
         OrderDialogFragment.setupListener(manager, this) { order ->
             viewModel.order.value = order
         }
