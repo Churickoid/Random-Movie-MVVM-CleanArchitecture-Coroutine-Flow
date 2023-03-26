@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.randommovie.domain.entity.ItemFilter
-import com.example.randommovie.domain.entity.Order
+import com.example.randommovie.domain.entity.OrderFilter
 import com.example.randommovie.domain.entity.SearchFilter
 import com.example.randommovie.domain.entity.Type
 import com.example.randommovie.domain.usecases.GetCountriesUseCase
@@ -42,6 +42,7 @@ class FilterViewModel(
     val genreText: LiveData<String> = _genreText
 
 
+
     fun getGenresList() {
         viewModelScope.launch {
             try {
@@ -71,13 +72,13 @@ class FilterViewModel(
     }
 
     fun setOrderFilter(position: Int) {
-        val order = when (position) {
-            0 -> Order.RATING
-            1 -> Order.NUM_VOTE
-            2 -> Order.YEAR
+        val orderFilter = when (position) {
+            0 -> OrderFilter.RATING
+            1 -> OrderFilter.NUM_VOTE
+            2 -> OrderFilter.YEAR
             else -> throw Exception("Invalid position")
         }
-        filter = filter.copy(order = order)
+        filter = filter.copy(orderFilter = orderFilter)
     }
 
     fun setTypeFilter(position: Int) {

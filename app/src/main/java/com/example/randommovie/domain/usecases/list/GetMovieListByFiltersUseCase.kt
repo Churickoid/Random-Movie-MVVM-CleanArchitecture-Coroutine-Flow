@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 class GetMovieListByFiltersUseCase(private val listRepository: ListRepository) {
 
-    suspend operator fun invoke(type: Int,order: Int, isAsc: Boolean): Flow<List<UserInfoAndMovie>> {
+    suspend operator fun invoke(type: Int, order: Int, isAsc: Boolean): Flow<List<UserInfoAndMovie>> {
         return listRepository.getMovieListByFilters(type,order,isAsc)
     }
 }

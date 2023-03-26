@@ -11,7 +11,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import com.example.randommovie.domain.entity.ItemFilter
 
-class ListDialogFragment : DialogFragment() {
+class FilterListDialogFragment : DialogFragment() {
 
 
     private val list: ArrayList<ItemFilter>
@@ -62,7 +62,7 @@ class ListDialogFragment : DialogFragment() {
     }
 
     companion object {
-        private val TAG = ListDialogFragment::class.java.simpleName
+        private val TAG = FilterListDialogFragment::class.java.simpleName
         private const val KEY_LIST_ITEM_RESPONSE = "KEY_LIST_ITEM_RESPONSE"
 
         private const val ARG_LIST_ITEM = "ARG_LIST_ITEM"
@@ -71,7 +71,7 @@ class ListDialogFragment : DialogFragment() {
 
         fun show(manager: FragmentManager, list: List<ItemFilter>, requestKey: String) {
 
-            val dialogFragment = ListDialogFragment()
+            val dialogFragment = FilterListDialogFragment()
             val args = Bundle()
             args.putParcelableArrayList(ARG_LIST_ITEM, list as ArrayList<ItemFilter>)
             args.putString(ARG_REQUEST_KEY, requestKey)

@@ -64,7 +64,6 @@ class RatingDialogFragment : DialogFragment() {
 
         private val TAG = RatingDialogFragment::class.java.simpleName
         private const val KEY_USER_INFO_AND_MOVIE = "KEY_USER_INFO_AND_MOVIE"
-
         private const val ARG_MOVIE = "ARG_MOVIE"
 
         fun show(manager: FragmentManager, movie: Movie) {

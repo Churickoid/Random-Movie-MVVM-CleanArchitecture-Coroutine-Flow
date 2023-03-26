@@ -1,12 +1,11 @@
 package com.example.randommovie.presentation.screen.list
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.core.os.bundleOf
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
-import androidx.core.view.get
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
@@ -16,7 +15,7 @@ import com.example.randommovie.domain.ListRepository.Companion.RATED_TYPE
 import com.example.randommovie.domain.ListRepository.Companion.WATCHLIST_TYPE
 import com.example.randommovie.domain.entity.UserInfoAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment
-import com.example.randommovie.presentation.screen.filter.FilterFragment
+import com.example.randommovie.presentation.screen.RatingDialogFragment
 import com.example.randommovie.presentation.screen.info.InfoFragment
 import com.example.randommovie.presentation.tools.factory
 import com.google.android.material.tabs.TabLayout
@@ -66,11 +65,11 @@ class ListFragment : BaseFragment() {
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
                 return when (menuItem.itemId) {
                     R.id.action_sort -> {
-                        // navigate to settings screen
+                        OrderDialogFragment.show(parentFragmentManager, viewModel.order.value)
                         true
                     }
                     R.id.action_reverse -> {
-                        viewModel.isAsc.value = !viewModel.isAsc.value
+                        viewModel.reverseAsc()
                         true
                     }
                     else -> false
@@ -88,7 +87,6 @@ class ListFragment : BaseFragment() {
                 when(tab.position){
                     0 -> viewModel.type.value = WATCHLIST_TYPE
                     1 -> viewModel.type.value = RATED_TYPE
-
                 }
             }
             override fun onTabUnselected(tab: TabLayout.Tab) {}
@@ -103,15 +101,12 @@ class ListFragment : BaseFragment() {
             binding.listTabLayout.getTabAt(1)!!.text = "Rated ($it)"
         }
 
-        viewModel.toTop.observe(viewLifecycleOwner){
-            Log.e("!!!","UUU")
-            it.getValue()?.let {
-                binding.moviesRecyclerView.smoothScrollToPosition(0)
-            }
-        }
-
+        setupOrderDialogFragmentListener(parentFragmentManager)
         setupRatingDialogFragmentListener(parentFragmentManager)
     }
-
-
+    fun setupOrderDialogFragmentListener(manager: FragmentManager) {
+        OrderDialogFragment.setupListener(manager, this) { order ->
+            viewModel.order.value = order
+        }
+    }
 }

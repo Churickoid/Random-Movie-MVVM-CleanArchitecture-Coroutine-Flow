@@ -2,6 +2,7 @@ package com.example.randommovie.presentation.screen.list
 
 
 import androidx.lifecycle.*
+import com.example.randommovie.domain.ListRepository.Companion.QUEUE_ORDER
 import com.example.randommovie.domain.ListRepository.Companion.RATED_TYPE
 import com.example.randommovie.domain.ListRepository.Companion.WATCHLIST_TYPE
 import com.example.randommovie.domain.usecases.list.DeleteMovieByIdUseCase
@@ -21,15 +22,12 @@ class ListViewModel(
 
 
     val type = MutableStateFlow(WATCHLIST_TYPE)
-    val order = MutableStateFlow(0)
+    val order = MutableStateFlow(QUEUE_ORDER)
     val isAsc = MutableStateFlow(true)
 
     val watchlistCounter = getMoviesCountByTypeUseCase(WATCHLIST_TYPE).asLiveData()
     val ratedCounter = getMoviesCountByTypeUseCase(RATED_TYPE).asLiveData()
 
-
-    private val _toTop = MutableLiveData<Event<Boolean>>()
-    val toTop:LiveData<Event<Boolean>> = _toTop
 
 
     val movieList = combine(
@@ -44,7 +42,9 @@ class ListViewModel(
 
 
 
-
+    fun reverseAsc(){
+       isAsc.value = !isAsc.value
+    }
     fun deleteMovieById(id: Long) {
         viewModelScope.launch {
             deleteMovieByIdUseCase(id)

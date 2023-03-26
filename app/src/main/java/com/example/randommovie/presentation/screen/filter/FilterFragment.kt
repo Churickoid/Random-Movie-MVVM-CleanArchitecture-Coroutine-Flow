@@ -1,13 +1,10 @@
 package com.example.randommovie.presentation.screen.filter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentFilterBinding
@@ -67,7 +64,7 @@ class FilterFragment : BaseFragment() {
 
         binding.yearSlider.addOnChangeListener { slider, _, _ ->
             binding.yearTextView.text = getString(
-                R.string.year, slider.values[0].toInt(), slider.values[1].toInt()
+                R.string.year_with_ints, slider.values[0].toInt(), slider.values[1].toInt()
             )
         }
 
@@ -107,13 +104,13 @@ class FilterFragment : BaseFragment() {
         val filter = viewModel.getDefaultFilterValue()
         binding.yearSlider.setValues(filter.yearBottom.toFloat(), filter.yearTop.toFloat())
         binding.ratingSlider.setValues(filter.ratingBottom.toFloat(), filter.ratingTop.toFloat())
-        binding.yearTextView.text = getString(R.string.year, filter.yearBottom, filter.yearTop)
+        binding.yearTextView.text = getString(R.string.year_with_ints, filter.yearBottom, filter.yearTop)
 
     }
 
 
     private fun showListDialogFragment(list: List<ItemFilter>,requestKey: String) {
-        ListDialogFragment.show(parentFragmentManager, list,requestKey)
+        FilterListDialogFragment.show(parentFragmentManager, list,requestKey)
     }
 
     private fun setupListDialogListener() {
@@ -121,8 +118,8 @@ class FilterFragment : BaseFragment() {
             viewModel.listDialogHandler(requestKey,list)
             changeEditBoxState(requestKey,View.VISIBLE,View.INVISIBLE)
         }
-        ListDialogFragment.setupListener(parentFragmentManager,  REQUEST_KEY_GENRES, this,listener)
-        ListDialogFragment.setupListener(parentFragmentManager,  REQUEST_KEY_COUNTRIES, this,listener)
+        FilterListDialogFragment.setupListener(parentFragmentManager,  REQUEST_KEY_GENRES, this,listener)
+        FilterListDialogFragment.setupListener(parentFragmentManager,  REQUEST_KEY_COUNTRIES, this,listener)
     }
 
     private fun changeEditBoxState(requestKey: String, stateView: Int, stateProgressBar: Int){

@@ -33,7 +33,7 @@ class MovieRepositoryImpl(
             ratingTo = randRating + 1,
             genre = genre,
             country = country,
-            order = searchFilter.order.name,
+            order = searchFilter.orderFilter.name,
             type = searchFilter.type.name
         ).items
 
@@ -46,7 +46,7 @@ class MovieRepositoryImpl(
                 ratingTo = searchFilter.ratingTop,
                 genre = genre,
                 country = country,
-                order = searchFilter.order.name,
+                order = searchFilter.orderFilter.name,
                 type = searchFilter.type.name
             ).items
         }

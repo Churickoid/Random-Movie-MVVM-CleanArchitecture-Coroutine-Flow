@@ -13,7 +13,7 @@ interface ListRepository {
 
     fun getMoviesCountByType(type: Int) : Flow<Int>
 
-    suspend fun getMovieListByFilters(type: Int,order: Int, isAsc: Boolean): Flow<List<UserInfoAndMovie>>
+    suspend fun getMovieListByFilters(type: Int, order: Int, isAsc: Boolean): Flow<List<UserInfoAndMovie>>
 
     suspend fun addUserInfoForMovie(userInfoAndMovie: UserInfoAndMovie)
 
@@ -24,9 +24,11 @@ interface ListRepository {
         const val RATED_TYPE = 1
 
         const val QUEUE_ORDER = 0
-        const val ALPHABET_ORDER = 1
-        const val RATING_ORDER = 2
-        const val USER_RATING_ORDER = 3
+        const val ALPHABET_ORDER = 10
+        const val RATING_ORDER= 20
+        const val YEAR_ORDER = 30
+        const val USER_RATING_ORDER= 40
+
 
     }
 }

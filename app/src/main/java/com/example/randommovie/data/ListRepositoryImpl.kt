@@ -35,9 +35,18 @@ class ListRepositoryImpl(
         return moviesDao.getMoviesCountByType(type)
     }
 
-    override suspend fun getMovieListByFilters(type: Int,order: Int, isAsc: Boolean): Flow<List<UserInfoAndMovie>> {
+    override suspend fun getMovieListByFilters(type: Int, order: Int, isAsc: Boolean): Flow<List<UserInfoAndMovie>> {
         setGenresAndCountries()
-        return moviesDao.getMovieListByFilters(type,isAsc).map { list ->
+        var filter =  when (order) {
+            0 -> ListRepository.QUEUE_ORDER
+            1 -> ListRepository.ALPHABET_ORDER
+            2 -> ListRepository.RATING_ORDER
+            3 -> ListRepository.YEAR_ORDER
+            4 -> ListRepository.USER_RATING_ORDER
+            else -> throw IllegalArgumentException("Unknown id")
+        }
+        if (isAsc) filter += 1
+        return moviesDao.getMovieListByFilters(type,filter).map { list ->
             list.map {
                 //TODO МЕТОД ПЕРЕДЕЛКИ
                 UserInfoAndMovie(
