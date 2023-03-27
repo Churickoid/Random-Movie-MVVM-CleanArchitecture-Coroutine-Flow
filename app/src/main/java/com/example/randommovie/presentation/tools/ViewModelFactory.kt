@@ -16,6 +16,8 @@ class ViewModelFactory(private val app: App) : ViewModelProvider.Factory {
             MovieViewModel::class.java -> {
                 MovieViewModel(app.container.getRandomMovieUseCase,
                     app.container.getSearchFilterUseCase,
+                    app.container.getLastMovieUseCase,
+                    app.container.setLastMovieUseCase
                     )
             }
             FilterViewModel::class.java -> {

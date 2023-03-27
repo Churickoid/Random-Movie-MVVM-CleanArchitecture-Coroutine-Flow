@@ -28,7 +28,7 @@ class ListViewModel(
     val watchlistCounter = getMoviesCountByTypeUseCase(WATCHLIST_TYPE).asLiveData()
     val ratedCounter = getMoviesCountByTypeUseCase(RATED_TYPE).asLiveData()
 
-    var toTop = false
+
 
     val movieList = combine(
         type,

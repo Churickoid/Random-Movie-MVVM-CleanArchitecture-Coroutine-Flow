@@ -36,13 +36,15 @@ class MovieFragment : BaseFragment() {
             viewModel.getRandomMovie()
         }
         binding.moreButton.setOnClickListener {
+            viewModel.getCurrentMovie()?.let {
             findNavController().navigate(
                 R.id.action_movieFragment_to_informationMovieFragment,
-                bundleOf(ARG_MOVIE to viewModel.getCurrentMovie())
+                bundleOf(ARG_MOVIE to it)
             )
         }
+        }
         binding.starButton.setOnClickListener {
-            showRatingDialogFragment(parentFragmentManager, viewModel.getCurrentMovie())
+            viewModel.getCurrentMovie()?.let {showRatingDialogFragment(parentFragmentManager, it)}
         }
 
         viewModel.movie.observe(viewLifecycleOwner) { movie ->

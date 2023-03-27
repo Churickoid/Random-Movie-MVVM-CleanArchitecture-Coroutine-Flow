@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.randommovie.data.retrofit.RetrofitApiInterface
 import com.example.randommovie.data.room.dao.CountriesDao
 import com.example.randommovie.data.room.dao.GenresDao
+import com.example.randommovie.data.room.dao.ListDao
 import com.example.randommovie.data.room.dao.MoviesDao
 import com.example.randommovie.data.room.entity.*
 import com.example.randommovie.domain.ListRepository
@@ -16,7 +17,8 @@ class ListRepositoryImpl(
     private val retrofitApiInterface: RetrofitApiInterface,
     private val moviesDao: MoviesDao,
     private val countriesDao: CountriesDao,
-    private val genresDao: GenresDao
+    private val genresDao: GenresDao,
+    private val listDao: ListDao
 ) : ListRepository {
 
     private var isDataExist = false
@@ -32,7 +34,7 @@ class ListRepositoryImpl(
     }
 
     override fun getMoviesCountByType(type: Int): Flow<Int> {
-        return moviesDao.getMoviesCountByType(type)
+        return listDao.getMoviesCountByType(type)
     }
 
     override suspend fun getMovieListByFilters(type: Int, order: Int, isAsc: Boolean): Flow<List<UserInfoAndMovie>> {
@@ -46,7 +48,7 @@ class ListRepositoryImpl(
             else -> throw IllegalArgumentException("Unknown id")
         }
         if (isAsc) filter += 1
-        return moviesDao.getMovieListByFilters(type,filter).map { list ->
+        return listDao.getMovieListByFilters(type,filter).map { list ->
             list.map {(userAct, movie) ->
                 userAct.toUserInfoAndMovie(movie,
                     genresDao.getGenresByMovieId(movie.id),
@@ -63,7 +65,7 @@ class ListRepositoryImpl(
 
         moviesDao.insertMovie(MovieDb.fromMovie(movie))
 
-        moviesDao.upsertUserActionsForMovie(
+        moviesDao.insertUserActionsForMovie(
             UserActionsForMovieDb.fromUserInfoAndMovie(userInfoAndMovie)
         )
         movie.country.forEach {

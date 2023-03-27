@@ -11,5 +11,8 @@ interface MovieRepository{
 
     suspend fun getMoreInformation(id: Long): MovieExtra
 
+    suspend fun getLastMovie(): Movie?
+
+    suspend fun setLastMovie(movie:Movie)
 
 }

@@ -17,6 +17,8 @@ import com.example.randommovie.domain.usecases.list.GetMovieListByFiltersUseCase
 import com.example.randommovie.domain.usecases.list.AddUserInfoForMovieUseCase
 import com.example.randommovie.domain.usecases.list.DeleteMovieByIdUseCase
 import com.example.randommovie.domain.usecases.list.GetMoviesCountByTypeUseCase
+import com.example.randommovie.domain.usecases.movie.GetLastMovieUseCase
+import com.example.randommovie.domain.usecases.movie.SetLastMovieUseCase
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -56,16 +58,19 @@ class DependencyInjectionContainer(context:Context) {
     private val movieDao = appDatabase.moviesDao()
     private val genresDao = appDatabase.genresDao()
     private val countriesDao = appDatabase.countriesDao()
+    private val listDao = appDatabase.listDao()
 
-    private val movieRepository = MovieRepositoryImpl(retrofit)
+    private val movieRepository = MovieRepositoryImpl(retrofit,movieDao,genresDao,countriesDao)
     val getRandomMovieUseCase = GetRandomMovieUseCase(movieRepository)
     val getMoreInformationUseCase = GetMoreInformationUseCase(movieRepository)
+    val getLastMovieUseCase = GetLastMovieUseCase(movieRepository)
+    val setLastMovieUseCase = SetLastMovieUseCase(movieRepository)
 
     private val filterRepository = FilterRepositoryImpl()
     val setSearchFilterUseCase = SetSearchFilterUseCase(filterRepository)
     val getSearchFilterUseCase = GetSearchFilterUseCase(filterRepository)
 
-    private val listRepository = ListRepositoryImpl(retrofit,movieDao,countriesDao,genresDao)
+    private val listRepository = ListRepositoryImpl(retrofit,movieDao,countriesDao,genresDao,listDao)
     val getMovieListByFiltersUseCase = GetMovieListByFiltersUseCase(listRepository)
     val getMoviesCountByTypeUseCase = GetMoviesCountByTypeUseCase(listRepository)
     val getGenresUseCase = GetGenresUseCase(listRepository)

@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.example.randommovie.data.room.dao.CountriesDao
 import com.example.randommovie.data.room.dao.GenresDao
+import com.example.randommovie.data.room.dao.ListDao
 import com.example.randommovie.data.room.dao.MoviesDao
 import com.example.randommovie.data.room.entity.*
 
@@ -15,7 +16,8 @@ import com.example.randommovie.data.room.entity.*
         CountryDb::class,
         GenresForMoviesDb::class,
         CountriesForMoviesDb::class,
-        UserActionsForMovieDb::class
+        UserActionsForMovieDb::class,
+        LastMovieDb::class
     ]
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -26,4 +28,5 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun countriesDao(): CountriesDao
 
+    abstract fun listDao(): ListDao
 }

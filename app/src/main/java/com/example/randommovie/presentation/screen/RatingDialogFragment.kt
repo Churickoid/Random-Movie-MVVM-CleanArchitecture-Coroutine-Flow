@@ -44,7 +44,7 @@ class RatingDialogFragment : DialogFragment() {
     }
 
     private fun callResult(rating: Int, inWatchlist : Boolean) {
-        val userInfoAndMovie = UserInfoAndMovie(movie = movie, userRating = rating, inWatchlist = inWatchlist)
+        val userInfoAndMovie = UserInfoAndMovie(0,movie = movie, userRating = rating, inWatchlist = inWatchlist)
         parentFragmentManager.setFragmentResult(
             TAG, bundleOf(KEY_USER_INFO_AND_MOVIE to userInfoAndMovie)
         )
