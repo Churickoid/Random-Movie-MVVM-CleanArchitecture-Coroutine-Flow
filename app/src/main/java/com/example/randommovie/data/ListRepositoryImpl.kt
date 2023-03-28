@@ -2,12 +2,13 @@ package com.example.randommovie.data
 
 import android.util.Log
 import com.example.randommovie.data.retrofit.RetrofitApiInterface
-import com.example.randommovie.data.room.dao.CountriesDao
-import com.example.randommovie.data.room.dao.GenresDao
+import com.example.randommovie.data.room.dao.ItemsDao
 import com.example.randommovie.data.room.dao.ListDao
 import com.example.randommovie.data.room.dao.MoviesDao
 import com.example.randommovie.data.room.entity.*
 import com.example.randommovie.domain.ListRepository
+import com.example.randommovie.domain.ListRepository.Companion.COUNTRY_ITEM_TYPE
+import com.example.randommovie.domain.ListRepository.Companion.GENRE_ITEM_TYPE
 import com.example.randommovie.domain.entity.ItemFilter
 import com.example.randommovie.domain.entity.UserInfoAndMovie
 import kotlinx.coroutines.flow.Flow
@@ -16,8 +17,7 @@ import kotlinx.coroutines.flow.map
 class ListRepositoryImpl(
     private val retrofitApiInterface: RetrofitApiInterface,
     private val moviesDao: MoviesDao,
-    private val countriesDao: CountriesDao,
-    private val genresDao: GenresDao,
+    private val itemsDao: ItemsDao,
     private val listDao: ListDao
 ) : ListRepository {
 
@@ -25,12 +25,12 @@ class ListRepositoryImpl(
 
     override suspend fun getCountriesList(): List<ItemFilter> {
         setGenresAndCountries()
-        return countriesDao.getAllCountries().map { it.toItemFilter() }
+        return itemsDao.getAllItemsByType(COUNTRY_ITEM_TYPE).map { it.toItemFilter() }
     }
 
     override suspend fun getGenresList(): List<ItemFilter> {
         setGenresAndCountries()
-        return genresDao.getAllGenres().map { it.toItemFilter() }
+        return  itemsDao.getAllItemsByType(GENRE_ITEM_TYPE).map { it.toItemFilter() }
     }
 
     override fun getMoviesCountByType(type: Int): Flow<Int> {
@@ -51,8 +51,8 @@ class ListRepositoryImpl(
         return listDao.getMovieListByFilters(type,filter).map { list ->
             list.map {(userAct, movie) ->
                 userAct.toUserInfoAndMovie(movie,
-                    genresDao.getGenresByMovieId(movie.id),
-                    countriesDao.getCountriesByMovieId(movie.id))
+                    itemsDao.getGenresByMovieId(movie.movieId),
+                    itemsDao.getCountriesByMovieId(movie.movieId))
             }
         }
     }
@@ -62,26 +62,25 @@ class ListRepositoryImpl(
         setGenresAndCountries()
         val movie = userInfoAndMovie.movie
 
-
         moviesDao.insertMovie(MovieDb.fromMovie(movie))
-
         moviesDao.insertUserActionsForMovie(
             UserActionsForMovieDb.fromUserInfoAndMovie(userInfoAndMovie)
         )
         movie.country.forEach {
-            countriesDao.insertCountryForMovie(
-                CountriesForMoviesDb(
-                    movie.id, countriesDao.getCountryIdByName(it)
+            itemsDao.insertItemForMovie(
+                ItemsForMoviesDb(
+                    movie.id, itemsDao.getItemIdByName(it),COUNTRY_ITEM_TYPE
                 )
             )
         }
         movie.genre.forEach {
-            genresDao.insertGenreForMovie(
-                GenresForMoviesDb(
-                    movie.id, genresDao.getGenreIdByName(it)
+            itemsDao.insertItemForMovie(
+                ItemsForMoviesDb(
+                    movie.id, itemsDao.getItemIdByName(it),GENRE_ITEM_TYPE
                 )
             )
         }
+
     }
 
     override suspend fun deleteMovieById(id: Long) {
@@ -90,22 +89,22 @@ class ListRepositoryImpl(
 
     private suspend fun setGenresAndCountries() {
         if (!isDataExist) {
-            if (genresDao.getAllGenres().isEmpty() || countriesDao.getAllCountries().isEmpty()) {
+            if (itemsDao.getAllItemsByType(GENRE_ITEM_TYPE).isEmpty()) {
                 try {
                     val request = retrofitApiInterface.getGenresAndCounties()
                     request.genres.forEach {
-                        if (it.genre != "") genresDao.insertGenre(
-                            GenreDb(it.id, it.genre)
+                        if (it.genre != "") itemsDao.insertItem(
+                            ItemDb(it.id,GENRE_ITEM_TYPE,it.genre)
                         )
                     }
                     request.countries.forEach {
-                        if (it.country != "") countriesDao.insertCountry(
-                            CountryDb(it.id, it.country)
+                        if (it.country != "") itemsDao.insertItem(
+                            ItemDb(it.id,COUNTRY_ITEM_TYPE ,it.country)
                         )
                     }
                     isDataExist = true
                 } catch (e: Exception) {
-                    Log.e("!!!!", "Need Internet connection to get genres list in local database")
+                    Log.e("!!!!", e.toString())
                 }
 
 

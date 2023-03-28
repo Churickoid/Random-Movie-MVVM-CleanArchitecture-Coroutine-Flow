@@ -30,7 +30,7 @@ class MovieViewModel(
     private val _error = MutableLiveData<Event<String?>>()
     val error: LiveData<Event<String?>> = _error
 
-    init {
+  init {
         viewModelScope.launch{
                 _movie.value = getLastMovieUseCase() ?: Movie(
                     id = 17115,
@@ -41,8 +41,7 @@ class MovieViewModel(
                     year = 1996,
                     ratingKP = 7.0,
                     ratingIMDB = 7.3,
-                    country = listOf("Дания")
-                )  //TODO добавить статус старта
+                    country = listOf("Дания"))
         }
     }
 

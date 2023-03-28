@@ -35,7 +35,7 @@ data class Item(
             id = this.kinopoiskId,
             titleMain = firstTitle,
             titleSecond = secondTitle,
-            posterUrl = this.posterUrl,
+            posterUrl = this.posterUrlPreview,
             genre = genre,
             country = country,
             year = this.year,

@@ -11,11 +11,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentListBinding
-import com.example.randommovie.domain.ListRepository.Companion.RATED_TYPE
-import com.example.randommovie.domain.ListRepository.Companion.WATCHLIST_TYPE
+import com.example.randommovie.domain.ListRepository.Companion.RATED_LIST_TYPE
+import com.example.randommovie.domain.ListRepository.Companion.WATCH_LIST_TYPE
 import com.example.randommovie.domain.entity.UserInfoAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment
-import com.example.randommovie.presentation.screen.RatingDialogFragment
 import com.example.randommovie.presentation.screen.info.InfoFragment
 import com.example.randommovie.presentation.tools.factory
 import com.google.android.material.tabs.TabLayout
@@ -89,8 +88,8 @@ class ListFragment : BaseFragment() {
         binding.listTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab) {
                 when(tab.position){
-                    0 -> viewModel.type.value = WATCHLIST_TYPE
-                    1 -> viewModel.type.value = RATED_TYPE
+                    0 -> viewModel.type.value = WATCH_LIST_TYPE
+                    1 -> viewModel.type.value = RATED_LIST_TYPE
                 }
                 listToTop = true
             }

@@ -1,10 +1,13 @@
 package com.example.randommovie.data
 
+import android.util.Log
 import com.example.randommovie.data.retrofit.RetrofitApiInterface
-import com.example.randommovie.data.room.dao.CountriesDao
-import com.example.randommovie.data.room.dao.GenresDao
+import com.example.randommovie.data.room.dao.ItemsDao
 import com.example.randommovie.data.room.dao.MoviesDao
-import com.example.randommovie.data.room.entity.*
+import com.example.randommovie.data.room.entity.ItemsForMoviesDb
+import com.example.randommovie.data.room.entity.MovieDb
+import com.example.randommovie.data.room.entity.UserActionsForMovieDb
+import com.example.randommovie.domain.ListRepository
 import com.example.randommovie.domain.MovieRepository
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.MovieExtra
@@ -16,8 +19,7 @@ import kotlin.random.Random
 class MovieRepositoryImpl(
     private val retrofitApiInterface: RetrofitApiInterface,
     private val moviesDao: MoviesDao,
-    private val genresDao: GenresDao,
-    private val countriesDao: CountriesDao
+    private val itemsDao: ItemsDao,
 ) : MovieRepository {
 
 
@@ -81,29 +83,30 @@ class MovieRepositoryImpl(
         )
     }
 
-    override suspend fun getLastMovie(): Movie?= withContext(Dispatchers.IO){
-        val movieId = moviesDao.getLastMovieId() ?: return@withContext null
-        return@withContext moviesDao.findMovieById(movieId).toMovie(
-            genresDao.getGenresByMovieId(movieId),
-            countriesDao.getCountriesByMovieId(movieId)
+    override suspend fun getLastMovie(): Movie? = withContext(Dispatchers.IO) {
+        val lastMovie = moviesDao.getLastMovie()
+        return@withContext lastMovie?.toMovie(
+            itemsDao.getGenresByMovieId(lastMovie.id),
+            itemsDao.getCountriesByMovieId(lastMovie.id)
         )
+
     }
 
-    override suspend fun setLastMovie(movie: Movie) {
-        moviesDao.deleteMovieById(moviesDao.getLastMovieId()!!)
+    override suspend fun setLastMovie(movie: Movie) = withContext(Dispatchers.IO) {
+        val lastMovieId = moviesDao.getLastMovie()?.movieId ?: -1
+        if (!moviesDao.existIdInUserTable(lastMovieId)) moviesDao.deleteMovieById(lastMovieId)
         moviesDao.insertMovie(MovieDb.fromMovie(movie))
-        moviesDao.insertLastMovie(LastMovieDb(0,movie.id))
         movie.country.forEach {
-            countriesDao.insertCountryForMovie(
-                CountriesForMoviesDb(
-                    movie.id, countriesDao.getCountryIdByName(it)
+            itemsDao.insertItemForMovie(
+                ItemsForMoviesDb(
+                    movie.id, itemsDao.getItemIdByName(it), ListRepository.COUNTRY_ITEM_TYPE
                 )
             )
         }
         movie.genre.forEach {
-            genresDao.insertGenreForMovie(
-                GenresForMoviesDb(
-                    movie.id, genresDao.getGenreIdByName(it)
+            itemsDao.insertItemForMovie(
+                ItemsForMoviesDb(
+                    movie.id, itemsDao.getItemIdByName(it), ListRepository.GENRE_ITEM_TYPE
                 )
             )
         }

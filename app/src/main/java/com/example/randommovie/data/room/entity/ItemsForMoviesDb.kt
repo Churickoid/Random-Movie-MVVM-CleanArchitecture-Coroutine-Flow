@@ -5,26 +5,27 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 
 @Entity(
-    tableName = "genres_for_movies",
-    primaryKeys = ["movie_id", "genre_id"],
+    tableName = "items_for_movies",
+    primaryKeys = ["movie_id", "item_id"],
     foreignKeys = [
         ForeignKey(
             entity = MovieDb::class,
-            parentColumns = ["id"],
+            parentColumns = ["movie_id"],
             childColumns = ["movie_id"],
             onDelete = ForeignKey.CASCADE,
             onUpdate = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = GenreDb::class,
-            parentColumns = ["id"],
-            childColumns = ["genre_id"],
+            entity = ItemDb::class,
+            parentColumns = ["id", "type"],
+            childColumns = ["item_id","type"],
             onDelete = ForeignKey.CASCADE,
             onUpdate = ForeignKey.CASCADE
         )
     ]
 )
-data class GenresForMoviesDb(
+data class ItemsForMoviesDb(
     @ColumnInfo("movie_id",index = true) val movieId: Long,
-    @ColumnInfo("genre_id") val genreId: Long
+    @ColumnInfo("item_id") val itemId: Int,
+    @ColumnInfo("type") val type: Int,
 )

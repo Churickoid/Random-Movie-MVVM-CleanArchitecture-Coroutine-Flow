@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface ListDao {
     @Query(
         "SELECT * FROM user_actions_for_movie " +
-                "JOIN movies ON movies.id = user_actions_for_movie.movie_id "+
+                "JOIN movies ON movies.movie_id = user_actions_for_movie.movie_id "+
                 "WHERE CASE WHEN :type = 0 THEN user_actions_for_movie.in_watchlist = 1 " +
                 "WHEN :type = 1 THEN user_actions_for_movie.rating > 0 END " +
                 "ORDER BY CASE WHEN :filter = 0 THEN user_actions_for_movie.id END DESC, " +

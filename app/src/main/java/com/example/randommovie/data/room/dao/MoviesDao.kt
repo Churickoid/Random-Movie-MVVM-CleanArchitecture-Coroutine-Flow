@@ -1,10 +1,8 @@
 package com.example.randommovie.data.room.dao
 
 import androidx.room.*
-import com.example.randommovie.data.room.entity.LastMovieDb
 import com.example.randommovie.data.room.entity.MovieDb
 import com.example.randommovie.data.room.entity.UserActionsForMovieDb
-import kotlinx.coroutines.flow.Flow
 
 
 @Dao
@@ -20,14 +18,10 @@ interface MoviesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUserActionsForMovie(userActionsForMovieDb: UserActionsForMovieDb)
 
-    @Query("SELECT movie_id FROM last_movie")
-    fun getLastMovieId() : Long?
+    @Query("SELECT * FROM movies ORDER BY id DESC LIMIT 1")
+    fun getLastMovie() : MovieDb?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertLastMovie(lastMovieDb: LastMovieDb)
-
-    @Query("SELECT * FROM movies WHERE id = :movieId")
-    fun findMovieById(movieId: Long): MovieDb
-
+    @Query("SELECT EXISTS(SELECT * from user_actions_for_movie WHERE movie_id = :movieId)")
+    fun existIdInUserTable(movieId:Long): Boolean
 
 }

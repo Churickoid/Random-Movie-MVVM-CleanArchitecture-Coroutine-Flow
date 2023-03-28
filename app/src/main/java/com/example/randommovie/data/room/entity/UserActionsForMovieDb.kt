@@ -12,7 +12,7 @@ import com.example.randommovie.domain.entity.UserInfoAndMovie
     foreignKeys = [
         androidx.room.ForeignKey(
             entity = MovieDb::class,
-            parentColumns = ["id"],
+            parentColumns = ["movie_id"],
             childColumns = ["movie_id"],
             onDelete = androidx.room.ForeignKey.CASCADE,
             onUpdate = androidx.room.ForeignKey.CASCADE

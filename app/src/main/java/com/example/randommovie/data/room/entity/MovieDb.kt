@@ -2,15 +2,20 @@ package com.example.randommovie.data.room.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.example.randommovie.domain.entity.Movie
 
 
 @Entity(
-    tableName = "movies"
+    tableName = "movies",
+    indices = [
+        Index("movie_id", unique = true)
+    ]
 )
 data class MovieDb(
-    @PrimaryKey(autoGenerate = false) val id: Long,
+    @PrimaryKey(autoGenerate = true) val id: Long,
+    @ColumnInfo("movie_id") val movieId: Long,
     @ColumnInfo("title_main") val titleMain: String,
     @ColumnInfo("title_second") val titleSecond: String,
     @ColumnInfo("poster_url") val posterUrl: String,
@@ -21,7 +26,7 @@ data class MovieDb(
 ) {
 
     fun toMovie(genres: List<String>,countries: List<String>): Movie = Movie(
-        id = this.id,
+        id = this.movieId,
         titleMain = this.titleMain,
         titleSecond = this.titleSecond,
         posterUrl = this.posterUrl,
@@ -34,6 +39,7 @@ data class MovieDb(
 
     companion object{
         fun fromMovie(movie: Movie): MovieDb = MovieDb(
+            0,
             movie.id,
             movie.titleMain,
             movie.titleSecond,
