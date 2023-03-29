@@ -4,7 +4,7 @@ data class SearchFilter(
     val yearBottom: Int = 1980,
     val yearTop: Int = 2022,
     val ratingBottom: Int = 6,
-    val ratingTop: Int = 8,
+    val ratingTop: Int = 9,
     val orderFilter:OrderFilter = OrderFilter.RATING,
     val type: Type = Type.FILM,
     val genres: List<Int> = listOf(),

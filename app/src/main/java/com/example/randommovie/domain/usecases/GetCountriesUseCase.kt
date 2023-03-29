@@ -3,11 +3,10 @@ package com.example.randommovie.domain.usecases
 import com.example.randommovie.domain.FilterRepository
 import com.example.randommovie.domain.ListRepository
 import com.example.randommovie.domain.entity.ItemFilter
-import com.example.randommovie.domain.entity.SearchFilter
 
-class GetCountriesUseCase(private val listRepository: ListRepository
+class GetCountriesUseCase(private val filterRepository: FilterRepository
 ) {
    suspend operator fun invoke(): List<ItemFilter>{
-       return listRepository.getCountriesList()
+       return filterRepository.getCountriesList()
     }
 }

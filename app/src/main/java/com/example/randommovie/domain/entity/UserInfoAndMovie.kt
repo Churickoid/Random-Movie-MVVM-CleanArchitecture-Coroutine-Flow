@@ -7,8 +7,8 @@ import kotlinx.parcelize.Parcelize
 data class UserInfoAndMovie(
     val id : Long = AUTO_GENERATED,
     val movie: Movie,
-    val userRating: Int,
-    val inWatchlist: Boolean
+    val userRating: Int = 0,
+    val inWatchlist: Boolean = false
 ):Parcelable{
     companion object{
         const val AUTO_GENERATED: Long = 0

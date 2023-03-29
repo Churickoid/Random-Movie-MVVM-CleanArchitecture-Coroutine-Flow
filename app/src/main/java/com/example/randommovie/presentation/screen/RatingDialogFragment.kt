@@ -2,32 +2,27 @@ package com.example.randommovie.presentation.screen
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.os.Build
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import com.example.randommovie.databinding.DialogRatingBinding
-import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.UserInfoAndMovie
-import com.example.randommovie.presentation.screen.filter.FilterListDialogFragment
 import com.example.randommovie.presentation.tools.parcelable
-import com.example.randommovie.presentation.tools.parcelableArrayList
 
 class RatingDialogFragment : DialogFragment() {
 
-    private val movie: Movie
+    private val userInfoAndMovie: UserInfoAndMovie
         get() = requireArguments().parcelable(ARG_MOVIE)
             ?: throw IllegalArgumentException("Can't work without movie")
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val binding = DialogRatingBinding.inflate(layoutInflater)
+        changeUi(binding,userInfoAndMovie.userRating,userInfoAndMovie.inWatchlist)
 
         binding.ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
-            binding.selectedRatingTextView.text = rating.toInt().toString()
-            binding.selectedRatingTextView.background
-                .setTint(getRatingColor(rating.toDouble(),requireContext()))
+            changeUi(binding,rating.toInt(), binding.watchlistCheckBox.isChecked)
         }
 
 
@@ -44,10 +39,19 @@ class RatingDialogFragment : DialogFragment() {
     }
 
     private fun callResult(rating: Int, inWatchlist : Boolean) {
-        val userInfoAndMovie = UserInfoAndMovie(0,movie = movie, userRating = rating, inWatchlist = inWatchlist)
+        val userInfoAndMovie = UserInfoAndMovie(0,movie = userInfoAndMovie.movie, userRating = rating, inWatchlist = inWatchlist)
         parentFragmentManager.setFragmentResult(
             TAG, bundleOf(KEY_USER_INFO_AND_MOVIE to userInfoAndMovie)
         )
+    }
+
+    private fun changeUi(binding: DialogRatingBinding, rating: Int, inWatchlist: Boolean){
+        val ratingText = if(rating == 0)"?" else rating.toString()
+        binding.selectedRatingTextView.text = ratingText
+        binding.selectedRatingTextView.background
+            .setTint(getRatingColor(rating.toDouble(),requireContext()))
+        binding.watchlistCheckBox.isChecked = inWatchlist
+        binding.ratingBar.rating = rating.toFloat()
     }
 
     companion object {
@@ -56,7 +60,7 @@ class RatingDialogFragment : DialogFragment() {
         private const val KEY_USER_INFO_AND_MOVIE = "KEY_USER_INFO_AND_MOVIE"
         private const val ARG_MOVIE = "ARG_MOVIE"
 
-        fun show(manager: FragmentManager, movie: Movie) {
+        fun show(manager: FragmentManager, movie: UserInfoAndMovie) {
             val dialogFragment = RatingDialogFragment()
             dialogFragment.arguments = bundleOf(ARG_MOVIE to movie)
             dialogFragment.show(manager, TAG)

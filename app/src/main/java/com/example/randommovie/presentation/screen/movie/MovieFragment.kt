@@ -9,8 +9,10 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentMovieBinding
+import com.example.randommovie.domain.entity.UserInfoAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_MOVIE
 import com.example.randommovie.presentation.tools.factory
@@ -44,7 +46,7 @@ class MovieFragment : BaseFragment() {
         }
         }
         binding.starButton.setOnClickListener {
-            viewModel.getCurrentMovie()?.let {showRatingDialogFragment(parentFragmentManager, it)}
+            viewModel.getCurrentMovie()?.let {showRatingDialogFragment(parentFragmentManager, UserInfoAndMovie(movie = it))}
         }
 
         viewModel.movie.observe(viewLifecycleOwner) { movie ->
@@ -61,7 +63,7 @@ class MovieFragment : BaseFragment() {
 
             Glide.with(this@MovieFragment)
                 .load(movie.posterUrl)
-                .skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .into(binding.posterImageView)
 
         }
@@ -75,6 +77,19 @@ class MovieFragment : BaseFragment() {
             it.getValue()?.let { massage ->
                 Toast.makeText(requireContext(), massage, Toast.LENGTH_SHORT).show()
             }
+        }
+        viewModel.isFirst.observe(viewLifecycleOwner) {
+            if(it){
+                binding.startTextView.visibility = View.VISIBLE
+                binding.extraActionsGroup.visibility = View.INVISIBLE
+                binding.movieGroup.visibility = View.INVISIBLE
+            }else{
+                binding.startTextView.visibility = View.INVISIBLE
+                binding.extraActionsGroup.visibility = View.VISIBLE
+                binding.movieGroup.visibility = View.VISIBLE
+            }
+
+
         }
 
         setupRatingDialogFragmentListener(parentFragmentManager)

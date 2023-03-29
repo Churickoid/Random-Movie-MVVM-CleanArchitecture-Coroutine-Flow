@@ -5,8 +5,8 @@ import com.example.randommovie.domain.ListRepository
 import com.example.randommovie.domain.entity.ItemFilter
 import com.example.randommovie.domain.entity.SearchFilter
 
-class GetGenresUseCase( private val listRepository: ListRepository) {
+class GetGenresUseCase( private val filterRepository: FilterRepository) {
     suspend operator fun invoke(): List<ItemFilter>{
-        return listRepository.getGenresList()
+        return filterRepository.getGenresList()
     }
 }

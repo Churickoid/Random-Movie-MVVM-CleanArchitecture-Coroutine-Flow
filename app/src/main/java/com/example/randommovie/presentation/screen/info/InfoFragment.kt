@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentInfoBinding
 import com.example.randommovie.domain.entity.Movie
@@ -89,12 +90,12 @@ class InfoFragment : BaseFragment() {
             if (movieExtra.headerUrl != null) {
                 Glide.with(this@InfoFragment)
                     .load(movieExtra.headerUrl)
-                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(binding.headerImageView)
             } else {
                 Glide.with(this@InfoFragment)
                     .load(movieExtra.posterUrlHQ)
-                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .centerCrop()
                     .into(binding.headerImageView)
 

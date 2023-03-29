@@ -14,6 +14,4 @@ class BaseViewModel(private val addUserInfoForMovieUseCase: AddUserInfoForMovieU
             addUserInfoForMovieUseCase(userInfoAndMovie)
         }
     }
-
-    //TODO добавить перехватчик ошибки и вывод тоста =)
 }

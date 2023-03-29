@@ -10,9 +10,7 @@ import com.example.randommovie.domain.usecases.movie.GetLastMovieUseCase
 import com.example.randommovie.domain.usecases.movie.GetRandomMovieUseCase
 import com.example.randommovie.domain.usecases.movie.SetLastMovieUseCase
 import com.example.randommovie.presentation.tools.Event
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MovieViewModel(
     private val getRandomMovieUseCase: GetRandomMovieUseCase,
@@ -30,18 +28,15 @@ class MovieViewModel(
     private val _error = MutableLiveData<Event<String?>>()
     val error: LiveData<Event<String?>> = _error
 
-  init {
-        viewModelScope.launch{
-                _movie.value = getLastMovieUseCase() ?: Movie(
-                    id = 17115,
-                    titleMain = "Дилер",
-                    titleSecond = "Pusher",
-                    posterUrl = "https://kinopoiskapiunofficial.tech/images/posters/kp_small/17115.jpg",
-                    genre = listOf("триллер", "драма", "криминал"),
-                    year = 1996,
-                    ratingKP = 7.0,
-                    ratingIMDB = 7.3,
-                    country = listOf("Дания"))
+    private val _isFirst = MutableLiveData<Boolean>()
+    val isFirst: LiveData<Boolean> = _isFirst
+
+    init {
+        viewModelScope.launch {
+            val lastMovie = getLastMovieUseCase()
+            if (lastMovie == null) _isFirst.value = true
+            else {_movie.value = lastMovie
+                _isFirst.value = false}
         }
     }
 
@@ -52,6 +47,7 @@ class MovieViewModel(
                 val movie = getRandomMovieUseCase(searchFilterUseCase())
                 _movie.value = movie
                 setLastMovieUseCase(movie)
+                if (_isFirst.value!!) _isFirst.value = false
             } catch (e: Exception) {
                 _error.value = Event(e.message)
             } finally {

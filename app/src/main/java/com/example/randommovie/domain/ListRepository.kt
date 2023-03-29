@@ -6,10 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface ListRepository {
 
-    suspend fun getCountriesList(): List<ItemFilter>
-
-    suspend fun getGenresList(): List<ItemFilter>
-
 
     fun getMoviesCountByType(type: Int) : Flow<Int>
 

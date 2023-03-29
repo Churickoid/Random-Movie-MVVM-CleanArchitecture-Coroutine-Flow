@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import com.example.randommovie.R
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.Movie.Companion.RATING_NULL
+import com.example.randommovie.domain.entity.UserInfoAndMovie
 import com.example.randommovie.presentation.screen.list.ListViewModel
 import com.example.randommovie.presentation.screen.list.MovieListAdapter
 import com.example.randommovie.presentation.tools.factory
@@ -22,7 +23,7 @@ open class BaseFragment : Fragment() {
     }
 
 
-    fun showRatingDialogFragment(manager:FragmentManager, movie: Movie){
+    fun showRatingDialogFragment(manager:FragmentManager, movie: UserInfoAndMovie){
         RatingDialogFragment.show(manager,movie)
     }
     fun setupRatingDialogFragmentListener(manager:FragmentManager) {

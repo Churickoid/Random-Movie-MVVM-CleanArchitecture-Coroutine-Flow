@@ -48,7 +48,7 @@ class ListFragment : BaseFragment() {
                 viewModel.deleteMovieById(infoAndMovie.movie.id)
 
             override fun onChangeInfo(infoAndMovie: UserInfoAndMovie) =
-                showRatingDialogFragment(parentFragmentManager,infoAndMovie.movie )//TODO("изменить на инфо")
+                showRatingDialogFragment(parentFragmentManager,infoAndMovie )
 
 
         })
