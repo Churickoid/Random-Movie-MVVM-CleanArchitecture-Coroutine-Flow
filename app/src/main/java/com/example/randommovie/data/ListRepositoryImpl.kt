@@ -32,7 +32,7 @@ class ListRepositoryImpl(
     }
 
     override suspend fun getMovieListByFilters(type: Int, order: Int, isAsc: Boolean): Flow<List<UserInfoAndMovie>> {
-        var filter = type * 10
+        var filter = order * 10
         if (isAsc) filter += 1
         return listDao.getMovieListByFilters(type, filter).map { list ->
             list.map { (userAct, movie) ->

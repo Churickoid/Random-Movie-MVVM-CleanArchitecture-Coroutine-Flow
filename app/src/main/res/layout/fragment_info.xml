@@ -11,24 +11,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="invisible"
-        />
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/retryButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Retry"
+        android:text="@string/retry"
         android:textSize="24sp"
-        android:visibility="invisible"
-        />
+        android:visibility="invisible" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
-        >
+        android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/infoLayout"
@@ -37,13 +34,13 @@
 
             <ImageView
                 android:id="@+id/headerImageView"
+                android:src="@drawable/blanked_image"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
-
+                android:contentDescription="@string/movie_poster"
                 android:maxHeight="300dp"
                 android:scaleType="center"
-                android:src="@drawable/blanked_image"
                 app:layout_constraintBottom_toTopOf="@id/titleMainTextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +52,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
-                android:text="Анонер"
                 android:textColor="@color/black"
                 android:textSize="28sp"
                 android:textStyle="bold"
@@ -67,7 +63,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
-                android:text="Anonymous"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/titleMainTextView" />
@@ -78,9 +73,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
-                android:text="Фильм"
-                android:textStyle="bold"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/titleExtraTextView" />
 
@@ -89,8 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
-                android:text="2024"
-                android:paddingBottom="24dp"
+                android:paddingBottom="16dp"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -102,63 +95,78 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
-                android:text="СССР"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/yearTextView" />
+
             <TextView
                 android:id="@+id/genreTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
-                android:text="триллер, ужасы"
-                android:textStyle="bold"
                 android:textSize="20sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/countryTextView" />
-
 
             <TextView
                 android:id="@+id/lengthTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
-                android:paddingBottom="24dp"
-                android:text="1ч 55мин"
+                android:paddingBottom="16dp"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/genreTextView" />
 
             <Button
-                android:id="@+id/detailsButton"
+                android:id="@+id/detailsKpButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="18dp"
-                android:text="Details"
-
-                android:textSize="24sp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="6dp"
+                android:text="@string/kinopoisk_link"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@id/detailsImdbButton"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/kinopoiskImageView" />
+                app:layout_constraintTop_toBottomOf="@id/lengthTextView"
+                app:layout_constraintWidth_max="300dp" />
+
+            <Button
+                android:id="@+id/detailsImdbButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="12dp"
+                android:text="@string/imdb_link"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/detailsKpButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/detailsKpButton"
+                app:layout_constraintTop_toTopOf="@id/detailsKpButton" />
+
 
             <ImageView
                 android:id="@+id/kinopoiskImageView"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_marginStart="16dp"
+                android:contentDescription="@string/kinopoisk_logo"
                 android:src="@drawable/logo_kinopoisk"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/lengthTextView" />
+                app:layout_constraintEnd_toStartOf="@id/kinopoiskRateTextView"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="@id/detailsKpButton"
+                app:layout_constraintTop_toBottomOf="@id/detailsKpButton" />
 
             <TextView
                 android:id="@+id/kinopoiskRateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="8.4"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@id/kinopoiskImageView"
+                app:layout_constraintEnd_toStartOf="@id/kinopoiskVoteTextView"
                 app:layout_constraintStart_toEndOf="@id/kinopoiskImageView"
                 app:layout_constraintTop_toTopOf="@id/kinopoiskImageView" />
 
@@ -166,33 +174,48 @@
                 android:id="@+id/kinopoiskVoteTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="23441"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 android:textStyle="italic"
                 app:layout_constraintBottom_toBottomOf="@id/kinopoiskRateTextView"
+                app:layout_constraintEnd_toEndOf="@id/detailsKpButton"
                 app:layout_constraintStart_toEndOf="@id/kinopoiskRateTextView" />
 
             <ImageView
                 android:id="@+id/imdbImageView"
                 android:layout_width="56dp"
                 android:layout_height="28dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
+                android:contentDescription="@string/imdb_logo"
                 android:src="@drawable/logo_imdb"
                 app:layout_constraintBottom_toBottomOf="@id/kinopoiskImageView"
-                app:layout_constraintStart_toEndOf="@id/kinopoiskVoteTextView"
+                app:layout_constraintEnd_toStartOf="@id/imdbRateTextView"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="@id/detailsImdbButton"
                 app:layout_constraintTop_toTopOf="@id/kinopoiskImageView" />
 
             <TextView
                 android:id="@+id/imdbRateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="8.5"
                 android:textSize="28sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@id/imdbImageView"
+                app:layout_constraintEnd_toStartOf="@id/imdbVoteTextView"
                 app:layout_constraintStart_toEndOf="@id/imdbImageView"
                 app:layout_constraintTop_toTopOf="@id/imdbImageView" />
+
+            <TextView
+                android:id="@+id/imdbVoteTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="@id/imdbRateTextView"
+                app:layout_constraintEnd_toEndOf="@id/detailsImdbButton"
+                app:layout_constraintStart_toEndOf="@id/imdbRateTextView" />
+
 
             <TextView
                 android:id="@+id/descriptionTextView"
@@ -200,23 +223,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="8dp"
-                android:text="Чел попал в плен жесткой организации ананимусов и пожалел о том, что родился на этот свет. Ему некуда бежать, лишь Чамскраббер может помочь ему. Годы беготни,и всё напрасно? Фильм раскрывает все насущные проблемы поколения Z, заигрывает с такими понятиями как рефлексия, сублимация, трансцендентность... В общем зрелище не для слабонервных. "
+                android:text=""
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/detailsButton" />
+                app:layout_constraintTop_toBottomOf="@id/kinopoiskImageView" />
 
-            <TextView
-                android:id="@+id/imdbVoteTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="23441"
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                android:textStyle="italic"
-                app:layout_constraintBottom_toBottomOf="@id/imdbRateTextView"
-                app:layout_constraintStart_toEndOf="@id/imdbRateTextView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

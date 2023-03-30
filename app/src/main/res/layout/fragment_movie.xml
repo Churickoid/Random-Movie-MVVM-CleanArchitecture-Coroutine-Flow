@@ -7,11 +7,26 @@
     tools:context=".presentation.screen.movie.MovieFragment">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
+        android:id="@+id/centerGuideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/topGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2"  />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottomGuideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8"  />
 
     <ImageView
         android:id="@+id/posterImageView"
@@ -21,8 +36,9 @@
         app:layout_constraintDimensionRatio="W,1:0.7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toTopOf="@id/topGuideline"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:contentDescription="@string/movie_poster" />
 
     <TextView
         android:id="@+id/titleMainTextView"
@@ -68,7 +84,7 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/kinopoisk_logo"
         android:src="@drawable/logo_kinopoisk"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/bottomGuideline"
         app:layout_constraintEnd_toStartOf="@id/kinopoiskRateTextView"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
@@ -81,7 +97,7 @@
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/kinopoiskImageView"
-        app:layout_constraintEnd_toEndOf="@id/guideline"
+        app:layout_constraintEnd_toEndOf="@id/centerGuideline"
         app:layout_constraintStart_toEndOf="@id/kinopoiskImageView"
         app:layout_constraintTop_toTopOf="@id/kinopoiskImageView" />
 
@@ -94,7 +110,7 @@
         app:layout_constraintBottom_toBottomOf="@id/kinopoiskImageView"
         app:layout_constraintEnd_toStartOf="@id/imdbRateTextView"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toEndOf="@id/guideline"
+        app:layout_constraintStart_toEndOf="@id/centerGuideline"
         app:layout_constraintTop_toTopOf="@id/kinopoiskImageView" />
 
     <TextView
@@ -142,7 +158,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/moreButton"
         app:layout_constraintStart_toEndOf="@id/starButton"
-        app:layout_constraintTop_toBottomOf="@id/kinopoiskImageView"
+        app:layout_constraintTop_toBottomOf="@id/bottomGuideline"
         app:maxImageSize="32dp"
         app:tint="@android:color/white" />
 
@@ -169,13 +185,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/kinopoiskImageView" />
+        app:layout_constraintTop_toTopOf="@id/bottomGuideline" />
 
     <androidx.constraintlayout.widget.Group
-        android:visibility="invisible"
+        android:visibility="visible"
         android:id="@+id/movieGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:constraint_referenced_ids="posterImageView,titleMainTextView,titleExtraTextView,genresTextView,kinopoiskImageView,imdbImageView,imdbRateTextView,kinopoiskRateTextView" />
 
     <androidx.constraintlayout.widget.Group
@@ -193,9 +213,11 @@
         android:textSize="26sp"
         android:text="@string/start_title"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/bottomGuideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

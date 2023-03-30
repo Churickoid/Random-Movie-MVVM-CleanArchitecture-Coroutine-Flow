@@ -7,8 +7,8 @@ import com.example.randommovie.data.ListRepositoryImpl
 import com.example.randommovie.data.MovieRepositoryImpl
 import com.example.randommovie.data.retrofit.RetrofitApiInterface
 import com.example.randommovie.data.room.AppDatabase
-import com.example.randommovie.domain.usecases.GetCountriesUseCase
-import com.example.randommovie.domain.usecases.GetGenresUseCase
+import com.example.randommovie.domain.usecases.filter.GetCountriesUseCase
+import com.example.randommovie.domain.usecases.filter.GetGenresUseCase
 import com.example.randommovie.domain.usecases.filter.GetSearchFilterUseCase
 import com.example.randommovie.domain.usecases.movie.GetRandomMovieUseCase
 import com.example.randommovie.domain.usecases.filter.SetSearchFilterUseCase

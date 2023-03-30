@@ -3,7 +3,6 @@ package com.example.randommovie.presentation.screen.info
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +15,6 @@ import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentInfoBinding
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.presentation.screen.BaseFragment
-import com.example.randommovie.presentation.screen.RatingDialogFragment
 import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.LOADING_STATE
 import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.VALID_STATE
 import com.example.randommovie.presentation.tools.changeTitle
@@ -100,27 +98,35 @@ class InfoFragment : BaseFragment() {
                     .into(binding.headerImageView)
 
             }
-            binding.detailsButton.setOnClickListener {
+            binding.detailsKpButton.setOnClickListener {
                 val urlTag = if (movieExtra.isMovie) "film" else "series"
-                val url = "https://www.kinopoisk.ru/${urlTag}/${movie.id}"
-                try {
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse(url)
-                    intent.setPackage("ru.kinopoisk")
-                    startActivity(intent)
-                } catch (e: ActivityNotFoundException) {
-                    startActivity(
-                        Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse(url)
-                        )
-                    )
-                }
+                val url = "https://www.kinopoisk.ru/$urlTag/${movie.id}"
+                createUrlIntent(url,"ru.kinopoisk")
+            }
+            binding.detailsImdbButton.setOnClickListener {
+                val url = "https://www.imdb.com/title/${movieExtra.imdbId}/"
+                createUrlIntent(url,"com.imdb.mobile")
             }
 
         }
 
 
+    }
+
+    private fun createUrlIntent(url: String, appPackage: String){
+        try {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            intent.setPackage(appPackage)
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse(url)
+                )
+            )
+        }
     }
 
 

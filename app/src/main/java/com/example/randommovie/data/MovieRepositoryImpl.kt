@@ -77,6 +77,7 @@ class MovieRepositoryImpl(
         val isMovie = (request.type != "TV_SERIES")
 
         return MovieExtra(
+            imdbId= request.imdbId,
             headerUrl = request.coverUrl,
             posterUrlHQ = request.posterUrl,
             description = request.description,

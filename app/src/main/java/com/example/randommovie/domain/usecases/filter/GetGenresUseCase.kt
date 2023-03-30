@@ -1,4 +1,4 @@
-package com.example.randommovie.domain.usecases
+package com.example.randommovie.domain.usecases.filter
 
 import com.example.randommovie.domain.FilterRepository
 import com.example.randommovie.domain.ListRepository

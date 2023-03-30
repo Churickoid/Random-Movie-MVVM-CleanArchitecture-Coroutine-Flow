@@ -21,6 +21,10 @@
     <string name="rate_movie">rate movie</string>
     <string name="more_info">more info</string>
     <string name="start_title">Let\'s start!\n Press the button</string>
+    <string name="kinopoisk_link">Kinopoisk link</string>
+    <string name="imdb_link">Imdb link</string>
+    <string name="movie_poster">Movie poster</string>
+    <string name="retry">Retry</string>
 
 
     <string-array name="orderFilter">
