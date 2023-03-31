@@ -14,7 +14,7 @@ data class MovieIdRequest(
     val genres: List<Genre>,
     val has3D: Boolean,
     val hasImax: Boolean,
-    val imdbId: String,
+    val imdbId: String?,
     val isTicketsAvailable: Boolean,
     val kinopoiskId: Int,
     val lastSync: String,

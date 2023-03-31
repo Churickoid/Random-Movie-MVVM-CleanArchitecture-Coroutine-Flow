@@ -3,6 +3,7 @@ package com.example.randommovie.presentation.screen.list
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -10,16 +11,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.randommovie.R
 import com.example.randommovie.databinding.ItemMovieBinding
-import com.example.randommovie.domain.entity.UserInfoAndMovie
+import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.presentation.screen.getRatingColor
 import com.example.randommovie.presentation.screen.list.MovieListAdapter.MovieViewHolder
 
 class MovieListAdapter(private val listener: ItemListener) :
-    ListAdapter<UserInfoAndMovie, MovieViewHolder>(ItemCallback), View.OnClickListener {
+    ListAdapter<ActionsAndMovie, MovieViewHolder>(ItemCallback), View.OnClickListener {
 
 
     override fun onClick(view: View) {
-        val userInfo = view.tag as UserInfoAndMovie
+        val userInfo = view.tag as ActionsAndMovie
         when (view.id) {
             R.id.moreButton -> showPopupMenu(view)
             else -> listener.onChooseMovie(userInfo)
@@ -86,32 +87,33 @@ class MovieListAdapter(private val listener: ItemListener) :
 
     class MovieViewHolder(val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root)
 
-    object ItemCallback : DiffUtil.ItemCallback<UserInfoAndMovie>() {
+    object ItemCallback : DiffUtil.ItemCallback<ActionsAndMovie>() {
         override fun areItemsTheSame(
-            oldItem: UserInfoAndMovie,
-            newItem: UserInfoAndMovie
+            oldItem: ActionsAndMovie,
+            newItem: ActionsAndMovie
         ): Boolean {
             return oldItem.movie.id == oldItem.movie.id
         }
 
         override fun areContentsTheSame(
-            oldItem: UserInfoAndMovie,
-            newItem: UserInfoAndMovie
+            oldItem: ActionsAndMovie,
+            newItem: ActionsAndMovie
         ): Boolean {
             return oldItem == newItem
         }
     }
 
     interface ItemListener {
-        fun onChooseMovie(infoAndMovie: UserInfoAndMovie)
-        fun onDeleteMovie(infoAndMovie: UserInfoAndMovie)
-        fun onChangeInfo(infoAndMovie: UserInfoAndMovie)
+        fun onChooseMovie(infoAndMovie: ActionsAndMovie)
+        fun onDeleteMovie(infoAndMovie: ActionsAndMovie)
+        fun onChangeInfo(infoAndMovie: ActionsAndMovie)
     }
 
     private fun showPopupMenu(view: View) {
-        val userInfo = view.tag as UserInfoAndMovie
-        val popupMenu = PopupMenu(view.context, view)
+        val userInfo = view.tag as ActionsAndMovie
+        val popupMenu = PopupMenu(ContextThemeWrapper(view.context,R.style.popupStyle), view)
         popupMenu.setForceShowIcon(true)
+
         popupMenu.inflate(R.menu.popup_item_actions)
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {

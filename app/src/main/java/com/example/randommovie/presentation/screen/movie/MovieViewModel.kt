@@ -4,8 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.usecases.filter.GetSearchFilterUseCase
+import com.example.randommovie.domain.usecases.list.GetActionsByIdUseCase
 import com.example.randommovie.domain.usecases.movie.GetLastMovieUseCase
 import com.example.randommovie.domain.usecases.movie.GetRandomMovieUseCase
 import com.example.randommovie.domain.usecases.movie.SetLastMovieUseCase
@@ -16,11 +18,19 @@ class MovieViewModel(
     private val getRandomMovieUseCase: GetRandomMovieUseCase,
     private val searchFilterUseCase: GetSearchFilterUseCase,
     private val getLastMovieUseCase: GetLastMovieUseCase,
-    private val setLastMovieUseCase: SetLastMovieUseCase
+    private val setLastMovieUseCase: SetLastMovieUseCase,
+    private val getActionsByIdUseCase: GetActionsByIdUseCase
 ) : ViewModel() {
 
     private val _movie = MutableLiveData<Movie>()
     val movie: LiveData<Movie> = _movie
+
+
+    private val _ratingActionsMovie = MutableLiveData<Event<ActionsAndMovie>>()
+    val ratingActionsMovie: LiveData<Event<ActionsAndMovie>> = _ratingActionsMovie
+
+    private val _infoActionsMovie = MutableLiveData<Event<ActionsAndMovie>>()
+    val infoActionsMovie: LiveData<Event<ActionsAndMovie>> = _infoActionsMovie
 
     private val _buttonState = MutableLiveData<Boolean>()
     val buttonState: LiveData<Boolean> = _buttonState
@@ -35,8 +45,10 @@ class MovieViewModel(
         viewModelScope.launch {
             val lastMovie = getLastMovieUseCase()
             if (lastMovie == null) _isFirst.value = true
-            else {_movie.value = lastMovie
-                _isFirst.value = false}
+            else {
+                _movie.value = lastMovie!!
+                _isFirst.value = false
+            }
         }
     }
 
@@ -56,9 +68,23 @@ class MovieViewModel(
         }
     }
 
-    fun getCurrentMovie(): Movie? {
-        return _movie.value
+    fun getActionsAndMovieToRating(){
+        viewModelScope.launch {
+            _ratingActionsMovie.value = Event(getActionForCurrentMovie())
+        }
+    }
+    fun getActionsAndMovieToInfo(){
+        viewModelScope.launch {
+            _infoActionsMovie.value = Event(getActionForCurrentMovie())
+        }
+    }
 
+    private suspend fun getActionForCurrentMovie(): ActionsAndMovie {
+        _buttonState.value = false
+        val currentMovie = movie.value!!
+        val currentActions = getActionsByIdUseCase(currentMovie.id)
+        _buttonState.value = true
+        return ActionsAndMovie(currentMovie,currentActions.userRating,currentActions.inWatchlist)
     }
 
 }

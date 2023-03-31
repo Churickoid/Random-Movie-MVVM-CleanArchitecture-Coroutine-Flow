@@ -8,18 +8,18 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import com.example.randommovie.databinding.DialogRatingBinding
-import com.example.randommovie.domain.entity.UserInfoAndMovie
+import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.presentation.tools.parcelable
 
 class RatingDialogFragment : DialogFragment() {
 
-    private val userInfoAndMovie: UserInfoAndMovie
+    private val actionsAndMovie: ActionsAndMovie
         get() = requireArguments().parcelable(ARG_MOVIE)
             ?: throw IllegalArgumentException("Can't work without movie")
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val binding = DialogRatingBinding.inflate(layoutInflater)
-        changeUi(binding,userInfoAndMovie.userRating,userInfoAndMovie.inWatchlist)
+        changeUi(binding,actionsAndMovie.userRating,actionsAndMovie.inWatchlist)
 
         binding.ratingBar.setOnRatingBarChangeListener { _, rating, _ ->
             changeUi(binding,rating.toInt(), binding.watchlistCheckBox.isChecked)
@@ -39,9 +39,9 @@ class RatingDialogFragment : DialogFragment() {
     }
 
     private fun callResult(rating: Int, inWatchlist : Boolean) {
-        val userInfoAndMovie = UserInfoAndMovie(0,movie = userInfoAndMovie.movie, userRating = rating, inWatchlist = inWatchlist)
+        val actionsAndMovie = ActionsAndMovie(movie = actionsAndMovie.movie, userRating = rating, inWatchlist = inWatchlist)
         parentFragmentManager.setFragmentResult(
-            TAG, bundleOf(KEY_USER_INFO_AND_MOVIE to userInfoAndMovie)
+            TAG, bundleOf(KEY_USER_INFO_AND_MOVIE to actionsAndMovie)
         )
     }
 
@@ -60,7 +60,7 @@ class RatingDialogFragment : DialogFragment() {
         private const val KEY_USER_INFO_AND_MOVIE = "KEY_USER_INFO_AND_MOVIE"
         private const val ARG_MOVIE = "ARG_MOVIE"
 
-        fun show(manager: FragmentManager, movie: UserInfoAndMovie) {
+        fun show(manager: FragmentManager, movie: ActionsAndMovie) {
             val dialogFragment = RatingDialogFragment()
             dialogFragment.arguments = bundleOf(ARG_MOVIE to movie)
             dialogFragment.show(manager, TAG)
@@ -69,7 +69,7 @@ class RatingDialogFragment : DialogFragment() {
         fun setupListener(
             manager: FragmentManager,
             lifecycleOwner: LifecycleOwner,
-            listener: (UserInfoAndMovie) -> Unit
+            listener: (ActionsAndMovie) -> Unit
         ) {
             manager.setFragmentResultListener(TAG, lifecycleOwner) { _, result ->
                 listener.invoke(result.parcelable(KEY_USER_INFO_AND_MOVIE) ?:

@@ -1,16 +1,12 @@
 package com.example.randommovie.presentation.screen
 
 import android.content.Context
-import android.widget.Toast
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import com.example.randommovie.R
-import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.Movie.Companion.RATING_NULL
-import com.example.randommovie.domain.entity.UserInfoAndMovie
-import com.example.randommovie.presentation.screen.list.ListViewModel
+import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.presentation.screen.list.MovieListAdapter
 import com.example.randommovie.presentation.tools.factory
 
@@ -23,7 +19,7 @@ open class BaseFragment : Fragment() {
     }
 
 
-    fun showRatingDialogFragment(manager:FragmentManager, movie: UserInfoAndMovie){
+    fun showRatingDialogFragment(manager:FragmentManager, movie: ActionsAndMovie){
         RatingDialogFragment.show(manager,movie)
     }
     fun setupRatingDialogFragmentListener(manager:FragmentManager) {

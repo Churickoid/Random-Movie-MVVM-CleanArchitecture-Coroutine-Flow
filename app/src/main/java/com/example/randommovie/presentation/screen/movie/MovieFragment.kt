@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentMovieBinding
-import com.example.randommovie.domain.entity.UserInfoAndMovie
+import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_MOVIE
 import com.example.randommovie.presentation.tools.factory
@@ -38,16 +38,27 @@ class MovieFragment : BaseFragment() {
             viewModel.getRandomMovie()
         }
         binding.moreButton.setOnClickListener {
-            viewModel.getCurrentMovie()?.let {
-            findNavController().navigate(
-                R.id.action_movieFragment_to_informationMovieFragment,
-                bundleOf(ARG_MOVIE to it)
-            )
+            viewModel.getActionsAndMovieToInfo()
         }
+
+        viewModel.infoActionsMovie.observe(viewLifecycleOwner){
+            it.getValue()?.let { actionsAndMovie ->
+                findNavController().navigate(
+                    R.id.action_movieFragment_to_informationMovieFragment,
+                    bundleOf(ARG_MOVIE to actionsAndMovie))
+            }
         }
+
         binding.starButton.setOnClickListener {
-            viewModel.getCurrentMovie()?.let {showRatingDialogFragment(parentFragmentManager, UserInfoAndMovie(movie = it))}
+            viewModel.getActionsAndMovieToRating()
         }
+
+        viewModel.ratingActionsMovie.observe(viewLifecycleOwner){
+            it.getValue()?.let { actionsAndMovie ->
+                showRatingDialogFragment(parentFragmentManager, actionsAndMovie)
+            }
+        }
+
 
         viewModel.movie.observe(viewLifecycleOwner) { movie ->
             val year = movie.year?.toString() ?: "—"

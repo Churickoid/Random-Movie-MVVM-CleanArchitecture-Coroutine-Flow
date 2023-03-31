@@ -56,14 +56,14 @@
         android:layout_width="42dp"
         android:layout_height="42dp"
         android:layout_marginEnd="6dp"
+        style="@style/secondaryActionButton"
         android:src="@drawable/ic_more_vertical"
-        app:tint="@color/purple_500"
         app:fabCustomSize="42dp"
         app:maxImageSize="30dp"
-        app:backgroundTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/titleMainTextView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/more_info" />
     <TextView
         android:id="@+id/countryTextView"
         android:layout_width="0dp"
@@ -124,8 +124,8 @@
     <ImageView
         android:visibility="invisible"
         android:id="@+id/bookmarkImageView"
-        android:layout_width="46dp"
-        android:layout_height="46dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:src="@drawable/ic_bookmark"
         app:tint="@color/purple_500"
         app:layout_constraintTop_toTopOf="@id/countryTextView"

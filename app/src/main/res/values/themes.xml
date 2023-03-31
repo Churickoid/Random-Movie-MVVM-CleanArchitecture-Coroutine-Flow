@@ -14,9 +14,4 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="SpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/purple_500</item>
-
-    </style>
 </resources>

@@ -136,46 +136,46 @@
         android:id="@+id/starButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        style="@style/secondaryActionButton"
+        app:fabCustomSize="48dp"
         android:contentDescription="@string/rate_movie"
         android:src="@drawable/ic_star"
-        app:backgroundTint="@color/white"
-        app:fabCustomSize="48dp"
         app:layout_constraintBottom_toBottomOf="@id/nextMovieButton"
         app:layout_constraintEnd_toStartOf="@id/nextMovieButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/nextMovieButton"
-        app:maxImageSize="24dp"
-        app:tint="@color/purple_500" />
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/nextMovieButton"
         android:layout_width="64dp"
         android:layout_height="64dp"
+        style="@style/mainActionButton"
+        app:maxImageSize="32dp"
+        app:fabCustomSize="64dp"
         android:contentDescription="@string/next_movie"
         android:src="@drawable/ic_next"
-        app:backgroundTint="@color/purple_500"
-        app:fabCustomSize="64dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/moreButton"
         app:layout_constraintStart_toEndOf="@id/starButton"
         app:layout_constraintTop_toBottomOf="@id/bottomGuideline"
-        app:maxImageSize="32dp"
-        app:tint="@android:color/white" />
+        app:tint="@android:color/white"
+         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/moreButton"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        style="@style/secondaryActionButton"
         android:contentDescription="@string/more_info"
         android:src="@drawable/ic_more_horizontal"
-        app:backgroundTint="@color/white"
+        app:maxImageSize="32dp"
         app:fabCustomSize="48dp"
         app:layout_constraintBottom_toBottomOf="@id/nextMovieButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/nextMovieButton"
         app:layout_constraintTop_toTopOf="@id/nextMovieButton"
-        app:maxImageSize="32dp"
-        app:tint="@color/purple_500" />
+         />
 
     <ProgressBar
         android:id="@+id/loadingProgressBar"
@@ -199,7 +199,7 @@
         app:constraint_referenced_ids="posterImageView,titleMainTextView,titleExtraTextView,genresTextView,kinopoiskImageView,imdbImageView,imdbRateTextView,kinopoiskRateTextView" />
 
     <androidx.constraintlayout.widget.Group
-        android:visibility="invisible"
+        android:visibility="visible"
         android:id="@+id/extraActionsGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

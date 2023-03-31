@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="spinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/purple_500</item>
+    </style>
+    <style name="popupStyle" parent="Widget.AppCompat.PopupMenu">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/purple_500</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="secondaryActionButton"  parent="@style/Widget.MaterialComponents.TabLayout.PrimarySurface">
+        <item name="tint">@color/purple_500</item>
+        <item name="backgroundTint">@color/white</item>
+    </style>
+
+    <style name="mainActionButton" parent="@style/Widget.MaterialComponents.TabLayout.PrimarySurface">
+        <item name="tint">@color/white</item>
+        <item name="backgroundTint">@color/purple_500</item>
+    </style>
+
+
+</resources>

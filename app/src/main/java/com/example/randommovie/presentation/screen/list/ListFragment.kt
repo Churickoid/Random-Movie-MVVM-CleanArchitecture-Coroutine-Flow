@@ -13,7 +13,7 @@ import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentListBinding
 import com.example.randommovie.domain.ListRepository.Companion.RATED_LIST_TYPE
 import com.example.randommovie.domain.ListRepository.Companion.WATCH_LIST_TYPE
-import com.example.randommovie.domain.entity.UserInfoAndMovie
+import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.info.InfoFragment
 import com.example.randommovie.presentation.tools.factory
@@ -38,16 +38,16 @@ class ListFragment : BaseFragment() {
         binding.listTabLayout.getTabAt(viewModel.type.value)?.select() ?: throw IllegalArgumentException("Unknown tab")
 
         val adapter = MovieListAdapter(object : MovieListAdapter.ItemListener {
-            override fun onChooseMovie(infoAndMovie: UserInfoAndMovie) =
+            override fun onChooseMovie(infoAndMovie: ActionsAndMovie) =
                 findNavController().navigate(
                     R.id.action_listFragment_to_informationListFragment,
                     bundleOf(InfoFragment.ARG_MOVIE to infoAndMovie.movie )) //TODO("изменить на инфо")
 
 
-            override fun onDeleteMovie(infoAndMovie: UserInfoAndMovie) =
+            override fun onDeleteMovie(infoAndMovie: ActionsAndMovie) =
                 viewModel.deleteMovieById(infoAndMovie.movie.id)
 
-            override fun onChangeInfo(infoAndMovie: UserInfoAndMovie) =
+            override fun onChangeInfo(infoAndMovie: ActionsAndMovie) =
                 showRatingDialogFragment(parentFragmentManager,infoAndMovie )
 
 

@@ -1,7 +1,7 @@
 package com.example.randommovie.domain
 
-import com.example.randommovie.domain.entity.ItemFilter
-import com.example.randommovie.domain.entity.UserInfoAndMovie
+import com.example.randommovie.domain.entity.Actions
+import com.example.randommovie.domain.entity.ActionsAndMovie
 import kotlinx.coroutines.flow.Flow
 
 interface ListRepository {
@@ -9,10 +9,11 @@ interface ListRepository {
 
     fun getMoviesCountByType(type: Int) : Flow<Int>
 
-    suspend fun getMovieListByFilters(type: Int, order: Int, isAsc: Boolean): Flow<List<UserInfoAndMovie>>
+    fun getMovieListByFilters(type: Int, order: Int, isAsc: Boolean): Flow<List<ActionsAndMovie>>
 
-    suspend fun addUserInfoForMovie(userInfoAndMovie: UserInfoAndMovie)
+    suspend fun addUserInfoForMovie(actionsAndMovie: ActionsAndMovie)
 
+    suspend fun getActionsByMovieId(movieId: Long): Actions?
     suspend fun deleteMovieById(id: Long)
 
     companion object{

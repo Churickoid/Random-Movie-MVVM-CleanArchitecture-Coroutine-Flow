@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.request.RequestOptions
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentInfoBinding
 import com.example.randommovie.domain.entity.Movie
@@ -45,7 +46,6 @@ class InfoFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentInfoBinding.bind(view)
-
 
 
         binding.retryButton.setOnClickListener {
@@ -94,10 +94,12 @@ class InfoFragment : BaseFragment() {
                 Glide.with(this@InfoFragment)
                     .load(movieExtra.posterUrlHQ)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .centerCrop()
                     .into(binding.headerImageView)
 
             }
+
+            binding.detailsImdbButton.isEnabled = (movieExtra.imdbId != null)
+
             binding.detailsKpButton.setOnClickListener {
                 val urlTag = if (movieExtra.isMovie) "film" else "series"
                 val url = "https://www.kinopoisk.ru/$urlTag/${movie.id}"

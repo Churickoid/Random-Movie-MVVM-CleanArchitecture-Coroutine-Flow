@@ -4,7 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.example.randommovie.domain.entity.UserInfoAndMovie
+import com.example.randommovie.domain.entity.Actions
+import com.example.randommovie.domain.entity.ActionsAndMovie
 
 
 @Entity(
@@ -28,22 +29,28 @@ data class UserActionsForMovieDb(
     @ColumnInfo("in_watchlist") val inWatchlist: Boolean
 )
 {
-    fun toUserInfoAndMovie(movieDb: MovieDb,genres: List<String>,countries: List<String>): UserInfoAndMovie{
-        return UserInfoAndMovie(
-            this.id,
+    fun toUserInfoAndMovie(movieDb: MovieDb,genres: List<String>,countries: List<String>): ActionsAndMovie{
+        return ActionsAndMovie(
             movieDb.toMovie(genres,countries),
+            this.rating,
+            this.inWatchlist
+        )
+    }
+
+    fun toActions(): Actions {
+        return Actions(
             this.rating,
             this.inWatchlist
         )
     }
     companion object{
 
-        fun fromUserInfoAndMovie(userInfoAndMovie: UserInfoAndMovie): UserActionsForMovieDb
+        fun fromUserInfoAndMovie(actionsAndMovie: ActionsAndMovie): UserActionsForMovieDb
         = UserActionsForMovieDb(
-            userInfoAndMovie.id,
-            userInfoAndMovie.movie.id,
-            userInfoAndMovie.userRating,
-            userInfoAndMovie.inWatchlist
+            0,
+            actionsAndMovie.movie.id,
+            actionsAndMovie.userRating,
+            actionsAndMovie.inWatchlist
         )
     }
 }

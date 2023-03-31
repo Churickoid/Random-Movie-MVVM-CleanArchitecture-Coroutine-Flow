@@ -38,7 +38,7 @@
     <Spinner
 
         android:id="@+id/orderSpinner"
-        android:theme="@style/SpinnerItemStyle"
+        android:theme="@style/spinnerItemStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:entries="@array/orderFilter"
@@ -64,7 +64,7 @@
         />
     <Spinner
         android:id="@+id/typeSpinner"
-        android:theme="@style/SpinnerItemStyle"
+        android:theme="@style/spinnerItemStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:entries="@array/type"

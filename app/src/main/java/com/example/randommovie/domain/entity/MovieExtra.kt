@@ -1,7 +1,7 @@
 package com.example.randommovie.domain.entity
 
 data class MovieExtra (
-    val imdbId: String,
+    val imdbId: String?,
     val headerUrl: String?,
     val posterUrlHQ: String,
     val description: String?,
