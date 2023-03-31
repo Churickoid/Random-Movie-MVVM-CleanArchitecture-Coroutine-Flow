@@ -16,7 +16,7 @@ import com.example.randommovie.domain.entity.ActionsAndMovie
             parentColumns = ["movie_id"],
             childColumns = ["movie_id"],
             onDelete = androidx.room.ForeignKey.CASCADE,
-            onUpdate = androidx.room.ForeignKey.CASCADE
+            onUpdate = androidx.room.ForeignKey.CASCADE //TODO изменить тут что-то чтоб повторки не стирались
         )],
     indices = [
         Index("movie_id", unique = true)

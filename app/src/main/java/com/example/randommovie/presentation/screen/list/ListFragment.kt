@@ -8,6 +8,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentListBinding
@@ -18,6 +19,7 @@ import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.info.InfoFragment
 import com.example.randommovie.presentation.tools.factory
 import com.google.android.material.tabs.TabLayout
+import kotlinx.coroutines.launch
 
 class ListFragment : BaseFragment() {
 
@@ -41,7 +43,7 @@ class ListFragment : BaseFragment() {
             override fun onChooseMovie(infoAndMovie: ActionsAndMovie) =
                 findNavController().navigate(
                     R.id.action_listFragment_to_informationListFragment,
-                    bundleOf(InfoFragment.ARG_MOVIE to infoAndMovie.movie )) //TODO("изменить на инфо")
+                    bundleOf(InfoFragment.ARG_MOVIE to infoAndMovie ))
 
 
             override fun onDeleteMovie(infoAndMovie: ActionsAndMovie) =
@@ -106,7 +108,7 @@ class ListFragment : BaseFragment() {
         }
 
         setupOrderDialogFragmentListener(parentFragmentManager)
-        setupRatingDialogFragmentListener(parentFragmentManager)
+        setupRatingDialogFragmentListener(parentFragmentManager){}
     }
     private fun setupOrderDialogFragmentListener(manager: FragmentManager) {
         OrderDialogFragment.setupListener(manager, this) { order ->

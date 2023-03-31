@@ -11,10 +11,9 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.request.RequestOptions
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentInfoBinding
-import com.example.randommovie.domain.entity.Movie
+import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.LOADING_STATE
 import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.VALID_STATE
@@ -28,7 +27,7 @@ class InfoFragment : BaseFragment() {
     private val viewModel: InfoViewModel by viewModels { factory() }
     private lateinit var binding: FragmentInfoBinding
 
-    private val movie: Movie
+    private val actionsAndMovie: ActionsAndMovie
         get() = requireArguments().parcelable(ARG_MOVIE)
             ?: throw IllegalArgumentException("Can't work without movie")
 
@@ -37,7 +36,7 @@ class InfoFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        changeTitle(movie.titleMain)
+        changeTitle(actionsAndMovie.movie.titleMain)
 
         return inflater.inflate(R.layout.fragment_info, container, false)
 
@@ -49,11 +48,9 @@ class InfoFragment : BaseFragment() {
 
 
         binding.retryButton.setOnClickListener {
-            viewModel.getMovieInfo(movie.id)
+            viewModel.getMovieInfo(actionsAndMovie.movie.id)
         }
-        viewModel.load.observe(viewLifecycleOwner) {
-            it.getValue()?.let { viewModel.getMovieInfo(movie.id) }
-        }
+
         viewModel.state.observe(viewLifecycleOwner) {
             when (it) {
                 LOADING_STATE -> changeState(View.VISIBLE, View.INVISIBLE, View.INVISIBLE)
@@ -65,7 +62,7 @@ class InfoFragment : BaseFragment() {
             }
         }
         viewModel.movieInfo.observe(viewLifecycleOwner) { movieExtra ->
-
+            val movie = actionsAndMovie.movie
             binding.titleMainTextView.text = movie.titleMain
             binding.titleExtraTextView.text = movie.titleSecond
             binding.typeTextView.text = if (movieExtra.isMovie) "Фильм" else "Сериал"

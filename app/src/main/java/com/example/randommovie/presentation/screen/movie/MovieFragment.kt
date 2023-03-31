@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -12,9 +13,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentMovieBinding
-import com.example.randommovie.domain.entity.ActionsAndMovie
+import com.example.randommovie.domain.entity.Actions
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_MOVIE
+import com.example.randommovie.presentation.screen.movie.MovieViewModel.Companion.DEFAULT_STATE
+import com.example.randommovie.presentation.screen.movie.MovieViewModel.Companion.DISABLED_STATE
+import com.example.randommovie.presentation.screen.movie.MovieViewModel.Companion.LOADING_STATE
 import com.example.randommovie.presentation.tools.factory
 
 class MovieFragment : BaseFragment() {
@@ -80,8 +84,14 @@ class MovieFragment : BaseFragment() {
         }
 
         viewModel.buttonState.observe(viewLifecycleOwner) {
-            if (it) changeStateButton(View.VISIBLE, View.INVISIBLE)
-            else changeStateButton(View.INVISIBLE, View.VISIBLE)
+            when(it){
+                LOADING_STATE-> changeVisibilityState(View.INVISIBLE,View.VISIBLE)
+                DEFAULT_STATE->{
+                    changeVisibilityState(View.VISIBLE, View.INVISIBLE)
+                    changeEnabledState(true)
+                }
+                DISABLED_STATE-> changeEnabledState(false)
+            }
 
         }
         viewModel.error.observe(viewLifecycleOwner) {
@@ -103,11 +113,18 @@ class MovieFragment : BaseFragment() {
 
         }
 
-        setupRatingDialogFragmentListener(parentFragmentManager)
+        setupRatingDialogFragmentListener(parentFragmentManager){
+            viewModel.actions = Actions(it.userRating,it.inWatchlist)
+        }
     }
 
-    private fun changeStateButton(buttonState: Int, progressState: Int) {
+    private fun changeVisibilityState(buttonState: Int, progressState: Int) {
         binding.actionsGroup.visibility = buttonState
         binding.loadingProgressBar.visibility = progressState
+    }
+    private fun changeEnabledState(isEnabled: Boolean){
+        binding.starButton.isEnabled = isEnabled
+        binding.nextMovieButton.isEnabled = isEnabled
+        binding.moreButton.isEnabled = isEnabled
     }
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.randommovie.domain.entity.Actions
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.usecases.filter.GetSearchFilterUseCase
@@ -25,6 +26,7 @@ class MovieViewModel(
     private val _movie = MutableLiveData<Movie>()
     val movie: LiveData<Movie> = _movie
 
+    var actions: Actions? = null
 
     private val _ratingActionsMovie = MutableLiveData<Event<ActionsAndMovie>>()
     val ratingActionsMovie: LiveData<Event<ActionsAndMovie>> = _ratingActionsMovie
@@ -32,8 +34,8 @@ class MovieViewModel(
     private val _infoActionsMovie = MutableLiveData<Event<ActionsAndMovie>>()
     val infoActionsMovie: LiveData<Event<ActionsAndMovie>> = _infoActionsMovie
 
-    private val _buttonState = MutableLiveData<Boolean>()
-    val buttonState: LiveData<Boolean> = _buttonState
+    private val _buttonState = MutableLiveData<Int>()
+    val buttonState: LiveData<Int> = _buttonState
 
     private val _error = MutableLiveData<Event<String?>>()
     val error: LiveData<Event<String?>> = _error
@@ -54,16 +56,17 @@ class MovieViewModel(
 
     fun getRandomMovie() {
         viewModelScope.launch {
-            _buttonState.value = false
+            _buttonState.value = LOADING_STATE
             try {
                 val movie = getRandomMovieUseCase(searchFilterUseCase())
                 _movie.value = movie
+                actions = null
                 setLastMovieUseCase(movie)
                 if (_isFirst.value!!) _isFirst.value = false
             } catch (e: Exception) {
                 _error.value = Event(e.message)
             } finally {
-                _buttonState.value = true
+                _buttonState.value = DEFAULT_STATE
             }
         }
     }
@@ -80,11 +83,15 @@ class MovieViewModel(
     }
 
     private suspend fun getActionForCurrentMovie(): ActionsAndMovie {
-        _buttonState.value = false
+        _buttonState.value = DISABLED_STATE
         val currentMovie = movie.value!!
-        val currentActions = getActionsByIdUseCase(currentMovie.id)
-        _buttonState.value = true
-        return ActionsAndMovie(currentMovie,currentActions.userRating,currentActions.inWatchlist)
+        if (actions== null) actions = getActionsByIdUseCase(currentMovie.id)
+        _buttonState.value = DEFAULT_STATE
+        return ActionsAndMovie(currentMovie,actions!!.userRating,actions!!.inWatchlist)
     }
-
+    companion object{
+        const val LOADING_STATE = 0
+        const val DEFAULT_STATE = 1
+        const val DISABLED_STATE = 2
+    }
 }

@@ -9,11 +9,12 @@ import com.example.randommovie.data.room.entity.UserActionsForMovieDb
 interface MoviesDao {
 
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovie(movieDb: MovieDb)
 
-    @Query("DELETE FROM movies WHERE id = :movieId")
+    @Query("DELETE FROM movies WHERE movie_id = :movieId")
     suspend fun deleteMovieById(movieId: Long)
+
 
     @Query("SELECT * FROM user_actions_for_movie WHERE movie_id = :movieId")
     suspend fun getUserInfoForMovieById(movieId: Long) : UserActionsForMovieDb?

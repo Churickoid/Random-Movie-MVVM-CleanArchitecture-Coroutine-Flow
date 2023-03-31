@@ -22,9 +22,10 @@ open class BaseFragment : Fragment() {
     fun showRatingDialogFragment(manager:FragmentManager, movie: ActionsAndMovie){
         RatingDialogFragment.show(manager,movie)
     }
-    fun setupRatingDialogFragmentListener(manager:FragmentManager) {
-        RatingDialogFragment.setupListener(manager, this) { userInfoAndMovie ->
-            viewModel.addRatedMovie(userInfoAndMovie)
+    fun setupRatingDialogFragmentListener(manager:FragmentManager,action: (ActionsAndMovie) -> Unit) {
+        RatingDialogFragment.setupListener(manager, this) {
+            viewModel.addRatedMovie(it)
+            action(it)
         }
     }
     companion object{

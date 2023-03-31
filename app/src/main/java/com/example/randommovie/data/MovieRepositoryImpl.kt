@@ -1,5 +1,6 @@
 package com.example.randommovie.data
 
+import android.util.Log
 import com.example.randommovie.data.FilterRepositoryImpl.Companion.setGenresAndCountries
 import com.example.randommovie.data.retrofit.RetrofitApiInterface
 import com.example.randommovie.data.room.dao.ItemsDao
@@ -101,6 +102,7 @@ class MovieRepositoryImpl(
     override suspend fun setLastMovie(movie: Movie) = withContext(Dispatchers.IO) {
         val lastMovieId = moviesDao.getLastMovie()?.movieId ?: -1
         if (!moviesDao.existIdInUserTable(lastMovieId)) moviesDao.deleteMovieById(lastMovieId)
+        Log.e("!!!!",moviesDao.existIdInUserTable(lastMovieId).toString())
         moviesDao.insertMovie(MovieDb.fromMovie(movie))
         movie.country.forEach {
             itemsDao.insertItemForMovie(
