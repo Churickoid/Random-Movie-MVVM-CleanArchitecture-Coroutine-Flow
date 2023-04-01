@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentFilterBinding
 import com.example.randommovie.domain.entity.ItemFilter
+import com.example.randommovie.domain.entity.SearchFilter
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.tools.factory
 import com.google.android.material.slider.RangeSlider
@@ -32,18 +33,20 @@ class FilterFragment : BaseFragment() {
             changeEditBoxState(REQUEST_KEY_GENRES,View.INVISIBLE,View.VISIBLE)
         }
         viewModel.genres.observe(viewLifecycleOwner) {
-            it.getValue()?.let { list ->
+            it?.getValue()?.let { list ->
                 showListDialogFragment(list,REQUEST_KEY_GENRES)
             }
+            changeEditBoxState(REQUEST_KEY_GENRES,View.VISIBLE,View.INVISIBLE)
         }
         binding.countryEditBox.setOnClickListener {
             viewModel.getCountryList()
             changeEditBoxState(REQUEST_KEY_COUNTRIES,View.INVISIBLE,View.VISIBLE)
         }
         viewModel.countries.observe(viewLifecycleOwner) {
-            it.getValue()?.let { list ->
+            it?.getValue()?.let { list ->
                 showListDialogFragment(list, REQUEST_KEY_COUNTRIES)
             }
+            changeEditBoxState(REQUEST_KEY_COUNTRIES,View.VISIBLE,View.INVISIBLE)
         }
 
         viewModel.countryText.observe(viewLifecycleOwner){
@@ -94,18 +97,32 @@ class FilterFragment : BaseFragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
         }
+        binding.defaultButton.setOnClickListener {
+            setupFilter(viewModel.getDefaultFilterValue())
+        }
 
-        setupSlider()
+        setupFilter(viewModel.getDefaultFilterValue())
         setupListDialogListener()
     }
 
 
-    private fun setupSlider() {
-        val filter = viewModel.getDefaultFilterValue()
-        binding.yearSlider.setValues(filter.yearBottom.toFloat(), filter.yearTop.toFloat())
-        binding.ratingSlider.setValues(filter.ratingBottom.toFloat(), filter.ratingTop.toFloat())
-        binding.yearTextView.text = getString(R.string.year_with_ints, filter.yearBottom, filter.yearTop)
 
+    private fun setupFilter(filter: SearchFilter) {
+        with(binding) {
+            yearSlider.setValues(filter.yearBottom.toFloat(), filter.yearTop.toFloat())
+            ratingSlider.setValues(
+                filter.ratingBottom.toFloat(),
+                filter.ratingTop.toFloat()
+            )
+            yearTextView.text =
+                getString(R.string.year_with_ints, filter.yearBottom, filter.yearTop)
+
+            orderSpinner.setSelection(0)
+            typeSpinner.setSelection(0)
+
+            countryEditBox.text= ""
+            genresEditBox.text= ""
+        }
     }
 
 
@@ -116,7 +133,6 @@ class FilterFragment : BaseFragment() {
     private fun setupListDialogListener() {
         val listener: (String ,ArrayList<ItemFilter>) -> Unit = { requestKey,list ->
             viewModel.listDialogHandler(requestKey,list)
-            changeEditBoxState(requestKey,View.VISIBLE,View.INVISIBLE)
         }
         FilterListDialogFragment.setupListener(parentFragmentManager,  REQUEST_KEY_GENRES, this,listener)
         FilterListDialogFragment.setupListener(parentFragmentManager,  REQUEST_KEY_COUNTRIES, this,listener)

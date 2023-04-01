@@ -38,32 +38,30 @@ class MovieViewModel(
     private val _error = MutableLiveData<Event<String?>>()
     val error: LiveData<Event<String?>> = _error
 
-    private val _isFirst = MutableLiveData<Boolean>()
-    val isFirst: LiveData<Boolean> = _isFirst
 
     init {
         viewModelScope.launch {
             val lastMovie = getLastMovieUseCase()
-            if (lastMovie == null) _isFirst.value = true
+            if (lastMovie == null) _buttonState.value = FIRST_TIME_STATE
             else {
                 _movie.value = lastMovie!!
-                _isFirst.value = false
+                _buttonState.value = DEFAULT_STATE
             }
         }
     }
 
     fun getRandomMovie() {
         viewModelScope.launch {
+            val startState = _buttonState.value!!
             _buttonState.value = LOADING_STATE
             try {
                 val movie = getRandomMovieUseCase(searchFilterUseCase())
                 _movie.value = movie
                 setLastMovieUseCase(movie)
-                if (_isFirst.value!!) _isFirst.value = false
+                _buttonState.value = DEFAULT_STATE
             } catch (e: Exception) {
                 _error.value = Event(e.message)
-            } finally {
-                _buttonState.value = DEFAULT_STATE
+                _buttonState.value = startState
             }
         }
     }
@@ -90,5 +88,6 @@ class MovieViewModel(
         const val LOADING_STATE = 0
         const val DEFAULT_STATE = 1
         const val DISABLED_STATE = 2
+        const val FIRST_TIME_STATE = 3
     }
 }

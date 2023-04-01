@@ -41,7 +41,6 @@ class FilterRepositoryImpl(
             if (!itemsExist)
                 if (itemsDao.getAllItemsByType(0).isEmpty())
             try {
-                Log.e("!!!!", "YEP")
                 val request = retrofitApiInterface.getGenresAndCounties()
                 request.genres.forEach {
                     if(it.genre != "")itemsDao.insertItem(

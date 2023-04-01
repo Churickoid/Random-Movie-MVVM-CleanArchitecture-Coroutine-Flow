@@ -36,7 +36,6 @@
 
 
     <Spinner
-
         android:id="@+id/orderSpinner"
         android:theme="@style/spinnerItemStyle"
         android:layout_width="0dp"
@@ -158,7 +157,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         app:drawableEndCompat="@android:drawable/arrow_down_float"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/defaultButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/genresEditBox" />
@@ -172,6 +171,18 @@
         app:layout_constraintEnd_toEndOf="@id/countryEditBox"
         app:layout_constraintStart_toStartOf="@id/countryEditBox"
         app:layout_constraintTop_toTopOf="@id/countryEditBox"
+        />
+
+    <Button
+        android:id="@+id/defaultButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Default"
+        android:textSize="18sp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

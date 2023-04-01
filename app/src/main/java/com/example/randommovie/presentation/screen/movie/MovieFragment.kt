@@ -16,6 +16,7 @@ import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_MOVIE
 import com.example.randommovie.presentation.screen.movie.MovieViewModel.Companion.DEFAULT_STATE
 import com.example.randommovie.presentation.screen.movie.MovieViewModel.Companion.DISABLED_STATE
+import com.example.randommovie.presentation.screen.movie.MovieViewModel.Companion.FIRST_TIME_STATE
 import com.example.randommovie.presentation.screen.movie.MovieViewModel.Companion.LOADING_STATE
 import com.example.randommovie.presentation.tools.factory
 
@@ -89,6 +90,12 @@ class MovieFragment : BaseFragment() {
                     changeEnabledState(true)
                 }
                 DISABLED_STATE-> changeEnabledState(false)
+                FIRST_TIME_STATE -> {
+                    changeVisibilityState(View.VISIBLE, View.INVISIBLE)
+                    binding.startTextView.visibility = View.VISIBLE
+                    binding.extraActionsGroup.visibility = View.INVISIBLE
+                    binding.movieGroup.visibility = View.INVISIBLE
+                }
             }
 
         }
@@ -96,19 +103,6 @@ class MovieFragment : BaseFragment() {
             it.getValue()?.let { massage ->
                 Toast.makeText(requireContext(), massage, Toast.LENGTH_SHORT).show()
             }
-        }
-        viewModel.isFirst.observe(viewLifecycleOwner) {
-            if(it){
-                binding.startTextView.visibility = View.VISIBLE
-                binding.extraActionsGroup.visibility = View.INVISIBLE
-                binding.movieGroup.visibility = View.INVISIBLE
-            }else{
-                binding.startTextView.visibility = View.INVISIBLE
-                binding.extraActionsGroup.visibility = View.VISIBLE
-                binding.movieGroup.visibility = View.VISIBLE
-            }
-
-
         }
 
         setupRatingDialogFragmentListener(parentFragmentManager){}
@@ -118,6 +112,8 @@ class MovieFragment : BaseFragment() {
     private fun changeVisibilityState(buttonState: Int, progressState: Int) {
         binding.actionsGroup.visibility = buttonState
         binding.loadingProgressBar.visibility = progressState
+        binding.movieGroup.visibility = View.VISIBLE
+        binding.startTextView.visibility = View.INVISIBLE
     }
     private fun changeEnabledState(isEnabled: Boolean){
         binding.starButton.isEnabled = isEnabled

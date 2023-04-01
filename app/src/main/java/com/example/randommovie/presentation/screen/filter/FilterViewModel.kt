@@ -28,11 +28,11 @@ class FilterViewModel(
         }
 
 
-    private val _genres = MutableLiveData<Event<List<ItemFilter>>>()
-    val genres: LiveData<Event<List<ItemFilter>>> = _genres
+    private val _genres = MutableLiveData<Event<List<ItemFilter>>?>()
+    val genres: LiveData<Event<List<ItemFilter>>?> = _genres
 
-    private val _countries = MutableLiveData<Event<List<ItemFilter>>>()
-    val countries: LiveData<Event<List<ItemFilter>>> = _countries
+    private val _countries = MutableLiveData<Event<List<ItemFilter>>?>()
+    val countries: LiveData<Event<List<ItemFilter>>?> = _countries
 
 
     private val _countryText = MutableLiveData<String>()
@@ -48,7 +48,7 @@ class FilterViewModel(
             try {
                 _genres.value = Event(getGenresUseCase.invoke())
             } catch (e: Exception) {
-                Log.e("!!!", e.toString())
+                _countries.value = null
             }
         }
     }
@@ -58,7 +58,7 @@ class FilterViewModel(
             try {
                 _countries.value = Event(getCountriesUseCase.invoke())
             } catch (e: Exception) {
-                Log.e("!!!", e.toString())
+                _countries.value = null
             }
         }
     }
@@ -73,12 +73,12 @@ class FilterViewModel(
 
     fun setOrderFilter(position: Int) {
         val orderFilter = when (position) {
-            0 -> OrderFilter.RATING
-            1 -> OrderFilter.NUM_VOTE
+            0 -> OrderFilter.NUM_VOTE
+            1 -> OrderFilter.RATING
             2 -> OrderFilter.YEAR
             else -> throw Exception("Invalid position")
         }
-        filter = filter.copy(orderFilter = orderFilter)
+        filter = filter.copy(order = orderFilter)
     }
 
     fun setTypeFilter(position: Int) {
@@ -92,7 +92,8 @@ class FilterViewModel(
     }
 
     fun getDefaultFilterValue(): SearchFilter {
-        return SearchFilter()
+        filter = SearchFilter()
+        return filter
     }
 
     fun listDialogHandler(requestKey: String, list: ArrayList<ItemFilter>) {
