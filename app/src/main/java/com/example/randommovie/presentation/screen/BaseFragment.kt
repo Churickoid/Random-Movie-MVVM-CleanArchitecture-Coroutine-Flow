@@ -19,8 +19,8 @@ open class BaseFragment : Fragment() {
     }
 
 
-    fun showRatingDialogFragment(manager:FragmentManager, movie: ActionsAndMovie){
-        RatingDialogFragment.show(manager,movie)
+    fun showRatingDialogFragment(manager:FragmentManager, actionsAndMovie: ActionsAndMovie){
+        RatingDialogFragment.show(manager,actionsAndMovie)
     }
     fun setupRatingDialogFragmentListener(manager:FragmentManager,action: (ActionsAndMovie) -> Unit) {
         RatingDialogFragment.setupListener(manager, this) {

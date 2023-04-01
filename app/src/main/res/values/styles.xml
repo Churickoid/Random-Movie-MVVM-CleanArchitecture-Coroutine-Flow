@@ -19,6 +19,13 @@
         <item name="tint">@color/white</item>
         <item name="backgroundTint">@color/purple_500</item>
     </style>
-
+    <style name="userRatingTextView">
+        <item name="android:text">@string/questionMark</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/background_circle</item>
+        <item name="backgroundTint">@color/gray</item>
+    </style>
 
 </resources>

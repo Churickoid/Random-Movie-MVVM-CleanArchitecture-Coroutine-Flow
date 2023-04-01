@@ -212,7 +212,7 @@
         android:textAlignment="center"
         android:textSize="26sp"
         android:text="@string/start_title"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toTopOf="@id/topGuideline"
         app:layout_constraintBottom_toBottomOf="@id/bottomGuideline"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

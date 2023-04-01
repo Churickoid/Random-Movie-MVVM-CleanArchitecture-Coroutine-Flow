@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.randommovie.domain.entity.Actions
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.usecases.filter.GetSearchFilterUseCase
@@ -26,7 +25,6 @@ class MovieViewModel(
     private val _movie = MutableLiveData<Movie>()
     val movie: LiveData<Movie> = _movie
 
-    var actions: Actions? = null
 
     private val _ratingActionsMovie = MutableLiveData<Event<ActionsAndMovie>>()
     val ratingActionsMovie: LiveData<Event<ActionsAndMovie>> = _ratingActionsMovie
@@ -60,7 +58,6 @@ class MovieViewModel(
             try {
                 val movie = getRandomMovieUseCase(searchFilterUseCase())
                 _movie.value = movie
-                actions = null
                 setLastMovieUseCase(movie)
                 if (_isFirst.value!!) _isFirst.value = false
             } catch (e: Exception) {
@@ -85,9 +82,9 @@ class MovieViewModel(
     private suspend fun getActionForCurrentMovie(): ActionsAndMovie {
         _buttonState.value = DISABLED_STATE
         val currentMovie = movie.value!!
-        if (actions== null) actions = getActionsByIdUseCase(currentMovie.id)
+        val currentActions = getActionsByIdUseCase(currentMovie.id)
         _buttonState.value = DEFAULT_STATE
-        return ActionsAndMovie(currentMovie,actions!!.userRating,actions!!.inWatchlist)
+        return ActionsAndMovie(currentMovie,currentActions.userRating,currentActions.inWatchlist)
     }
     companion object{
         const val LOADING_STATE = 0

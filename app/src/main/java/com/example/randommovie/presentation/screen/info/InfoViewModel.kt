@@ -8,7 +8,7 @@ import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.A
 import kotlinx.coroutines.launch
 
 class InfoViewModel(
-    private val savedStateHandle: SavedStateHandle,
+    savedStateHandle: SavedStateHandle,
     private val getMoreInformationUseCase: GetMoreInformationUseCase
 ) : ViewModel() {
 
@@ -18,10 +18,11 @@ class InfoViewModel(
     private val _state = MutableLiveData(LOADING_STATE)
     val state: LiveData<String> = _state
 
-    private val actionsAndMovie = savedStateHandle.get<ActionsAndMovie>(ARG_MOVIE) ?: throw IllegalArgumentException("Result doesn't exist")
+    private val _actionsAndMovie = savedStateHandle.getLiveData<ActionsAndMovie>(ARG_MOVIE)
+    val actionsAndMovie: LiveData<ActionsAndMovie> = _actionsAndMovie
 
     init {
-        getMovieInfo(actionsAndMovie.movie.id)
+        getMovieInfo(_actionsAndMovie.value!!.movie.id)
     }
 
 
@@ -35,6 +36,10 @@ class InfoViewModel(
                 _state.value = e.message
             }
         }
+    }
+
+    fun setNewRating(rating: Int, inWatchlist: Boolean){
+        _actionsAndMovie.value = _actionsAndMovie.value!!.copy(userRating = rating, inWatchlist = inWatchlist)
     }
 
     companion object {

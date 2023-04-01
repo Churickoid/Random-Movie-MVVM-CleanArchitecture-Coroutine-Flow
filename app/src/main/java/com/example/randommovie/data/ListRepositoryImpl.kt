@@ -71,6 +71,7 @@ class ListRepositoryImpl(
     }
 
     override suspend fun deleteMovieById(id: Long) = withContext(defaultDispatcher) {
+        moviesDao.deleteActionsAndMovieById(id)
         moviesDao.deleteMovieById(id)
 
     }

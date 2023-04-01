@@ -47,10 +47,32 @@ class InfoFragment : BaseFragment() {
         binding = FragmentInfoBinding.bind(view)
 
 
-        binding.retryButton.setOnClickListener {
-            viewModel.getMovieInfo(actionsAndMovie.movie.id)
+        viewModel.actionsAndMovie.observe(viewLifecycleOwner){
+            updateRating(it.userRating,it.inWatchlist)
         }
 
+
+        val movie = actionsAndMovie.movie
+        with(binding) {
+            starButton.setOnClickListener {
+                showRatingDialogFragment(parentFragmentManager,actionsAndMovie)
+            }
+            titleMainTextView.text = movie.titleMain
+            titleExtraTextView.text = movie.titleSecond
+            yearTextView.text = movie.year?.toString() ?: " — "
+
+            genreTextView.text = movie.genre.joinToString(separator = ", ")
+            countryTextView.text = movie.country.joinToString(separator = ", ")
+
+            kinopoiskRateTextView.text = getRatingText(movie.ratingKP)
+            kinopoiskRateTextView.setTextColor(getRatingColor(movie.ratingKP,requireContext()))
+            imdbRateTextView.text = getRatingText(movie.ratingIMDB)
+            imdbRateTextView.setTextColor(getRatingColor(movie.ratingIMDB,requireContext()))
+
+            retryButton.setOnClickListener {
+                viewModel.getMovieInfo(actionsAndMovie.movie.id)
+            }
+        }
         viewModel.state.observe(viewLifecycleOwner) {
             when (it) {
                 LOADING_STATE -> changeState(View.VISIBLE, View.INVISIBLE, View.INVISIBLE)
@@ -62,57 +84,65 @@ class InfoFragment : BaseFragment() {
             }
         }
         viewModel.movieInfo.observe(viewLifecycleOwner) { movieExtra ->
-            val movie = actionsAndMovie.movie
-            binding.titleMainTextView.text = movie.titleMain
-            binding.titleExtraTextView.text = movie.titleSecond
-            binding.typeTextView.text = if (movieExtra.isMovie) "Фильм" else "Сериал"
-            binding.yearTextView.text = movie.year?.toString() ?: " — "
 
-            binding.genreTextView.text = movie.genre.joinToString(separator = ", ")
-            binding.countryTextView.text = movie.country.joinToString(separator = ", ")
-            binding.lengthTextView.text = parseTimeToString(movieExtra.length)
+            with(binding) {
+                typeTextView.text = if (movieExtra.isMovie) "Фильм" else "Сериал"
 
-            binding.kinopoiskRateTextView.text = getRatingText(movie.ratingKP)
-            binding.imdbRateTextView.text = getRatingText(movie.ratingIMDB)
+                lengthTextView.text = parseTimeToString(movieExtra.length)
 
-            binding.kinopoiskRateTextView.setTextColor(getRatingColor(movie.ratingKP,requireContext()))
-            binding.imdbRateTextView.setTextColor(getRatingColor(movie.ratingIMDB,requireContext()))
+                imdbVoteTextView.text = movieExtra.imdbVoteCount.toString()
+                kinopoiskVoteTextView.text = movieExtra.kinopoiskVoteCount.toString()
 
-            binding.imdbVoteTextView.text = movieExtra.imdbVoteCount.toString()
-            binding.kinopoiskVoteTextView.text = movieExtra.kinopoiskVoteCount.toString()
+                descriptionTextView.text = movieExtra.description ?: ""
+                if (movieExtra.headerUrl != null) {
+                    Glide.with(this@InfoFragment)
+                        .load(movieExtra.headerUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .into(headerImageView)
+                } else {
+                    Glide.with(this@InfoFragment)
+                        .load(movieExtra.posterUrlHQ)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .into(headerImageView)
 
-            binding.descriptionTextView.text = movieExtra.description ?: ""
-            if (movieExtra.headerUrl != null) {
-                Glide.with(this@InfoFragment)
-                    .load(movieExtra.headerUrl)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .into(binding.headerImageView)
-            } else {
-                Glide.with(this@InfoFragment)
-                    .load(movieExtra.posterUrlHQ)
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .into(binding.headerImageView)
+                }
 
-            }
+                detailsImdbButton.isEnabled = (movieExtra.imdbId != null)
 
-            binding.detailsImdbButton.isEnabled = (movieExtra.imdbId != null)
-
-            binding.detailsKpButton.setOnClickListener {
-                val urlTag = if (movieExtra.isMovie) "film" else "series"
-                val url = "https://www.kinopoisk.ru/$urlTag/${movie.id}"
-                createUrlIntent(url,"ru.kinopoisk")
-            }
-            binding.detailsImdbButton.setOnClickListener {
-                val url = "https://www.imdb.com/title/${movieExtra.imdbId}/"
-                createUrlIntent(url,"com.imdb.mobile")
+                detailsKpButton.setOnClickListener {
+                    val urlTag = if (movieExtra.isMovie) "film" else "series"
+                    val url = "https://www.kinopoisk.ru/$urlTag/${movie.id}"
+                    createUrlIntent(url, "ru.kinopoisk")
+                }
+                detailsImdbButton.setOnClickListener {
+                    val url = "https://www.imdb.com/title/${movieExtra.imdbId}/"
+                    createUrlIntent(url, "com.imdb.mobile")
+                }
             }
 
         }
 
+        setupRatingDialogFragmentListener(parentFragmentManager){
+            viewModel.setNewRating(it.userRating,it.inWatchlist)
+        }
 
     }
 
-    private fun createUrlIntent(url: String, appPackage: String){
+    private fun updateRating(rating: Int, inWatchlist: Boolean) {
+        with(binding) {
+            if (rating!=0) {
+                yourRatingTextView.text = rating.toString()
+                yourRatingTextView.background.setTint(
+                    getRatingColor(rating.toDouble(), requireContext())
+                )
+                yourRatingTextView.visibility = View.VISIBLE
+            }else yourRatingTextView.visibility = View.GONE
+            if (inWatchlist) bookmarkImageView.visibility = View.VISIBLE
+            else bookmarkImageView.visibility = View.INVISIBLE
+        }
+    }
+
+    private fun createUrlIntent(url: String, appPackage: String) {
         try {
             val intent = Intent(Intent.ACTION_VIEW)
             intent.data = Uri.parse(url)

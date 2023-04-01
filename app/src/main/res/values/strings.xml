@@ -25,6 +25,10 @@
     <string name="imdb_link">Imdb link</string>
     <string name="movie_poster">Movie poster</string>
     <string name="retry">Retry</string>
+    <string name="questionMark">\?</string>
+    <string name="movie_in_watchlist">Movie in Watchlist</string>
+    <string name="add_to_watchlist">Add to Watchlist</string>
+    <string name="rate_this">Rate this</string>
 
 
     <string-array name="orderFilter">

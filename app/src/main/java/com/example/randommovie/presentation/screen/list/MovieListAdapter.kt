@@ -42,11 +42,7 @@ class MovieListAdapter(private val listener: ItemListener) :
         val userInfo = getItem(position)
         val movie = userInfo.movie
         val context = holder.itemView.context
-        val rating = when {
-            movie.ratingKP > 0.0 && movie.ratingIMDB > 0.0 -> (movie.ratingKP + movie.ratingIMDB) / 2
-            movie.ratingKP > 0.0 -> movie.ratingKP
-            else -> movie.ratingIMDB
-        }
+        val rating = movie.ratingKP
 
         with(holder.binding) {
             root.tag = userInfo

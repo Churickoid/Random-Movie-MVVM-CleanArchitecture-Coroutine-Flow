@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,7 +12,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentMovieBinding
-import com.example.randommovie.domain.entity.Actions
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_MOVIE
 import com.example.randommovie.presentation.screen.movie.MovieViewModel.Companion.DEFAULT_STATE
@@ -113,10 +111,9 @@ class MovieFragment : BaseFragment() {
 
         }
 
-        setupRatingDialogFragmentListener(parentFragmentManager){
-            viewModel.actions = Actions(it.userRating,it.inWatchlist)
-        }
+        setupRatingDialogFragmentListener(parentFragmentManager){}
     }
+
 
     private fun changeVisibilityState(buttonState: Int, progressState: Int) {
         binding.actionsGroup.visibility = buttonState

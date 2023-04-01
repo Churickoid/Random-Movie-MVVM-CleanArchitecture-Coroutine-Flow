@@ -15,8 +15,8 @@ import com.example.randommovie.domain.entity.ActionsAndMovie
             entity = MovieDb::class,
             parentColumns = ["movie_id"],
             childColumns = ["movie_id"],
-            onDelete = androidx.room.ForeignKey.CASCADE,
-            onUpdate = androidx.room.ForeignKey.CASCADE //TODO изменить тут что-то чтоб повторки не стирались
+            onDelete = androidx.room.ForeignKey.NO_ACTION,
+            onUpdate = androidx.room.ForeignKey.CASCADE
         )],
     indices = [
         Index("movie_id", unique = true)

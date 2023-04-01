@@ -15,6 +15,9 @@ interface MoviesDao {
     @Query("DELETE FROM movies WHERE movie_id = :movieId")
     suspend fun deleteMovieById(movieId: Long)
 
+    @Query("DELETE FROM user_actions_for_movie WHERE movie_id = :movieId")
+    suspend fun deleteActionsAndMovieById(movieId: Long)
+
 
     @Query("SELECT * FROM user_actions_for_movie WHERE movie_id = :movieId")
     suspend fun getUserInfoForMovieById(movieId: Long) : UserActionsForMovieDb?
