@@ -13,6 +13,7 @@ import com.example.randommovie.domain.usecases.movie.GetRandomMovieUseCase
 import com.example.randommovie.domain.usecases.movie.SetLastMovieUseCase
 import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 
 class MovieViewModel(
     private val getRandomMovieUseCase: GetRandomMovieUseCase,
@@ -35,8 +36,8 @@ class MovieViewModel(
     private val _buttonState = MutableLiveData<Int>()
     val buttonState: LiveData<Int> = _buttonState
 
-    private val _error = MutableLiveData<Event<String?>>()
-    val error: LiveData<Event<String?>> = _error
+    private val _error = MutableLiveData<Event<String>>()
+    val error: LiveData<Event<String>> = _error
 
 
     init {
@@ -52,16 +53,21 @@ class MovieViewModel(
 
     fun getRandomMovie() {
         viewModelScope.launch {
-            val startState = _buttonState.value!!
+            val previousState = _buttonState.value!!
             _buttonState.value = LOADING_STATE
             try {
                 val movie = getRandomMovieUseCase(searchFilterUseCase())
                 _movie.value = movie
                 setLastMovieUseCase(movie)
                 _buttonState.value = DEFAULT_STATE
-            } catch (e: Exception) {
-                _error.value = Event(e.message)
-                _buttonState.value = startState
+            }
+            catch (e: UnknownHostException) {
+                _error.value = Event("Need internet connection")
+                _buttonState.value = previousState
+            }
+            catch (e: Exception) {
+                _error.value = Event(e.toString())
+                _buttonState.value = previousState
             }
         }
     }

@@ -30,29 +30,28 @@ class FilterFragment : BaseFragment() {
 
         binding.genresEditBox.setOnClickListener {
             viewModel.getGenresList()
-            changeEditBoxState(REQUEST_KEY_GENRES,View.INVISIBLE,View.VISIBLE)
+            changeEditBoxState(REQUEST_KEY_GENRES, View.INVISIBLE, View.VISIBLE)
         }
         viewModel.genres.observe(viewLifecycleOwner) {
             it?.getValue()?.let { list ->
-                showListDialogFragment(list,REQUEST_KEY_GENRES)
+                showListDialogFragment(list, REQUEST_KEY_GENRES)
             }
-            changeEditBoxState(REQUEST_KEY_GENRES,View.VISIBLE,View.INVISIBLE)
+            changeEditBoxState(REQUEST_KEY_GENRES, View.VISIBLE, View.INVISIBLE)
         }
         binding.countryEditBox.setOnClickListener {
             viewModel.getCountryList()
-            changeEditBoxState(REQUEST_KEY_COUNTRIES,View.INVISIBLE,View.VISIBLE)
+            changeEditBoxState(REQUEST_KEY_COUNTRIES, View.INVISIBLE, View.VISIBLE)
         }
         viewModel.countries.observe(viewLifecycleOwner) {
-            it?.getValue()?.let { list ->
+            it.getValue()?.let { list ->
                 showListDialogFragment(list, REQUEST_KEY_COUNTRIES)
             }
-            changeEditBoxState(REQUEST_KEY_COUNTRIES,View.VISIBLE,View.INVISIBLE)
         }
 
-        viewModel.countryText.observe(viewLifecycleOwner){
+        viewModel.countryText.observe(viewLifecycleOwner) {
             binding.countryEditBox.text = it
         }
-        viewModel.genreText.observe(viewLifecycleOwner){
+        viewModel.genreText.observe(viewLifecycleOwner) {
             binding.genresEditBox.text = it
         }
 
@@ -101,10 +100,16 @@ class FilterFragment : BaseFragment() {
             setupFilter(viewModel.getDefaultFilterValue())
         }
 
+        viewModel.error.observe(viewLifecycleOwner) {
+            toastError(it)
+            changeEditBoxState(REQUEST_KEY_COUNTRIES, View.VISIBLE, View.INVISIBLE)
+            changeEditBoxState(REQUEST_KEY_GENRES, View.VISIBLE, View.INVISIBLE)
+
+        }
+
         setupFilter(viewModel.getDefaultFilterValue())
         setupListDialogListener()
     }
-
 
 
     private fun setupFilter(filter: SearchFilter) {
@@ -120,36 +125,48 @@ class FilterFragment : BaseFragment() {
             orderSpinner.setSelection(0)
             typeSpinner.setSelection(0)
 
-            countryEditBox.text= ""
-            genresEditBox.text= ""
+            countryEditBox.text = ""
+            genresEditBox.text = ""
         }
     }
 
 
-    private fun showListDialogFragment(list: List<ItemFilter>,requestKey: String) {
-        FilterListDialogFragment.show(parentFragmentManager, list,requestKey)
+    private fun showListDialogFragment(list: List<ItemFilter>, requestKey: String) {
+        FilterListDialogFragment.show(parentFragmentManager, list, requestKey)
+        changeEditBoxState(requestKey, View.VISIBLE, View.INVISIBLE)
     }
 
     private fun setupListDialogListener() {
-        val listener: (String ,ArrayList<ItemFilter>) -> Unit = { requestKey,list ->
-            viewModel.listDialogHandler(requestKey,list)
+        val listener: (String, ArrayList<ItemFilter>) -> Unit = { requestKey, list ->
+            viewModel.listDialogHandler(requestKey, list)
         }
-        FilterListDialogFragment.setupListener(parentFragmentManager,  REQUEST_KEY_GENRES, this,listener)
-        FilterListDialogFragment.setupListener(parentFragmentManager,  REQUEST_KEY_COUNTRIES, this,listener)
+        FilterListDialogFragment.setupListener(
+            parentFragmentManager,
+            REQUEST_KEY_GENRES,
+            this,
+            listener
+        )
+        FilterListDialogFragment.setupListener(
+            parentFragmentManager,
+            REQUEST_KEY_COUNTRIES,
+            this,
+            listener
+        )
     }
 
-    private fun changeEditBoxState(requestKey: String, stateView: Int, stateProgressBar: Int){
-        when(requestKey){
+    private fun changeEditBoxState(requestKey: String, stateView: Int, stateProgressBar: Int) {
+        when (requestKey) {
             REQUEST_KEY_GENRES -> {
                 binding.genresEditBox.visibility = stateView
                 binding.genresProgressBar.visibility = stateProgressBar
             }
-            REQUEST_KEY_COUNTRIES ->{
+            REQUEST_KEY_COUNTRIES -> {
                 binding.countryEditBox.visibility = stateView
                 binding.countryProgressBar.visibility = stateProgressBar
             }
         }
     }
+
     companion object {
         const val REQUEST_KEY_GENRES = "REQUEST_KEY_GENRES"
         const val REQUEST_KEY_COUNTRIES = "REQUEST_KEY_COUNTRIES"

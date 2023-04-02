@@ -1,6 +1,5 @@
 package com.example.randommovie.presentation.screen.filter
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +13,7 @@ import com.example.randommovie.domain.usecases.filter.GetGenresUseCase
 import com.example.randommovie.domain.usecases.filter.SetSearchFilterUseCase
 import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 
 class FilterViewModel(
     private val setSearchFilterUseCase: SetSearchFilterUseCase,
@@ -28,11 +28,11 @@ class FilterViewModel(
         }
 
 
-    private val _genres = MutableLiveData<Event<List<ItemFilter>>?>()
-    val genres: LiveData<Event<List<ItemFilter>>?> = _genres
+    private val _genres = MutableLiveData<Event<List<ItemFilter>>>()
+    val genres: LiveData<Event<List<ItemFilter>>> = _genres
 
-    private val _countries = MutableLiveData<Event<List<ItemFilter>>?>()
-    val countries: LiveData<Event<List<ItemFilter>>?> = _countries
+    private val _countries = MutableLiveData<Event<List<ItemFilter>>>()
+    val countries: LiveData<Event<List<ItemFilter>>> = _countries
 
 
     private val _countryText = MutableLiveData<String>()
@@ -41,34 +41,28 @@ class FilterViewModel(
     private val _genreText = MutableLiveData<String>()
     val genreText: LiveData<String> = _genreText
 
+    private val _error = MutableLiveData<Event<String>>()
+    val error: LiveData<Event<String>> = _error
 
 
-    fun getGenresList() {
-        viewModelScope.launch {
-            try {
-                _genres.value = Event(getGenresUseCase.invoke())
-            } catch (e: Exception) {
-                _countries.value = null
-            }
+    fun getGenresList() =
+        errorHandler {
+            _genres.value = Event(getGenresUseCase.invoke())
         }
-    }
 
-    fun getCountryList() {
-        viewModelScope.launch {
-            try {
-                _countries.value = Event(getCountriesUseCase.invoke())
-            } catch (e: Exception) {
-                _countries.value = null
-            }
+
+    fun getCountryList() =
+        errorHandler {
+            _countries.value = Event(getCountriesUseCase.invoke())
         }
-    }
+
 
     fun setYearFilter(yearBottom: Int, yearTop: Int) {
-        filter = filter.copy(yearBottom = yearBottom, yearTop =yearTop)
+        filter = filter.copy(yearBottom = yearBottom, yearTop = yearTop)
     }
 
     fun setRatingFilter(ratingBottom: Int, ratingTop: Int) {
-        filter = filter.copy(ratingBottom = ratingBottom, ratingTop =ratingTop)
+        filter = filter.copy(ratingBottom = ratingBottom, ratingTop = ratingTop)
     }
 
     fun setOrderFilter(position: Int) {
@@ -93,6 +87,8 @@ class FilterViewModel(
 
     fun getDefaultFilterValue(): SearchFilter {
         filter = SearchFilter()
+        _countryText.value = ""
+        _genreText.value = ""
         return filter
     }
 
@@ -123,9 +119,19 @@ class FilterViewModel(
     private fun setGenresFilter(genresIds: List<Int>) {
         filter = filter.copy(genres = genresIds)
     }
+
     private fun setCountryFilter(countriesIds: List<Int>) {
         filter = filter.copy(countries = countriesIds)
     }
 
+    private fun errorHandler(action: suspend () -> Unit) {
+        viewModelScope.launch {
+            try {
+                action()
+            } catch (e: UnknownHostException) {
+                _error.value = Event("Need internet connection")
+            }
+        }
+    }
 
 }

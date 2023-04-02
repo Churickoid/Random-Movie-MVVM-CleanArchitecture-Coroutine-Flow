@@ -1,6 +1,7 @@
 package com.example.randommovie.presentation.screen
 
 import android.content.Context
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -8,6 +9,7 @@ import com.example.randommovie.R
 import com.example.randommovie.domain.entity.Movie.Companion.RATING_NULL
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.presentation.screen.list.MovieListAdapter
+import com.example.randommovie.presentation.tools.Event
 import com.example.randommovie.presentation.tools.factory
 
 open class BaseFragment : Fragment() {
@@ -26,6 +28,12 @@ open class BaseFragment : Fragment() {
         RatingDialogFragment.setupListener(manager, this) {
             viewModel.addRatedMovie(it)
             action(it)
+        }
+    }
+
+    fun toastError(eventMassage: Event<String>){
+        eventMassage.getValue()?.let { massage ->
+            Toast.makeText(requireContext(), massage, Toast.LENGTH_SHORT).show()
         }
     }
     companion object{

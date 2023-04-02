@@ -5,7 +5,9 @@ import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.domain.entity.MovieExtra
 import com.example.randommovie.domain.usecases.movie.GetMoreInformationUseCase
 import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_MOVIE
+import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 
 class InfoViewModel(
     savedStateHandle: SavedStateHandle,
@@ -16,11 +18,13 @@ class InfoViewModel(
     val movieInfo: LiveData<MovieExtra> = _movieInfo
 
     private val _state = MutableLiveData(LOADING_STATE)
-    val state: LiveData<String> = _state
+    val state: LiveData<Int> = _state
 
     private val _actionsAndMovie = savedStateHandle.getLiveData<ActionsAndMovie>(ARG_MOVIE)
     val actionsAndMovie: LiveData<ActionsAndMovie> = _actionsAndMovie
 
+    private val _error = MutableLiveData<Event<String>>()
+    val error: LiveData<Event<String>> = _error
     init {
         getMovieInfo(_actionsAndMovie.value!!.movie.id)
     }
@@ -32,8 +36,10 @@ class InfoViewModel(
             try {
                 _movieInfo.value = getMoreInformationUseCase.invoke(id)
                 _state.value = VALID_STATE
-            } catch (e: Exception) {
-                _state.value = e.message
+            }
+            catch (e: UnknownHostException) {
+                _state.value = ERROR_STATE
+                _error.value = Event("Need internet connection")
             }
         }
     }
@@ -43,24 +49,12 @@ class InfoViewModel(
     }
 
     companion object {
-        const val LOADING_STATE = "LOADING_STATE"
-        const val VALID_STATE = "VALID_STATE"
+        const val LOADING_STATE = 0
+        const val VALID_STATE = 1
+        const val ERROR_STATE = 2
     }
 
 
-    //TODO Обработчик ошибок всем добавить для красоты =)
-    /*private fun launchDataLoad(block: suspend () -> Unit){
-        viewModelScope.launch {
-            try {
-                _spinner.value = true
-                block()
-            } catch (error: TitleRefreshError) {
-                _snackBar.value = error.message
-            } finally {
-                _spinner.value = false
-            }
-        }
-        }
-    }*/
+
 
 }

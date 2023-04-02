@@ -15,6 +15,7 @@ import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentInfoBinding
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment
+import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.ERROR_STATE
 import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.LOADING_STATE
 import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.VALID_STATE
 import com.example.randommovie.presentation.tools.changeTitle
@@ -77,10 +78,7 @@ class InfoFragment : BaseFragment() {
             when (it) {
                 LOADING_STATE -> changeState(View.VISIBLE, View.INVISIBLE, View.INVISIBLE)
                 VALID_STATE -> changeState(View.INVISIBLE, View.VISIBLE, View.INVISIBLE)
-                else -> {
-                    changeState(View.INVISIBLE, View.INVISIBLE, View.VISIBLE)
-                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-                }
+                ERROR_STATE -> changeState(View.INVISIBLE, View.INVISIBLE, View.VISIBLE)
             }
         }
         viewModel.movieInfo.observe(viewLifecycleOwner) { movieExtra ->
@@ -122,8 +120,12 @@ class InfoFragment : BaseFragment() {
 
         }
 
+
         setupRatingDialogFragmentListener(parentFragmentManager){
             viewModel.setNewRating(it.userRating,it.inWatchlist)
+        }
+        viewModel.error.observe(viewLifecycleOwner) {
+            toastError(it)
         }
 
     }

@@ -9,6 +9,7 @@ import com.example.randommovie.domain.ListRepository
 import com.example.randommovie.domain.entity.ItemFilter
 import com.example.randommovie.domain.entity.SearchFilter
 import java.net.ConnectException
+import java.net.UnknownHostException
 
 class FilterRepositoryImpl(
     private val retrofitApiInterface: RetrofitApiInterface,
@@ -39,8 +40,7 @@ class FilterRepositoryImpl(
         private var itemsExist = false
         suspend fun setGenresAndCountries(retrofitApiInterface: RetrofitApiInterface, itemsDao : ItemsDao) {
             if (!itemsExist)
-                if (itemsDao.getAllItemsByType(0).isEmpty())
-            try {
+                if (itemsDao.getAllItemsByType(0).isEmpty()){
                 val request = retrofitApiInterface.getGenresAndCounties()
                 request.genres.forEach {
                     if(it.genre != "")itemsDao.insertItem(
@@ -53,8 +53,6 @@ class FilterRepositoryImpl(
                     )
                 }
                 itemsExist = true
-            } catch (e: Exception) {
-                throw e
             }
 
         }

@@ -199,7 +199,6 @@
         app:constraint_referenced_ids="posterImageView,titleMainTextView,titleExtraTextView,genresTextView,kinopoiskImageView,imdbImageView,imdbRateTextView,kinopoiskRateTextView" />
 
     <androidx.constraintlayout.widget.Group
-        android:visibility="invisible"
         android:id="@+id/extraActionsGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

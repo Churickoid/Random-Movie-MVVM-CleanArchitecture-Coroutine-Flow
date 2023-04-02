@@ -26,9 +26,7 @@ class MovieFragment : BaseFragment() {
     private val viewModel: MovieViewModel by viewModels { factory() }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_movie, container, false)
     }
@@ -44,11 +42,12 @@ class MovieFragment : BaseFragment() {
             viewModel.getActionsAndMovieToInfo()
         }
 
-        viewModel.infoActionsMovie.observe(viewLifecycleOwner){
+        viewModel.infoActionsMovie.observe(viewLifecycleOwner) {
             it.getValue()?.let { actionsAndMovie ->
                 findNavController().navigate(
                     R.id.action_movieFragment_to_informationMovieFragment,
-                    bundleOf(ARG_MOVIE to actionsAndMovie))
+                    bundleOf(ARG_MOVIE to actionsAndMovie)
+                )
             }
         }
 
@@ -56,7 +55,7 @@ class MovieFragment : BaseFragment() {
             viewModel.getActionsAndMovieToRating()
         }
 
-        viewModel.ratingActionsMovie.observe(viewLifecycleOwner){
+        viewModel.ratingActionsMovie.observe(viewLifecycleOwner) {
             it.getValue()?.let { actionsAndMovie ->
                 showRatingDialogFragment(parentFragmentManager, actionsAndMovie)
             }
@@ -72,50 +71,57 @@ class MovieFragment : BaseFragment() {
             binding.kinopoiskRateTextView.text = getRatingText(movie.ratingKP)
             binding.imdbRateTextView.text = getRatingText(movie.ratingIMDB)
 
-            binding.kinopoiskRateTextView.setTextColor(getRatingColor(movie.ratingKP,requireContext()))
-            binding.imdbRateTextView.setTextColor(getRatingColor(movie.ratingIMDB,requireContext()))
+            binding.kinopoiskRateTextView.setTextColor(
+                getRatingColor(
+                    movie.ratingKP, requireContext()
+                )
+            )
+            binding.imdbRateTextView.setTextColor(
+                getRatingColor(
+                    movie.ratingIMDB, requireContext()
+                )
+            )
 
-            Glide.with(this@MovieFragment)
-                .load(movie.posterUrl)
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .into(binding.posterImageView)
+            Glide.with(this@MovieFragment).load(movie.posterUrl)
+                .diskCacheStrategy(DiskCacheStrategy.NONE).into(binding.posterImageView)
 
         }
 
         viewModel.buttonState.observe(viewLifecycleOwner) {
-            when(it){
-                LOADING_STATE-> changeVisibilityState(View.INVISIBLE,View.VISIBLE)
-                DEFAULT_STATE->{
+            when (it) {
+                LOADING_STATE -> changeVisibilityState(View.INVISIBLE, View.VISIBLE)
+                DEFAULT_STATE -> {
                     changeVisibilityState(View.VISIBLE, View.INVISIBLE)
                     changeEnabledState(true)
+                    if (binding.movieGroup.visibility == View.INVISIBLE) {
+                        binding.movieGroup.visibility = View.VISIBLE
+                        binding.startTextView.visibility = View.INVISIBLE
+                    }
                 }
-                DISABLED_STATE-> changeEnabledState(false)
                 FIRST_TIME_STATE -> {
                     changeVisibilityState(View.VISIBLE, View.INVISIBLE)
                     binding.startTextView.visibility = View.VISIBLE
-                    binding.extraActionsGroup.visibility = View.INVISIBLE
                     binding.movieGroup.visibility = View.INVISIBLE
+                    binding.extraActionsGroup.visibility = View.INVISIBLE
                 }
+                DISABLED_STATE -> changeEnabledState(false)
             }
 
         }
         viewModel.error.observe(viewLifecycleOwner) {
-            it.getValue()?.let { massage ->
-                Toast.makeText(requireContext(), massage, Toast.LENGTH_SHORT).show()
-            }
+            toastError(it)
         }
 
-        setupRatingDialogFragmentListener(parentFragmentManager){}
+        setupRatingDialogFragmentListener(parentFragmentManager) {}
     }
 
 
     private fun changeVisibilityState(buttonState: Int, progressState: Int) {
         binding.actionsGroup.visibility = buttonState
         binding.loadingProgressBar.visibility = progressState
-        binding.movieGroup.visibility = View.VISIBLE
-        binding.startTextView.visibility = View.INVISIBLE
     }
-    private fun changeEnabledState(isEnabled: Boolean){
+
+    private fun changeEnabledState(isEnabled: Boolean) {
         binding.starButton.isEnabled = isEnabled
         binding.nextMovieButton.isEnabled = isEnabled
         binding.moreButton.isEnabled = isEnabled
