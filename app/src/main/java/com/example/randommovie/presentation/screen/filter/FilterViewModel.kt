@@ -10,21 +10,26 @@ import com.example.randommovie.domain.entity.SearchFilter
 import com.example.randommovie.domain.entity.Type
 import com.example.randommovie.domain.usecases.filter.GetCountriesUseCase
 import com.example.randommovie.domain.usecases.filter.GetGenresUseCase
+import com.example.randommovie.domain.usecases.filter.GetSearchFilterUseCase
 import com.example.randommovie.domain.usecases.filter.SetSearchFilterUseCase
 import com.example.randommovie.presentation.tools.Event
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 
 class FilterViewModel(
     private val setSearchFilterUseCase: SetSearchFilterUseCase,
     private val getGenresUseCase: GetGenresUseCase,
-    private val getCountriesUseCase: GetCountriesUseCase
+    private val getCountriesUseCase: GetCountriesUseCase,
+    private val getSearchFilterUseCase: GetSearchFilterUseCase
 ) : ViewModel() {
 
     private var filter = SearchFilter()
         set(value) {
             field = value
-            setSearchFilterUseCase(value)
+            viewModelScope.launch {
+                setSearchFilterUseCase(value)
+            }
         }
 
 
@@ -44,7 +49,13 @@ class FilterViewModel(
     private val _error = MutableLiveData<Event<String>>()
     val error: LiveData<Event<String>> = _error
 
+   // private val filterFlow: Flow<SearchFilter> =
 
+
+    fun getDefaultFilter():SearchFilter{
+        filter = SearchFilter()
+        return filter
+    }
     fun getGenresList() =
         errorHandler {
             _genres.value = Event(getGenresUseCase.invoke())
@@ -85,10 +96,10 @@ class FilterViewModel(
         filter = filter.copy(type = type)
     }
 
-    fun getDefaultFilterValue(): SearchFilter {
-        filter = SearchFilter()
-        _countryText.value = ""
-        _genreText.value = ""
+    fun getFilterValue(): SearchFilter {
+        viewModelScope.launch {
+            filter = getSearchFilterUseCase()
+        }
         return filter
     }
 

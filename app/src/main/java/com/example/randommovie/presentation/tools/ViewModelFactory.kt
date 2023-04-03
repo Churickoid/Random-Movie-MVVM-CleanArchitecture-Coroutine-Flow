@@ -31,7 +31,8 @@ class ViewModelFactory(private val app: App) : AbstractSavedStateViewModelFactor
             FilterViewModel::class.java -> {
                 FilterViewModel(app.container.setSearchFilterUseCase,
                     app.container.getGenresUseCase,
-                    app.container.getCountriesUseCase
+                    app.container.getCountriesUseCase,
+                    app.container.getSearchFilterUseCase
                 )
             }
             InfoViewModel::class.java -> {

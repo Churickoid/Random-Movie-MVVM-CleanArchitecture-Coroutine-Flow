@@ -6,9 +6,9 @@ import com.example.randommovie.data.room.dao.MoviesDao
 import com.example.randommovie.data.room.entity.ItemsForMoviesDb
 import com.example.randommovie.data.room.entity.MovieDb
 import com.example.randommovie.data.room.entity.UserActionsForMovieDb
+import com.example.randommovie.domain.FilterRepository.Companion.COUNTRY_ITEM_TYPE
+import com.example.randommovie.domain.FilterRepository.Companion.GENRE_ITEM_TYPE
 import com.example.randommovie.domain.ListRepository
-import com.example.randommovie.domain.ListRepository.Companion.COUNTRY_ITEM_TYPE
-import com.example.randommovie.domain.ListRepository.Companion.GENRE_ITEM_TYPE
 import com.example.randommovie.domain.entity.Actions
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import kotlinx.coroutines.Dispatchers

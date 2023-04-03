@@ -55,6 +55,7 @@ class DependencyInjectionContainer(context:Context) {
     private val movieDao = appDatabase.moviesDao()
     private val itemsDao = appDatabase.itemsDao()
     private val listDao = appDatabase.listDao()
+    private val filterDao = appDatabase.filterDao()
 
     private val movieRepository = MovieRepositoryImpl(retrofit,movieDao,itemsDao)
     val getRandomMovieUseCase = GetRandomMovieUseCase(movieRepository)
@@ -62,7 +63,7 @@ class DependencyInjectionContainer(context:Context) {
     val getLastMovieUseCase = GetLastMovieUseCase(movieRepository)
     val setLastMovieUseCase = SetLastMovieUseCase(movieRepository)
 
-    private val filterRepository = FilterRepositoryImpl(retrofit,itemsDao)
+    private val filterRepository = FilterRepositoryImpl(retrofit,itemsDao,filterDao)
     val setSearchFilterUseCase = SetSearchFilterUseCase(filterRepository)
     val getSearchFilterUseCase = GetSearchFilterUseCase(filterRepository)
     val getGenresUseCase = GetGenresUseCase(filterRepository)

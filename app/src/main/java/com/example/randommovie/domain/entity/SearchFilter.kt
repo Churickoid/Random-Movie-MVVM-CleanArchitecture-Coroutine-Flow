@@ -5,14 +5,14 @@ data class SearchFilter(
     val yearTop: Int = 2022,
     val ratingBottom: Int = 6,
     val ratingTop: Int = 9,
-    val order:OrderFilter = OrderFilter.RATING,
+    val order:OrderFilter = OrderFilter.NUM_VOTE,
     val type: Type = Type.FILM,
     val genres: List<Int> = listOf(),
     val countries: List<Int> = listOf()
 
 )
 enum class OrderFilter{
-    YEAR,NUM_VOTE,RATING
+    NUM_VOTE,RATING,YEAR
 }
 
 enum class Type{

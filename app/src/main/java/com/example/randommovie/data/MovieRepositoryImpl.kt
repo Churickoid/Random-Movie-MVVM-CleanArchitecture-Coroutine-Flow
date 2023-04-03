@@ -7,6 +7,8 @@ import com.example.randommovie.data.room.dao.ItemsDao
 import com.example.randommovie.data.room.dao.MoviesDao
 import com.example.randommovie.data.room.entity.ItemsForMoviesDb
 import com.example.randommovie.data.room.entity.MovieDb
+import com.example.randommovie.domain.FilterRepository.Companion.COUNTRY_ITEM_TYPE
+import com.example.randommovie.domain.FilterRepository.Companion.GENRE_ITEM_TYPE
 import com.example.randommovie.domain.ListRepository
 import com.example.randommovie.domain.MovieRepository
 import com.example.randommovie.domain.entity.Movie
@@ -106,14 +108,14 @@ class MovieRepositoryImpl(
         movie.country.forEach {
             itemsDao.insertItemForMovie(
                 ItemsForMoviesDb(
-                    movie.id, itemsDao.getItemIdByName(it), ListRepository.COUNTRY_ITEM_TYPE
+                    movie.id, itemsDao.getItemIdByName(it), COUNTRY_ITEM_TYPE
                 )
             )
         }
         movie.genre.forEach {
             itemsDao.insertItemForMovie(
                 ItemsForMoviesDb(
-                    movie.id, itemsDao.getItemIdByName(it), ListRepository.GENRE_ITEM_TYPE
+                    movie.id, itemsDao.getItemIdByName(it), GENRE_ITEM_TYPE
                 )
             )
         }

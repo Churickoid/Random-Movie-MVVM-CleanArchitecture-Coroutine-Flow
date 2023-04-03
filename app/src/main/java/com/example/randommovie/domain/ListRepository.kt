@@ -26,8 +26,6 @@ interface ListRepository {
         const val YEAR_ORDER = 30
         const val USER_RATING_ORDER= 40
 
-        const val GENRE_ITEM_TYPE = 0
-        const val COUNTRY_ITEM_TYPE = 1
 
 
 

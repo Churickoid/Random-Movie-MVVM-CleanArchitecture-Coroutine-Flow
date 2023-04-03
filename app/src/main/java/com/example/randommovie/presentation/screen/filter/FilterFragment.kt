@@ -97,7 +97,7 @@ class FilterFragment : BaseFragment() {
             }
         }
         binding.defaultButton.setOnClickListener {
-            setupFilter(viewModel.getDefaultFilterValue())
+            setupFilter(viewModel.getDefaultFilter())
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
@@ -107,7 +107,7 @@ class FilterFragment : BaseFragment() {
 
         }
 
-        setupFilter(viewModel.getDefaultFilterValue())
+        setupFilter(viewModel.getFilterValue())
         setupListDialogListener()
     }
 
@@ -122,11 +122,8 @@ class FilterFragment : BaseFragment() {
             yearTextView.text =
                 getString(R.string.year_with_ints, filter.yearBottom, filter.yearTop)
 
-            orderSpinner.setSelection(0)
-            typeSpinner.setSelection(0)
-
-            countryEditBox.text = ""
-            genresEditBox.text = ""
+            orderSpinner.setSelection(filter.order.ordinal)
+            typeSpinner.setSelection(filter.type.ordinal)
         }
     }
 
