@@ -1,6 +1,5 @@
 package com.example.randommovie.presentation.screen.filter
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,11 +26,12 @@ class FilterViewModel(
 ) : ViewModel() {
 
 
-    private var filter = SearchFilter()
-    set(value){
-        _startFilter.value = value
-        field = value
-    }
+    private var filter: SearchFilter? = null
+        set(value) {
+            field = value
+            if (value != null) saveCurrentFilter(value)
+            _startFilter.value = value!!
+        }
 
     private val _startFilter = MutableLiveData<SearchFilter>()
     val startFilter: LiveData<SearchFilter> = _startFilter
@@ -41,6 +41,7 @@ class FilterViewModel(
             val active = value.filter { it.isActive }
             field = value
             _genreText.value = active.joinToString(", ") { it.name }
+            filter = filter!!.copy(genres = active.map { it })
         }
 
     private var countries = listOf<ItemFilter>()
@@ -48,6 +49,7 @@ class FilterViewModel(
             val active = value.filter { it.isActive }
             field = value
             _countryText.value = active.joinToString(", ") { it.name }
+            filter = filter!!.copy(countries = active.map { it })
         }
 
     private val _genresEvent = MutableLiveData<Event<List<ItemFilter>>>()
@@ -70,35 +72,38 @@ class FilterViewModel(
     }
 
     fun setDefaultFilter() {
-        genres = genres.map { ItemFilter(it.id,it.name,false) }
-        countries = countries.map { ItemFilter(it.id,it.name,false) }
+        genres.map { ItemFilter(it.id, it.name, false) }
+        countries.map { ItemFilter(it.id, it.name, false) }
+        _countryText.value = ""
+        _genreText.value = ""
         filter = SearchFilter()
-        saveCurrentFilter(filter)
     }
 
     fun getGenresList() {
         viewModelScope.launch {
-            if (genres.isEmpty()) errorHandler { genres = getGenresUseCase() }
-            if (genres.isNotEmpty())_genresEvent.value = Event(genres)
+            if (genres.isEmpty()) errorHandler {
+                genres = getGenresUseCase()
+            }
+            if (genres.isNotEmpty()) _genresEvent.value = Event(genres)
         }
     }
+
     fun getCountryList() {
         viewModelScope.launch {
-            if (countries.isEmpty()) errorHandler { countries = getCountriesUseCase() }
-            if (countries.isNotEmpty())_countriesEvent.value = Event(countries)
+            if (countries.isEmpty()) errorHandler {
+                countries = getCountriesUseCase()
+            }
+            if (countries.isNotEmpty()) _countriesEvent.value = Event(countries)
         }
     }
 
 
     fun setYearFilter(yearBottom: Int, yearTop: Int) {
-        _startFilter.value = _startFilter.value!!.copy(yearBottom = yearBottom, yearTop = yearTop)
-        saveCurrentFilter(_startFilter.value!!)
+        filter = filter!!.copy(yearBottom = yearBottom, yearTop = yearTop)
     }
 
     fun setRatingFilter(ratingBottom: Int, ratingTop: Int) {
-        _startFilter.value =
-            _startFilter.value!!.copy(ratingBottom = ratingBottom, ratingTop = ratingTop)
-        saveCurrentFilter(_startFilter.value!!)
+        filter = filter!!.copy(ratingBottom = ratingBottom, ratingTop = ratingTop)
     }
 
     fun setOrderFilter(position: Int) {
@@ -108,8 +113,7 @@ class FilterViewModel(
             2 -> OrderFilter.YEAR
             else -> throw Exception("Invalid position")
         }
-        _startFilter.value = _startFilter.value!!.copy(order = orderFilter)
-        saveCurrentFilter(_startFilter.value!!)
+        filter = filter!!.copy(order = orderFilter)
     }
 
     fun setTypeFilter(position: Int) {
@@ -119,8 +123,7 @@ class FilterViewModel(
             2 -> Type.ALL
             else -> throw Exception("Invalid position")
         }
-        _startFilter.value = _startFilter.value!!.copy(type = type)
-        saveCurrentFilter(_startFilter.value!!)
+        filter = filter!!.copy(type = type)
     }
 
 
@@ -128,11 +131,9 @@ class FilterViewModel(
         when (requestKey) {
             REQUEST_KEY_GENRES -> {
                 genres = list
-                filter = filter.copy(genres= genres.filter { it.isActive }.map { it.id })
             }
             REQUEST_KEY_COUNTRIES -> {
                 countries = list
-                filter = filter.copy(genres= countries.filter { it.isActive }.map { it.id })
             }
             else -> throw Exception("Unknown Dialog Type")
         }
@@ -147,7 +148,9 @@ class FilterViewModel(
 
     private fun setupFilter() {
         viewModelScope.launch {
-            _startFilter.value = getSearchFilterUseCase.invoke()
+            filter = getSearchFilterUseCase()
+            _genreText.value = filter!!.genres.joinToString(", ") { it.name }
+            _countryText.value = filter!!.countries.joinToString(", ") { it.name }
         }
     }
 

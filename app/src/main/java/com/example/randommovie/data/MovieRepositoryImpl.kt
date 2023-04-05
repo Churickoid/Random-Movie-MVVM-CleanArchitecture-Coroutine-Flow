@@ -1,6 +1,5 @@
 package com.example.randommovie.data
 
-import android.util.Log
 import com.example.randommovie.data.FilterRepositoryImpl.Companion.setGenresAndCountries
 import com.example.randommovie.data.retrofit.RetrofitApiInterface
 import com.example.randommovie.data.room.dao.ItemsDao
@@ -9,7 +8,6 @@ import com.example.randommovie.data.room.entity.ItemsForMoviesDb
 import com.example.randommovie.data.room.entity.MovieDb
 import com.example.randommovie.domain.FilterRepository.Companion.COUNTRY_ITEM_TYPE
 import com.example.randommovie.domain.FilterRepository.Companion.GENRE_ITEM_TYPE
-import com.example.randommovie.domain.ListRepository
 import com.example.randommovie.domain.MovieRepository
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.MovieExtra
@@ -49,8 +47,8 @@ class MovieRepositoryImpl(
                 yearTo = randYear,
                 ratingFrom = randRating,
                 ratingTo = randRating + 1,
-                genre = genre,
-                country = country,
+                genre = genre?.id,
+                country = country?.id,
                 order = searchFilter.order.name,
                 type = searchFilter.type.name
             ).items
@@ -62,8 +60,8 @@ class MovieRepositoryImpl(
                     yearTo = randYear,
                     ratingFrom = searchFilter.ratingBottom,
                     ratingTo = searchFilter.ratingTop,
-                    genre = genre,
-                    country = country,
+                    genre = genre?.id,
+                    country = country?.id,
                     order = searchFilter.order.name,
                     type = searchFilter.type.name
                 ).items

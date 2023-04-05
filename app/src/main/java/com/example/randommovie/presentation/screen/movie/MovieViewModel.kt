@@ -17,7 +17,7 @@ import java.net.UnknownHostException
 
 class MovieViewModel(
     private val getRandomMovieUseCase: GetRandomMovieUseCase,
-    private val searchFilterUseCase: GetSearchFilterUseCase,
+    private val getSearchFilterUseCase: GetSearchFilterUseCase,
     private val getLastMovieUseCase: GetLastMovieUseCase,
     private val setLastMovieUseCase: SetLastMovieUseCase,
     private val getActionsByIdUseCase: GetActionsByIdUseCase
@@ -45,7 +45,8 @@ class MovieViewModel(
             val lastMovie = getLastMovieUseCase()
             if (lastMovie == null) _buttonState.value = FIRST_TIME_STATE
             else {
-                _movie.value = lastMovie!!
+                val lastMovieNotNull: Movie = lastMovie
+                _movie.value = lastMovieNotNull
                 _buttonState.value = DEFAULT_STATE
             }
         }
@@ -56,7 +57,7 @@ class MovieViewModel(
             val previousState = _buttonState.value!!
             _buttonState.value = LOADING_STATE
             try {
-                val movie = getRandomMovieUseCase(searchFilterUseCase())
+                val movie = getRandomMovieUseCase(getSearchFilterUseCase())
                 _movie.value = movie
                 setLastMovieUseCase(movie)
                 _buttonState.value = DEFAULT_STATE

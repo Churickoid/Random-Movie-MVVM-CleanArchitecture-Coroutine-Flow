@@ -15,6 +15,7 @@ interface FilterDao {
     @Query("DELETE FROM filter")
     suspend fun deleteFilter()
 
-    @Query("SELECT * FROM filter")
-    suspend fun getFilter(): List<FilterDb>
+    @Query("SELECT * FROM filter JOIN items "
+            +"ON filter.item_id = items.id AND filter.item_type = items.type ")
+    suspend fun getFilter(): Map<FilterDb,ItemDb>
 }

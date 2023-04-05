@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.example.randommovie.domain.entity.ItemFilter
 import com.example.randommovie.domain.entity.OrderFilter
 import com.example.randommovie.domain.entity.SearchFilter
 import com.example.randommovie.domain.entity.Type
@@ -32,7 +33,7 @@ class FilterDb(
     @ColumnInfo("item_type")val itemType: Int?
 ){
 
-    fun toSearchFilter(genres:List<Int>,countries:List<Int>):SearchFilter{
+    fun toSearchFilter(genres:List<ItemFilter>,countries:List<ItemFilter>):SearchFilter{
         return SearchFilter(
             yearBottom = this.yearBottom,
             yearTop = this.yearTop,

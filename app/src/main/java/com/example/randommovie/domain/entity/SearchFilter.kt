@@ -7,8 +7,8 @@ data class SearchFilter(
     val ratingTop: Int = 9,
     val order:OrderFilter = OrderFilter.NUM_VOTE,
     val type: Type = Type.FILM,
-    val genres: List<Int> = listOf(),
-    val countries: List<Int> = listOf()
+    val genres: List<ItemFilter> = listOf(),
+    val countries: List<ItemFilter> = listOf()
 
 )
 enum class OrderFilter{

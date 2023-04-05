@@ -26,23 +26,23 @@ class FilterRepositoryImpl(
         }
         filterDao.insertFilter(FilterDb.fromSearchFilter(searchFilter, null, null))
         for (item in searchFilter.genres)
-            filterDao.insertFilter(FilterDb.fromSearchFilter(searchFilter, item, GENRE_ITEM_TYPE))
+            filterDao.insertFilter(FilterDb.fromSearchFilter(searchFilter, item.id, GENRE_ITEM_TYPE))
         for (item in searchFilter.countries)
-            filterDao.insertFilter(FilterDb.fromSearchFilter(searchFilter, item, COUNTRY_ITEM_TYPE))
+            filterDao.insertFilter(FilterDb.fromSearchFilter(searchFilter, item.id, COUNTRY_ITEM_TYPE))
         filter = searchFilter
     }
 
     override suspend fun getSearchFilter(): SearchFilter {
         if (filter == null) {
             try {
-                val filterDb = filterDao.getFilter()
-                val genresId = mutableListOf<Int>()
-                val countriesId = mutableListOf<Int>()
-                filterDb.forEach {
-                    if (it.itemType == GENRE_ITEM_TYPE) genresId += it.itemId!!
-                    else if (it.itemType == COUNTRY_ITEM_TYPE) countriesId += it.itemId!!
+                val request = filterDao.getFilter()
+                val genres = mutableListOf<ItemFilter>()
+                val countries = mutableListOf<ItemFilter>()
+                request.forEach {(filterDb,itemDb) ->
+                    if (filterDb.itemType == GENRE_ITEM_TYPE) genres += itemDb.toItemFilter(true)
+                    else if (filterDb.itemType == COUNTRY_ITEM_TYPE) countries += itemDb.toItemFilter(true)
                 }
-                filter = filterDb[0].toSearchFilter(genresId, countriesId)
+                filter = request.keys.first().toSearchFilter(genres, countries)
             } catch (e: Exception) {
                 filter = SearchFilter()
             }
@@ -53,12 +53,12 @@ class FilterRepositoryImpl(
     override suspend fun getCountriesList(): List<ItemFilter> {
         setGenresAndCountries(retrofitApiInterface, itemsDao)
         return itemsDao.getAllItemsByType(COUNTRY_ITEM_TYPE)
-            .map { it.toItemFilter() }
+            .map { it.toItemFilter(filter!!.countries.map {item -> item.id }) }
     }
 
     override suspend fun getGenresList(): List<ItemFilter> {
         setGenresAndCountries(retrofitApiInterface, itemsDao)
-        return itemsDao.getAllItemsByType(GENRE_ITEM_TYPE).map { it.toItemFilter() }
+        return itemsDao.getAllItemsByType(GENRE_ITEM_TYPE).map { it.toItemFilter(filter!!.genres.map {item -> item.id })  }
     }
 
     companion object {

@@ -2,7 +2,6 @@ package com.example.randommovie.data.room.entity
 
 import androidx.room.Entity
 import androidx.room.Index
-import androidx.room.PrimaryKey
 import com.example.randommovie.domain.entity.ItemFilter
 
 @Entity(
@@ -17,7 +16,10 @@ data class ItemDb(
     val type: Int,
     val name: String
 ){
-    fun toItemFilter(): ItemFilter {
-        return ItemFilter(this.id,this.name)
+    fun toItemFilter(idList: List<Int>): ItemFilter {
+        return ItemFilter(this.id,this.name, this.id in idList)
+    }
+    fun toItemFilter(value: Boolean): ItemFilter {
+        return ItemFilter(this.id,this.name, value)
     }
 }
