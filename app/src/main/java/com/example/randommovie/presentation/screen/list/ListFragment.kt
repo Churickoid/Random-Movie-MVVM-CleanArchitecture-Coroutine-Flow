@@ -76,7 +76,7 @@ class ListFragment : BaseFragment() {
                     else -> false
             }
         }}, viewLifecycleOwner, Lifecycle.State.RESUMED)
-
+        binding.moviesRecyclerView.itemAnimator = null;
         binding.moviesRecyclerView.adapter = adapter
 
         viewModel.movieList.observe(viewLifecycleOwner){

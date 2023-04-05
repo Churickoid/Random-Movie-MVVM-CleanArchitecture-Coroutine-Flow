@@ -10,6 +10,8 @@ import com.example.randommovie.domain.FilterRepository.Companion.COUNTRY_ITEM_TY
 import com.example.randommovie.domain.FilterRepository.Companion.GENRE_ITEM_TYPE
 import com.example.randommovie.domain.entity.ItemFilter
 import com.example.randommovie.domain.entity.SearchFilter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class FilterRepositoryImpl(
     private val retrofitApiInterface: RetrofitApiInterface,
@@ -19,7 +21,9 @@ class FilterRepositoryImpl(
 
     var filter: SearchFilter? = null
     override suspend fun setSearchFilter(searchFilter: SearchFilter) {
-        filterDao.deleteFilter()
+        withContext(Dispatchers.Default){
+            filterDao.deleteFilter()
+        }
         filterDao.insertFilter(FilterDb.fromSearchFilter(searchFilter, null, null))
         for (item in searchFilter.genres)
             filterDao.insertFilter(FilterDb.fromSearchFilter(searchFilter, item, GENRE_ITEM_TYPE))

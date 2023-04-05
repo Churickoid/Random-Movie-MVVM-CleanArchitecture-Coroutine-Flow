@@ -14,9 +14,11 @@ import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.tools.factory
 import com.google.android.material.slider.RangeSlider
 
+
 class FilterFragment : BaseFragment() {
     private lateinit var binding: FragmentFilterBinding
     private val viewModel: FilterViewModel by viewModels { factory() }
+    private var isSelectionFromTouch = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -32,27 +34,24 @@ class FilterFragment : BaseFragment() {
             viewModel.getGenresList()
             changeEditBoxState(REQUEST_KEY_GENRES, View.INVISIBLE, View.VISIBLE)
         }
-        viewModel.genres.observe(viewLifecycleOwner) {
-            it?.getValue()?.let { list ->
-                showListDialogFragment(list, REQUEST_KEY_GENRES)
-            }
-            changeEditBoxState(REQUEST_KEY_GENRES, View.VISIBLE, View.INVISIBLE)
+        viewModel.genresEvent.observe(viewLifecycleOwner) {
+            it?.getValue()?.let { list -> showListDialogFragment(list, REQUEST_KEY_GENRES) }
         }
         binding.countryEditBox.setOnClickListener {
             viewModel.getCountryList()
             changeEditBoxState(REQUEST_KEY_COUNTRIES, View.INVISIBLE, View.VISIBLE)
         }
-        viewModel.countries.observe(viewLifecycleOwner) {
-            it.getValue()?.let { list ->
-                showListDialogFragment(list, REQUEST_KEY_COUNTRIES)
-            }
+        viewModel.countriesEvent.observe(viewLifecycleOwner) {
+            it.getValue()?.let { list -> showListDialogFragment(list, REQUEST_KEY_COUNTRIES) }
         }
 
         viewModel.countryText.observe(viewLifecycleOwner) {
             binding.countryEditBox.text = it
+            changeEditBoxState(REQUEST_KEY_COUNTRIES, View.VISIBLE, View.INVISIBLE)
         }
         viewModel.genreText.observe(viewLifecycleOwner) {
             binding.genresEditBox.text = it
+            changeEditBoxState(REQUEST_KEY_GENRES, View.VISIBLE, View.INVISIBLE)
         }
 
         binding.yearSlider.addOnSliderTouchListener(object : RangeSlider.OnSliderTouchListener {
@@ -79,9 +78,25 @@ class FilterFragment : BaseFragment() {
             }
         })
 
+        binding.orderSpinner.setOnTouchListener { v, _ ->
+            isSelectionFromTouch = true
+            v.performClick()
+            false
+        }
+        binding.typeSpinner.setOnTouchListener { v, _ ->
+            isSelectionFromTouch = true
+            v.performClick()
+            false
+
+        }
         binding.orderSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                viewModel.setOrderFilter(position)
+            override fun onItemSelected(
+                p0: AdapterView<*>?, p1: View?, position: Int, p3: Long
+            ) {
+                if (isSelectionFromTouch) {
+                    viewModel.setOrderFilter(position)
+                    isSelectionFromTouch = false
+                }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -89,15 +104,23 @@ class FilterFragment : BaseFragment() {
         }
 
         binding.typeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                viewModel.setTypeFilter(position)
+            override fun onItemSelected(
+                p0: AdapterView<*>?, p1: View?, position: Int, p3: Long
+            ) {
+                if (isSelectionFromTouch) {
+                    viewModel.setTypeFilter(position)
+                    isSelectionFromTouch = false
+                }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
         }
+
+
+
         binding.defaultButton.setOnClickListener {
-            setupFilter(viewModel.getDefaultFilter())
+            viewModel.setDefaultFilter()
         }
 
         viewModel.error.observe(viewLifecycleOwner) {
@@ -107,7 +130,10 @@ class FilterFragment : BaseFragment() {
 
         }
 
-        setupFilter(viewModel.getFilterValue())
+        viewModel.startFilter.observe(viewLifecycleOwner) {
+            setupFilter(it)
+        }
+
         setupListDialogListener()
     }
 
@@ -116,21 +142,21 @@ class FilterFragment : BaseFragment() {
         with(binding) {
             yearSlider.setValues(filter.yearBottom.toFloat(), filter.yearTop.toFloat())
             ratingSlider.setValues(
-                filter.ratingBottom.toFloat(),
-                filter.ratingTop.toFloat()
+                filter.ratingBottom.toFloat(), filter.ratingTop.toFloat()
             )
             yearTextView.text =
                 getString(R.string.year_with_ints, filter.yearBottom, filter.yearTop)
 
             orderSpinner.setSelection(filter.order.ordinal)
             typeSpinner.setSelection(filter.type.ordinal)
+
+
         }
     }
 
 
     private fun showListDialogFragment(list: List<ItemFilter>, requestKey: String) {
         FilterListDialogFragment.show(parentFragmentManager, list, requestKey)
-        changeEditBoxState(requestKey, View.VISIBLE, View.INVISIBLE)
     }
 
     private fun setupListDialogListener() {
@@ -138,16 +164,10 @@ class FilterFragment : BaseFragment() {
             viewModel.listDialogHandler(requestKey, list)
         }
         FilterListDialogFragment.setupListener(
-            parentFragmentManager,
-            REQUEST_KEY_GENRES,
-            this,
-            listener
+            parentFragmentManager, REQUEST_KEY_GENRES, this, listener
         )
         FilterListDialogFragment.setupListener(
-            parentFragmentManager,
-            REQUEST_KEY_COUNTRIES,
-            this,
-            listener
+            parentFragmentManager, REQUEST_KEY_COUNTRIES, this, listener
         )
     }
 
@@ -163,6 +183,7 @@ class FilterFragment : BaseFragment() {
             }
         }
     }
+
 
     companion object {
         const val REQUEST_KEY_GENRES = "REQUEST_KEY_GENRES"

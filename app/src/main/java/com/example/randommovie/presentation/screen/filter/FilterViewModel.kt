@@ -1,5 +1,6 @@
 package com.example.randommovie.presentation.screen.filter
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,8 +13,9 @@ import com.example.randommovie.domain.usecases.filter.GetCountriesUseCase
 import com.example.randommovie.domain.usecases.filter.GetGenresUseCase
 import com.example.randommovie.domain.usecases.filter.GetSearchFilterUseCase
 import com.example.randommovie.domain.usecases.filter.SetSearchFilterUseCase
+import com.example.randommovie.presentation.screen.filter.FilterFragment.Companion.REQUEST_KEY_COUNTRIES
+import com.example.randommovie.presentation.screen.filter.FilterFragment.Companion.REQUEST_KEY_GENRES
 import com.example.randommovie.presentation.tools.Event
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 
@@ -24,21 +26,35 @@ class FilterViewModel(
     private val getSearchFilterUseCase: GetSearchFilterUseCase
 ) : ViewModel() {
 
+
     private var filter = SearchFilter()
+    set(value){
+        _startFilter.value = value
+        field = value
+    }
+
+    private val _startFilter = MutableLiveData<SearchFilter>()
+    val startFilter: LiveData<SearchFilter> = _startFilter
+
+    private var genres = listOf<ItemFilter>()
         set(value) {
+            val active = value.filter { it.isActive }
             field = value
-            viewModelScope.launch {
-                setSearchFilterUseCase(value)
-            }
+            _genreText.value = active.joinToString(", ") { it.name }
         }
 
+    private var countries = listOf<ItemFilter>()
+        set(value) {
+            val active = value.filter { it.isActive }
+            field = value
+            _countryText.value = active.joinToString(", ") { it.name }
+        }
 
-    private val _genres = MutableLiveData<Event<List<ItemFilter>>>()
-    val genres: LiveData<Event<List<ItemFilter>>> = _genres
+    private val _genresEvent = MutableLiveData<Event<List<ItemFilter>>>()
+    val genresEvent: LiveData<Event<List<ItemFilter>>> = _genresEvent
 
-    private val _countries = MutableLiveData<Event<List<ItemFilter>>>()
-    val countries: LiveData<Event<List<ItemFilter>>> = _countries
-
+    private val _countriesEvent = MutableLiveData<Event<List<ItemFilter>>>()
+    val countriesEvent: LiveData<Event<List<ItemFilter>>> = _countriesEvent
 
     private val _countryText = MutableLiveData<String>()
     val countryText: LiveData<String> = _countryText
@@ -49,31 +65,40 @@ class FilterViewModel(
     private val _error = MutableLiveData<Event<String>>()
     val error: LiveData<Event<String>> = _error
 
-   // private val filterFlow: Flow<SearchFilter> =
-
-
-    fun getDefaultFilter():SearchFilter{
-        filter = SearchFilter()
-        return filter
+    init {
+        setupFilter()
     }
-    fun getGenresList() =
-        errorHandler {
-            _genres.value = Event(getGenresUseCase.invoke())
-        }
 
+    fun setDefaultFilter() {
+        genres = genres.map { ItemFilter(it.id,it.name,false) }
+        countries = countries.map { ItemFilter(it.id,it.name,false) }
+        filter = SearchFilter()
+        saveCurrentFilter(filter)
+    }
 
-    fun getCountryList() =
-        errorHandler {
-            _countries.value = Event(getCountriesUseCase.invoke())
+    fun getGenresList() {
+        viewModelScope.launch {
+            if (genres.isEmpty()) errorHandler { genres = getGenresUseCase() }
+            if (genres.isNotEmpty())_genresEvent.value = Event(genres)
         }
+    }
+    fun getCountryList() {
+        viewModelScope.launch {
+            if (countries.isEmpty()) errorHandler { countries = getCountriesUseCase() }
+            if (countries.isNotEmpty())_countriesEvent.value = Event(countries)
+        }
+    }
 
 
     fun setYearFilter(yearBottom: Int, yearTop: Int) {
-        filter = filter.copy(yearBottom = yearBottom, yearTop = yearTop)
+        _startFilter.value = _startFilter.value!!.copy(yearBottom = yearBottom, yearTop = yearTop)
+        saveCurrentFilter(_startFilter.value!!)
     }
 
     fun setRatingFilter(ratingBottom: Int, ratingTop: Int) {
-        filter = filter.copy(ratingBottom = ratingBottom, ratingTop = ratingTop)
+        _startFilter.value =
+            _startFilter.value!!.copy(ratingBottom = ratingBottom, ratingTop = ratingTop)
+        saveCurrentFilter(_startFilter.value!!)
     }
 
     fun setOrderFilter(position: Int) {
@@ -83,7 +108,8 @@ class FilterViewModel(
             2 -> OrderFilter.YEAR
             else -> throw Exception("Invalid position")
         }
-        filter = filter.copy(order = orderFilter)
+        _startFilter.value = _startFilter.value!!.copy(order = orderFilter)
+        saveCurrentFilter(_startFilter.value!!)
     }
 
     fun setTypeFilter(position: Int) {
@@ -93,56 +119,45 @@ class FilterViewModel(
             2 -> Type.ALL
             else -> throw Exception("Invalid position")
         }
-        filter = filter.copy(type = type)
+        _startFilter.value = _startFilter.value!!.copy(type = type)
+        saveCurrentFilter(_startFilter.value!!)
     }
 
-    fun getFilterValue(): SearchFilter {
-        viewModelScope.launch {
-            filter = getSearchFilterUseCase()
-        }
-        return filter
-    }
 
     fun listDialogHandler(requestKey: String, list: ArrayList<ItemFilter>) {
-        var checkedNames = ""
-        val ids = mutableListOf<Int>()
-        list.forEach {
-            if (it.isActive) {
-                checkedNames += "${it.name}, "
-                ids += it.id
-            }
-        }
-        checkedNames = checkedNames.dropLast(2)
-
         when (requestKey) {
-            FilterFragment.REQUEST_KEY_GENRES -> {
-                _genreText.value = checkedNames
-                setGenresFilter(ids)
+            REQUEST_KEY_GENRES -> {
+                genres = list
+                filter = filter.copy(genres= genres.filter { it.isActive }.map { it.id })
             }
-            FilterFragment.REQUEST_KEY_COUNTRIES -> {
-                _countryText.value = checkedNames
-                setCountryFilter(ids)
+            REQUEST_KEY_COUNTRIES -> {
+                countries = list
+                filter = filter.copy(genres= countries.filter { it.isActive }.map { it.id })
             }
             else -> throw Exception("Unknown Dialog Type")
         }
     }
 
-    private fun setGenresFilter(genresIds: List<Int>) {
-        filter = filter.copy(genres = genresIds)
-    }
 
-    private fun setCountryFilter(countriesIds: List<Int>) {
-        filter = filter.copy(countries = countriesIds)
-    }
-
-    private fun errorHandler(action: suspend () -> Unit) {
+    private fun saveCurrentFilter(searchFilter: SearchFilter) {
         viewModelScope.launch {
-            try {
-                action()
-            } catch (e: UnknownHostException) {
-                _error.value = Event("Need internet connection")
-            }
+            setSearchFilterUseCase(searchFilter)
         }
+    }
+
+    private fun setupFilter() {
+        viewModelScope.launch {
+            _startFilter.value = getSearchFilterUseCase.invoke()
+        }
+    }
+
+    private suspend fun errorHandler(action: suspend () -> Unit) {
+        try {
+            action()
+        } catch (e: UnknownHostException) {
+            _error.value = Event("Need internet connection")
+        }
+
     }
 
 }

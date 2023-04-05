@@ -33,8 +33,6 @@
         app:layout_constraintTop_toTopOf="parent"
          />
 
-
-
     <Spinner
         android:id="@+id/orderSpinner"
         android:theme="@style/spinnerItemStyle"
@@ -66,8 +64,8 @@
         android:theme="@style/spinnerItemStyle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:entries="@array/type"
         android:layout_marginEnd="18sp"
+        android:entries="@array/type"
         android:padding="12dp"
         app:layout_constraintStart_toEndOf="@id/typeTextView"
         app:layout_constraintTop_toBottomOf="@id/orderSpinner"
@@ -177,7 +175,7 @@
         android:id="@+id/defaultButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Default"
+        android:text="@string/default_button"
         android:textSize="18sp"
         android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
