@@ -1,7 +1,7 @@
 package com.example.randommovie.presentation
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -9,10 +9,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.example.randommovie.R
 import com.example.randommovie.databinding.ActivityMainBinding
-import com.example.randommovie.presentation.tools.CustomTitle
+import com.example.randommovie.presentation.tools.AppBarActions
 
 
-class MainActivity : AppCompatActivity(), CustomTitle {
+class MainActivity : AppCompatActivity(), AppBarActions {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
@@ -38,5 +38,9 @@ class MainActivity : AppCompatActivity(), CustomTitle {
 
     override fun changeTitle(label: String) {
         supportActionBar?.title = label
+    }
+
+    override fun changeColor(color: Int) {
+        supportActionBar?.setBackgroundDrawable(ColorDrawable())
     }
 }

@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -15,6 +14,7 @@ import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentInfoBinding
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment
+import com.example.randommovie.presentation.screen.GlideLoader
 import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.ERROR_STATE
 import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.LOADING_STATE
 import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.VALID_STATE
@@ -91,16 +91,24 @@ class InfoFragment : BaseFragment() {
                 imdbVoteTextView.text = movieExtra.imdbVoteCount.toString()
                 kinopoiskVoteTextView.text = movieExtra.kinopoiskVoteCount.toString()
 
+
+                binding.headerProgressBar.visibility = View.VISIBLE
                 descriptionTextView.text = movieExtra.description ?: ""
                 if (movieExtra.headerUrl != null) {
                     Glide.with(this@InfoFragment)
                         .load(movieExtra.headerUrl)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .listener(GlideLoader {
+                            binding.headerProgressBar.visibility = View.INVISIBLE
+                        })
                         .into(headerImageView)
                 } else {
                     Glide.with(this@InfoFragment)
                         .load(movieExtra.posterUrlHQ)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .listener(GlideLoader{
+                            binding.headerProgressBar.visibility = View.INVISIBLE
+                        })
                         .into(headerImageView)
 
                 }

@@ -8,7 +8,6 @@
     <style name="popupStyle" parent="Widget.AppCompat.PopupMenu">
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/purple_500</item>
-        <item name="android:textStyle">bold</item>
     </style>
     <style name="secondaryActionButton"  parent="@style/Widget.Design.FloatingActionButton">
         <item name="tint">@color/purple_500</item>

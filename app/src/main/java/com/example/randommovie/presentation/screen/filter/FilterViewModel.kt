@@ -1,5 +1,6 @@
 package com.example.randommovie.presentation.screen.filter
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -72,8 +73,9 @@ class FilterViewModel(
     }
 
     fun setDefaultFilter() {
-        genres.map { ItemFilter(it.id, it.name, false) }
-        countries.map { ItemFilter(it.id, it.name, false) }
+        genres.forEach { it.isActive = false }
+        Log.e("!!!",genres.toString())
+        countries.forEach { it.isActive = false }
         _countryText.value = ""
         _genreText.value = ""
         filter = SearchFilter()
@@ -84,6 +86,7 @@ class FilterViewModel(
             if (genres.isEmpty()) errorHandler {
                 genres = getGenresUseCase()
             }
+            Log.e("!!!",genres.toString())
             if (genres.isNotEmpty()) _genresEvent.value = Event(genres)
         }
     }
@@ -108,8 +111,8 @@ class FilterViewModel(
 
     fun setOrderFilter(position: Int) {
         val orderFilter = when (position) {
-            0 -> OrderFilter.NUM_VOTE
-            1 -> OrderFilter.RATING
+            0 -> OrderFilter.RATING
+            1 -> OrderFilter.NUM_VOTE
             2 -> OrderFilter.YEAR
             else -> throw Exception("Invalid position")
         }
@@ -149,6 +152,8 @@ class FilterViewModel(
     private fun setupFilter() {
         viewModelScope.launch {
             filter = getSearchFilterUseCase()
+            genres.map { ItemFilter(it.id, it.name, false) }
+            countries.map { ItemFilter(it.id, it.name, false) }
             _genreText.value = filter!!.genres.joinToString(", ") { it.name }
             _countryText.value = filter!!.countries.joinToString(", ") { it.name }
         }

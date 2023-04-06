@@ -33,7 +33,6 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:src="@drawable/blanked_image"
                 android:id="@+id/headerImageView"
                 android:layout_width="0dp"
                 android:layout_height="300dp"
@@ -44,6 +43,16 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+            <ProgressBar
+                android:visibility="invisible"
+                android:id="@+id/headerProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@id/headerImageView"
+                app:layout_constraintBottom_toBottomOf="@id/headerImageView"
+                app:layout_constraintStart_toStartOf="@id/headerImageView"
+                app:layout_constraintEnd_toEndOf="@id/headerImageView"
+                 />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/starButton"

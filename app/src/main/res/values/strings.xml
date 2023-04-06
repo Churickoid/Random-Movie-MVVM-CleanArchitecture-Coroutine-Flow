@@ -34,9 +34,9 @@
 
 
     <string-array name="orderFilter">
+        <item>Normal</item>
         <item>Popular</item>
         <item>Hidden gem</item>
-        <item>Underground</item>
     </string-array>
 
     <string-array name="type">

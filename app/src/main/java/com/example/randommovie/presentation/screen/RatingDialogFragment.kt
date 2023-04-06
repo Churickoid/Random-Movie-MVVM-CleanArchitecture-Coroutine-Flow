@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import com.example.randommovie.databinding.DialogRatingBinding
 import com.example.randommovie.domain.entity.ActionsAndMovie
+import com.example.randommovie.presentation.screen.BaseFragment.Companion.getRatingColor
 import com.example.randommovie.presentation.tools.parcelable
 
 class RatingDialogFragment : DialogFragment() {

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -13,6 +12,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentMovieBinding
 import com.example.randommovie.presentation.screen.BaseFragment
+import com.example.randommovie.presentation.screen.GlideLoader
 import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_MOVIE
 import com.example.randommovie.presentation.screen.movie.MovieViewModel.Companion.DEFAULT_STATE
 import com.example.randommovie.presentation.screen.movie.MovieViewModel.Companion.DISABLED_STATE
@@ -34,6 +34,7 @@ class MovieFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMovieBinding.bind(view)
+
 
         binding.nextMovieButton.setOnClickListener {
             viewModel.getRandomMovie()
@@ -82,8 +83,15 @@ class MovieFragment : BaseFragment() {
                 )
             )
 
-            Glide.with(this@MovieFragment).load(movie.posterUrl)
-                .diskCacheStrategy(DiskCacheStrategy.NONE).into(binding.posterImageView)
+            binding.posterProgressBar.visibility = View.VISIBLE
+
+            Glide.with(this@MovieFragment)
+                .load(movie.posterUrl)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .listener(GlideLoader{
+                    binding.posterProgressBar.visibility = View.INVISIBLE
+                })
+                .into(binding.posterImageView)
 
         }
 

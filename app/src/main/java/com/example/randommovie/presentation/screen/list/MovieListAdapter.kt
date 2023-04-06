@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.randommovie.R
 import com.example.randommovie.databinding.ItemMovieBinding
 import com.example.randommovie.domain.entity.ActionsAndMovie
-import com.example.randommovie.presentation.screen.getRatingColor
+import com.example.randommovie.presentation.screen.BaseFragment.Companion.getRatingColor
 import com.example.randommovie.presentation.screen.list.MovieListAdapter.MovieViewHolder
 
 class MovieListAdapter(private val listener: ItemListener) :
@@ -56,7 +56,6 @@ class MovieListAdapter(private val listener: ItemListener) :
             ratingTextView.text = if (rating == 0.0) " — "
             else String.format("%.1f", rating)
             ratingTextView.setTextColor(getRatingColor(rating, context))
-
             if (userInfo.userRating == 0) {
                 yourRatingTextView.visibility = View.INVISIBLE
                 bookmarkImageView.visibility = View.VISIBLE
