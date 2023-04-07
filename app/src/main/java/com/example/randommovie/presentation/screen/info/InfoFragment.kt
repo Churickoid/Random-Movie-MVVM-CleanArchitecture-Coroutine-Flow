@@ -96,6 +96,7 @@ class InfoFragment : BaseFragment() {
                 descriptionTextView.text = movieExtra.description ?: ""
                 if (movieExtra.headerUrl != null) {
                     Glide.with(this@InfoFragment)
+                        .asBitmap()
                         .load(movieExtra.headerUrl)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .listener(GlideLoader {
@@ -104,10 +105,12 @@ class InfoFragment : BaseFragment() {
                         .into(headerImageView)
                 } else {
                     Glide.with(this@InfoFragment)
+                        .asBitmap()
                         .load(movieExtra.posterUrlHQ)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .listener(GlideLoader{
                             binding.headerProgressBar.visibility = View.INVISIBLE
+
                         })
                         .into(headerImageView)
 

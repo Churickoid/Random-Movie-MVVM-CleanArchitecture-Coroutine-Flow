@@ -1,11 +1,17 @@
 package com.example.randommovie.presentation.screen.filter
 
+import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
+import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.coroutineScope
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentFilterBinding
 import com.example.randommovie.domain.entity.ItemFilter
@@ -13,6 +19,7 @@ import com.example.randommovie.domain.entity.SearchFilter
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.tools.factory
 import com.google.android.material.slider.RangeSlider
+import kotlinx.coroutines.launch
 
 
 class FilterFragment : BaseFragment() {
@@ -134,9 +141,34 @@ class FilterFragment : BaseFragment() {
             setupFilter(it)
         }
 
+
+        lifecycle.coroutineScope.launch {
+            baseViewModel.color.collect { (colorMain, colorBack) ->
+                val colorSecond = 100 shl 24 or (colorMain and 0x00ffffff)
+
+                setupSliderColor(binding.yearSlider, colorMain, colorSecond)
+                setupSliderColor(binding.ratingSlider, colorMain, colorSecond)
+
+
+
+
+
+
+                binding.filterConstraintLayout.setBackgroundColor(colorBack)
+
+            }
+        }
+
         setupListDialogListener()
     }
 
+
+    private fun setupSliderColor(slider: RangeSlider, colorMain: Int, colorSecond: Int) {
+        slider.thumbTintList = ColorStateList.valueOf(colorMain)
+        slider.trackActiveTintList = ColorStateList.valueOf(colorMain)
+        slider.trackInactiveTintList = ColorStateList.valueOf(colorSecond)
+        slider.tickInactiveTintList = ColorStateList.valueOf(colorMain)
+    }
 
     private fun setupFilter(filter: SearchFilter) {
         with(binding) {
@@ -190,3 +222,4 @@ class FilterFragment : BaseFragment() {
         const val REQUEST_KEY_COUNTRIES = "REQUEST_KEY_COUNTRIES"
     }
 }
+

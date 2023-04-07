@@ -1,11 +1,14 @@
 package com.example.randommovie.presentation.screen
 
+
 import android.content.Context
-import android.graphics.drawable.Drawable
+import android.graphics.Bitmap
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.palette.graphics.Palette
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
@@ -16,9 +19,11 @@ import com.example.randommovie.domain.entity.Movie.Companion.RATING_NULL
 import com.example.randommovie.presentation.tools.Event
 import com.example.randommovie.presentation.tools.factory
 
+
 open class BaseFragment : Fragment() {
 
-    private val viewModel: BaseViewModel by viewModels { factory() }
+    val baseViewModel: BaseViewModel by activityViewModels { factory() }
+
     fun getRatingText(rating: Double): String {
         return if (rating == RATING_NULL) " — "
         else rating.toString()
@@ -34,7 +39,7 @@ open class BaseFragment : Fragment() {
         action: (ActionsAndMovie) -> Unit
     ) {
         RatingDialogFragment.setupListener(manager, this) {
-            viewModel.addRatedMovie(it)
+            baseViewModel.addRatedMovie(it)
             action(it)
         }
     }
@@ -57,33 +62,36 @@ open class BaseFragment : Fragment() {
     }
 }
 
-object GlideLoader : RequestListener<Drawable> {
+object GlideLoader : RequestListener<Bitmap> {
 
-    private lateinit var onComplete: () -> Unit
+    private lateinit var onComplete: (Palette) -> Unit
 
-    operator fun invoke(onComplete: () -> Unit): GlideLoader {
-        GlideLoader.onComplete = { onComplete() }
+    operator fun invoke(onComplete: (Palette) -> Unit): GlideLoader {
+        GlideLoader.onComplete =   onComplete
         return this
     }
 
     override fun onLoadFailed(
         e: GlideException?,
         model: Any?,
-        target: Target<Drawable>?,
+        target: Target<Bitmap>?,
         isFirstResource: Boolean
     ): Boolean {
-        onComplete()
         return false
     }
 
     override fun onResourceReady(
-        resource: Drawable?,
+        resource: Bitmap,
         model: Any?,
-        target: Target<Drawable>?,
+        target: Target<Bitmap>?,
         dataSource: DataSource?,
         isFirstResource: Boolean
     ): Boolean {
-        onComplete()
+
+        val palette = Palette.Builder(resource)
+        palette.generate {
+            onComplete(it!!)
+        }
         return false
     }
 }

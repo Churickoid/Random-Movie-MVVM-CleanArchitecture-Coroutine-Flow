@@ -1,11 +1,16 @@
 package com.example.randommovie.presentation.screen.movie
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.ColorUtils
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -18,7 +23,10 @@ import com.example.randommovie.presentation.screen.movie.MovieViewModel.Companio
 import com.example.randommovie.presentation.screen.movie.MovieViewModel.Companion.DISABLED_STATE
 import com.example.randommovie.presentation.screen.movie.MovieViewModel.Companion.FIRST_TIME_STATE
 import com.example.randommovie.presentation.screen.movie.MovieViewModel.Companion.LOADING_STATE
+import com.example.randommovie.presentation.tools.changeColor
 import com.example.randommovie.presentation.tools.factory
+import kotlinx.coroutines.launch
+
 
 class MovieFragment : BaseFragment() {
 
@@ -34,7 +42,6 @@ class MovieFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMovieBinding.bind(view)
-
 
         binding.nextMovieButton.setOnClickListener {
             viewModel.getRandomMovie()
@@ -86,10 +93,15 @@ class MovieFragment : BaseFragment() {
             binding.posterProgressBar.visibility = View.VISIBLE
 
             Glide.with(this@MovieFragment)
+                .asBitmap()
                 .load(movie.posterUrl)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .listener(GlideLoader{
+                .listener(GlideLoader {
                     binding.posterProgressBar.visibility = View.INVISIBLE
+                    val color = it.mutedSwatch?.rgb ?: R.color.purple_500
+                    val colorMain = 255 shl 24 or (color and 0x00ffffff)
+                    val colorBack = 20 shl 24 or (color and 0x00ffffff)
+                    baseViewModel.setColor(colorMain, colorBack)
                 })
                 .into(binding.posterImageView)
 
@@ -118,6 +130,18 @@ class MovieFragment : BaseFragment() {
         }
         viewModel.error.observe(viewLifecycleOwner) {
             toastError(it)
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            baseViewModel.color.collect { (colorMain, colorBack) ->
+                val colorDark = ColorUtils.blendARGB(colorMain, Color.BLACK, 0.2f)
+
+                binding.movieConstrantLayout.setBackgroundColor(colorBack)
+                binding.nextMovieButton.backgroundTintList = ColorStateList.valueOf(colorMain)
+                binding.moreButton.drawable.setTint(colorMain)
+                binding.starButton.drawable.setTint(colorMain)
+                changeColor(colorMain, colorBack, colorDark)
+
+            }
         }
 
         setupRatingDialogFragmentListener(parentFragmentManager) {}

@@ -1,5 +1,6 @@
 package com.example.randommovie.presentation
 
+import android.content.res.ColorStateList
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -40,7 +41,10 @@ class MainActivity : AppCompatActivity(), AppBarActions {
         supportActionBar?.title = label
     }
 
-    override fun changeColor(color: Int) {
-        supportActionBar?.setBackgroundDrawable(ColorDrawable())
+    override fun changeColor(color: Int, colorLight: Int, colorDark: Int) {
+        supportActionBar?.setBackgroundDrawable(ColorDrawable(color))
+        window.statusBarColor = colorDark
+        binding.bottomNavigation.itemIconTintList = ColorStateList.valueOf(color)
+        binding.bottomNavigation.itemTextColor = ColorStateList.valueOf(color)
     }
 }
