@@ -1,15 +1,12 @@
 package com.example.randommovie.presentation.screen.filter
 
-import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.TextView
-import androidx.core.view.setPadding
+import android.widget.Spinner
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
 import com.example.randommovie.R
@@ -149,10 +146,10 @@ class FilterFragment : BaseFragment() {
                 setupSliderColor(binding.yearSlider, colorMain, colorSecond)
                 setupSliderColor(binding.ratingSlider, colorMain, colorSecond)
 
+                setupSpinner(binding.orderSpinner,R.array.orderFilter,colorMain)
+                setupSpinner(binding.typeSpinner,R.array.type,colorMain)
 
-
-
-
+                binding.defaultButton.setBackgroundColor(colorMain)
 
                 binding.filterConstraintLayout.setBackgroundColor(colorBack)
 
@@ -168,6 +165,14 @@ class FilterFragment : BaseFragment() {
         slider.trackActiveTintList = ColorStateList.valueOf(colorMain)
         slider.trackInactiveTintList = ColorStateList.valueOf(colorSecond)
         slider.tickInactiveTintList = ColorStateList.valueOf(colorMain)
+    }
+
+    private fun setupSpinner(spinner: Spinner, arrayId: Int,color: Int) {
+        spinner.adapter = ColoredArrayAdapter(
+            requireContext(),
+            resources.getStringArray(arrayId),
+            color
+        )
     }
 
     private fun setupFilter(filter: SearchFilter) {

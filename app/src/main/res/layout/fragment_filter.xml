@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:entries="@array/orderFilter"
         android:layout_marginEnd="18sp"
-        android:padding="12dp"
+        android:paddingVertical="12dp"
         app:layout_constraintStart_toEndOf="@id/orderTextView"
         app:layout_constraintTop_toBottomOf="@id/yearSlider"
         app:layout_constraintBottom_toTopOf="@id/typeSpinner"

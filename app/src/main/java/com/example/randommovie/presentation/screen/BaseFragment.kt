@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -67,7 +66,7 @@ object GlideLoader : RequestListener<Bitmap> {
     private lateinit var onComplete: (Palette) -> Unit
 
     operator fun invoke(onComplete: (Palette) -> Unit): GlideLoader {
-        GlideLoader.onComplete =   onComplete
+        GlideLoader.onComplete = onComplete
         return this
     }
 
