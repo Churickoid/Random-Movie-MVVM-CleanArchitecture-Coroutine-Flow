@@ -32,7 +32,6 @@
     <string name="default_button">Default</string>
 
 
-
     <string-array name="orderFilter">
         <item>Normal</item>
         <item>Popular</item>

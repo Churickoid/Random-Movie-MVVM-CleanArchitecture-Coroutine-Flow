@@ -139,8 +139,7 @@ class FilterFragment : BaseFragment() {
         }
 
 
-        lifecycle.coroutineScope.launch {
-            baseViewModel.color.collect { (colorMain, colorBack) ->
+        baseViewModel.color.observe(viewLifecycleOwner){(colorMain,colorBack)->
                 val colorSecond = 100 shl 24 or (colorMain and 0x00ffffff)
 
                 setupSliderColor(binding.yearSlider, colorMain, colorSecond)
@@ -153,7 +152,7 @@ class FilterFragment : BaseFragment() {
 
                 binding.filterConstraintLayout.setBackgroundColor(colorBack)
 
-            }
+
         }
 
         setupListDialogListener()

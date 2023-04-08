@@ -1,5 +1,7 @@
 package com.example.randommovie.presentation.screen
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.randommovie.R
@@ -11,9 +13,10 @@ import kotlinx.coroutines.launch
 class BaseViewModel(private val addUserInfoForMovieUseCase: AddUserInfoForMovieUseCase) :
     ViewModel() {
 
-    val color = MutableStateFlow(Pair(6422766, 0xffffff))
+    private val _color = MutableLiveData<Pair<Int,Int>>()
+    val color : LiveData<Pair<Int,Int>> = _color
     fun setColor(colorMain: Int, colorBack: Int) {
-        color.value = Pair(colorMain, colorBack)
+        _color.value = Pair(colorMain, colorBack)
     }
 
     fun addRatedMovie(actionsAndMovie: ActionsAndMovie) {
