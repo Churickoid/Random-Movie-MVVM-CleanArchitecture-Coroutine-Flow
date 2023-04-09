@@ -10,8 +10,8 @@
     <color name="green">#3BB33B</color>
     <color name="gray">#777777</color>
     <color name="red">#FF0000</color>
-    <color name="blue_200">#a8e4f7</color>
-    <color name="blue_500">#2da0c4</color>
-    <color name="blue_700">#2686a4</color>
+    <color name="blue_200">#d9f2fa</color>
+    <color name="blue_500">#2276A0</color>
+    <color name="blue_700">#1f6a90</color>
 
 </resources>

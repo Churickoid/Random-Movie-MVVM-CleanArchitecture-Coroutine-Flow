@@ -29,7 +29,6 @@ class MovieRepositoryImpl(
 
         return withContext(Dispatchers.IO) {
             val randYear = Random.nextInt(searchFilter.yearBottom, searchFilter.yearTop + 1)
-            val randRating = Random.nextInt(searchFilter.ratingBottom, searchFilter.ratingTop)
 
             val genresList = searchFilter.genres
             val genre = if (genresList.isNotEmpty()) genresList[Random.nextInt(genresList.size)]
@@ -45,8 +44,8 @@ class MovieRepositoryImpl(
                 page = randPage,
                 yearFrom = randYear,
                 yearTo = randYear,
-                ratingFrom = randRating,
-                ratingTo = randRating + 1,
+                ratingFrom = searchFilter.ratingBottom,
+                ratingTo = searchFilter.ratingTop,
                 genre = genre?.id,
                 country = country?.id,
                 order = searchFilter.order.name,

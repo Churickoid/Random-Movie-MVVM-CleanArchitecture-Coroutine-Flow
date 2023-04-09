@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Spinner
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.coroutineScope
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentFilterBinding
 import com.example.randommovie.domain.entity.ItemFilter
@@ -16,13 +15,14 @@ import com.example.randommovie.domain.entity.SearchFilter
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.tools.factory
 import com.google.android.material.slider.RangeSlider
-import kotlinx.coroutines.launch
 
 
 class FilterFragment : BaseFragment() {
     private lateinit var binding: FragmentFilterBinding
     private val viewModel: FilterViewModel by viewModels { factory() }
     private var isSelectionFromTouch = false
+    private var orderPosition = 0
+    private var typePosition = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -139,18 +139,20 @@ class FilterFragment : BaseFragment() {
         }
 
 
-        baseViewModel.color.observe(viewLifecycleOwner){(colorMain,colorBack)->
-                val colorSecond = 100 shl 24 or (colorMain and 0x00ffffff)
+        baseViewModel.color.observe(viewLifecycleOwner) { (colorMain, colorBack) ->
+            val colorSecond = 100 shl 24 or (colorMain and 0x00ffffff)
 
-                setupSliderColor(binding.yearSlider, colorMain, colorSecond)
-                setupSliderColor(binding.ratingSlider, colorMain, colorSecond)
+            setupSliderColor(binding.yearSlider, colorMain, colorSecond)
+            setupSliderColor(binding.ratingSlider, colorMain, colorSecond)
 
-                setupSpinner(binding.orderSpinner,R.array.orderFilter,colorMain)
-                setupSpinner(binding.typeSpinner,R.array.type,colorMain)
+            setupSpinner(binding.orderSpinner, R.array.orderFilter, colorMain)
+            setupSpinner(binding.typeSpinner, R.array.type, colorMain)
 
-                binding.defaultButton.setBackgroundColor(colorMain)
+            binding.defaultButton.setBackgroundColor(colorMain)
 
-                binding.filterConstraintLayout.setBackgroundColor(colorBack)
+            binding.filterConstraintLayout.setBackgroundColor(colorBack)
+            binding.orderSpinner.setSelection(orderPosition)
+            binding.typeSpinner.setSelection(typePosition)
 
 
         }
@@ -164,9 +166,10 @@ class FilterFragment : BaseFragment() {
         slider.trackActiveTintList = ColorStateList.valueOf(colorMain)
         slider.trackInactiveTintList = ColorStateList.valueOf(colorSecond)
         slider.tickInactiveTintList = ColorStateList.valueOf(colorMain)
+        slider.haloTintList = ColorStateList.valueOf(colorMain)
     }
 
-    private fun setupSpinner(spinner: Spinner, arrayId: Int,color: Int) {
+    private fun setupSpinner(spinner: Spinner, arrayId: Int, color: Int) {
         spinner.adapter = ColoredArrayAdapter(
             requireContext(),
             resources.getStringArray(arrayId),
@@ -182,9 +185,10 @@ class FilterFragment : BaseFragment() {
             )
             yearTextView.text =
                 getString(R.string.year_with_ints, filter.yearBottom, filter.yearTop)
-
-            orderSpinner.setSelection(filter.order.ordinal)
-            typeSpinner.setSelection(filter.type.ordinal)
+            orderPosition = filter.order.ordinal
+            typePosition = filter.type.ordinal
+            orderSpinner.setSelection(orderPosition)
+            typeSpinner.setSelection(typePosition)
 
 
         }

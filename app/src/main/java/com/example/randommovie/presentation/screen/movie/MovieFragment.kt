@@ -98,9 +98,11 @@ class MovieFragment : BaseFragment() {
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .listener(GlideLoader {
                     binding.posterProgressBar.visibility = View.INVISIBLE
-                    val color = it.mutedSwatch?.rgb ?: R.color.purple_500
-                    val colorMain = 255 shl 24 or (color and 0x00ffffff)
-                    val colorBack = 20 shl 24 or (color and 0x00ffffff)
+                    val color = it.mutedSwatch?.rgb
+                    val colorMain = if(color != null) 255 shl 24 or (color and 0x00ffffff)
+                    else 0xFF2276A0.toInt()
+                    val colorBack = if(color != null) (20 shl 24 or (color and 0x00ffffff))
+                    else 0xFFFFFF
                     baseViewModel.setColor(colorMain, colorBack)
                 })
                 .into(binding.posterImageView)

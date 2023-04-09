@@ -56,7 +56,7 @@ class InfoFragment : BaseFragment() {
         val movie = actionsAndMovie.movie
         with(binding) {
             starButton.setOnClickListener {
-                showRatingDialogFragment(parentFragmentManager,actionsAndMovie)
+                showRatingDialogFragment(parentFragmentManager,viewModel.actionsAndMovie.value!!)
             }
             titleMainTextView.text = movie.titleMain
             titleExtraTextView.text = movie.titleSecond
@@ -117,7 +117,7 @@ class InfoFragment : BaseFragment() {
                 }
 
                 detailsImdbButton.isEnabled = (movieExtra.imdbId != null)
-
+                if (!detailsImdbButton.isEnabled) detailsImdbButton.setBackgroundColor(0xcccccc)
                 detailsKpButton.setOnClickListener {
                     val urlTag = if (movieExtra.isMovie) "film" else "series"
                     val url = "https://www.kinopoisk.ru/$urlTag/${movie.id}"
@@ -137,6 +137,15 @@ class InfoFragment : BaseFragment() {
         }
         viewModel.error.observe(viewLifecycleOwner) {
             toastError(it)
+        }
+
+        baseViewModel.color.observe(viewLifecycleOwner){(colorMain,colorBack)->
+            binding.retryButton.setBackgroundColor(colorMain)
+            binding.detailsImdbButton.setBackgroundColor(colorMain)
+            binding.detailsKpButton.setBackgroundColor(colorMain)
+            binding.starButton.drawable.setTint(colorMain)
+            binding.bookmarkImageView.drawable.setTint(colorMain)
+            binding.infoFrameLayout.setBackgroundColor(colorBack)
         }
 
     }
@@ -174,7 +183,7 @@ class InfoFragment : BaseFragment() {
 
     private fun changeState(loading: Int, info: Int, error: Int) {
         binding.loadingProgressBar.visibility = loading
-        binding.infoLayout.visibility = info
+        binding.infoConstraintLayout.visibility = info
         binding.retryButton.visibility = error
     }
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/infoFrameLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -28,7 +29,7 @@
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/infoLayout"
+            android:id="@+id/infoConstraintLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
