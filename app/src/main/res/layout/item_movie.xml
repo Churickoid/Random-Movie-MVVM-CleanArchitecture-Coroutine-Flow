@@ -6,6 +6,7 @@
     android:layout_margin="2dp"
     android:background="@android:drawable/editbox_background"
     android:padding="16dp"
+    android:foreground="?android:attr/selectableItemBackground"
     >
 
     <ImageView
@@ -124,5 +125,6 @@
         app:layout_constraintStart_toStartOf="@id/moreButton"
         app:layout_constraintEnd_toEndOf="@id/moreButton"
         android:contentDescription="@string/movie_in_watchlist" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

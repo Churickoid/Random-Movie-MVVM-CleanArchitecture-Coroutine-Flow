@@ -133,7 +133,8 @@ class MovieFragment : BaseFragment() {
         viewModel.error.observe(viewLifecycleOwner) {
             toastError(it)
         }
-        baseViewModel.color.observe(viewLifecycleOwner){(colorMain,colorBack)->
+        viewLifecycleOwner.lifecycleScope.launch {
+            baseViewModel.color.collect { (colorMain, colorBack) ->
                 val colorDark = ColorUtils.blendARGB(colorMain, Color.BLACK, 0.2f)
                 binding.movieConstraintLayout.setBackgroundColor(colorBack)
                 binding.nextMovieButton.backgroundTintList = ColorStateList.valueOf(colorMain)
@@ -141,6 +142,7 @@ class MovieFragment : BaseFragment() {
                 binding.starButton.drawable.setTint(colorMain)
                 changeColor(colorMain, colorBack, colorDark)
             }
+        }
 
 
         setupRatingDialogFragmentListener(parentFragmentManager) {}

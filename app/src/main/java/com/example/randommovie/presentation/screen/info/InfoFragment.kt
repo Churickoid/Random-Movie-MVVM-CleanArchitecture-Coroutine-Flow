@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.randommovie.R
@@ -21,6 +22,7 @@ import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.
 import com.example.randommovie.presentation.tools.changeTitle
 import com.example.randommovie.presentation.tools.factory
 import com.example.randommovie.presentation.tools.parcelable
+import kotlinx.coroutines.launch
 
 
 class InfoFragment : BaseFragment() {
@@ -139,13 +141,16 @@ class InfoFragment : BaseFragment() {
             toastError(it)
         }
 
-        baseViewModel.color.observe(viewLifecycleOwner){(colorMain,colorBack)->
-            binding.retryButton.setBackgroundColor(colorMain)
-            binding.detailsImdbButton.setBackgroundColor(colorMain)
-            binding.detailsKpButton.setBackgroundColor(colorMain)
-            binding.starButton.drawable.setTint(colorMain)
-            binding.bookmarkImageView.drawable.setTint(colorMain)
-            binding.infoFrameLayout.setBackgroundColor(colorBack)
+        viewLifecycleOwner.lifecycleScope.launch {
+            baseViewModel.color.collect { (colorMain, colorBack) ->
+                binding.retryButton.setBackgroundColor(colorMain)
+                binding.detailsImdbButton.setBackgroundColor(colorMain)
+                binding.detailsKpButton.setBackgroundColor(colorMain)
+                binding.starButton.drawable.setTint(colorMain)
+                binding.bookmarkImageView.drawable.setTint(colorMain)
+                binding.infoFrameLayout.setBackgroundColor(colorBack)
+
+            }
         }
 
     }

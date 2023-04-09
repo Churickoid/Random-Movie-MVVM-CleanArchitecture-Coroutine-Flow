@@ -15,7 +15,7 @@ import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment.Companion.getRatingColor
 import com.example.randommovie.presentation.screen.list.MovieListAdapter.MovieViewHolder
 
-class MovieListAdapter(private val listener: ItemListener) :
+class MovieListAdapter(private val listener: ItemListener,private val color: Int) :
     ListAdapter<ActionsAndMovie, MovieViewHolder>(ItemCallback), View.OnClickListener {
 
 
@@ -33,6 +33,8 @@ class MovieListAdapter(private val listener: ItemListener) :
 
         binding.moreButton.setOnClickListener(this)
         binding.root.setOnClickListener(this)
+        binding.bookmarkImageView.drawable.setTint(color)
+        binding.moreButton.drawable.setTint(color)
 
         return MovieViewHolder(binding)
     }
@@ -108,7 +110,6 @@ class MovieListAdapter(private val listener: ItemListener) :
         val userInfo = view.tag as ActionsAndMovie
         val popupMenu = PopupMenu(ContextThemeWrapper(view.context,R.style.popupStyle), view)
         popupMenu.setForceShowIcon(true)
-
         popupMenu.inflate(R.menu.popup_item_actions)
         popupMenu.setOnMenuItemClickListener {
             when (it.itemId) {
