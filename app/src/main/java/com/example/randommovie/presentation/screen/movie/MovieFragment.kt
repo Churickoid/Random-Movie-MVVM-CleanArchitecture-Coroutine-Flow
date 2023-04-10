@@ -3,7 +3,6 @@ package com.example.randommovie.presentation.screen.movie
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -73,7 +72,7 @@ class MovieFragment : BaseFragment() {
         viewModel.movie.observe(viewLifecycleOwner) { movie ->
             val year = movie.year?.toString() ?: "—"
 
-            binding.titleMainTextView.text = "${movie.titleMain} ($year)"
+            binding.titleMainTextView.text = requireContext().getString(R.string.movie_with_year, movie.titleMain,year)
             binding.titleExtraTextView.text = movie.titleSecond
             binding.genresTextView.text = movie.genre.joinToString(separator = ", ")
             binding.kinopoiskRateTextView.text = getRatingText(movie.ratingKP)

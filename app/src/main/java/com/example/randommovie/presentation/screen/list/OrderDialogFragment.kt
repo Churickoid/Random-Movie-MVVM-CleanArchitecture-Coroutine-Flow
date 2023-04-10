@@ -8,11 +8,6 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import com.example.randommovie.R
-import com.example.randommovie.domain.ListRepository.Companion.ALPHABET_ORDER
-import com.example.randommovie.domain.ListRepository.Companion.QUEUE_ORDER
-import com.example.randommovie.domain.ListRepository.Companion.RATING_ORDER
-import com.example.randommovie.domain.ListRepository.Companion.USER_RATING_ORDER
-import com.example.randommovie.domain.ListRepository.Companion.YEAR_ORDER
 
 class OrderDialogFragment : DialogFragment() {
 

@@ -110,22 +110,12 @@ class FilterViewModel(
     }
 
     fun setOrderFilter(position: Int) {
-        val orderFilter = when (position) {
-            0 -> OrderFilter.RATING
-            1 -> OrderFilter.NUM_VOTE
-            2 -> OrderFilter.YEAR
-            else -> throw Exception("Invalid position")
-        }
+        val orderFilter = OrderFilter.values()[position]
         filter = filter!!.copy(order = orderFilter)
     }
 
     fun setTypeFilter(position: Int) {
-        val type = when (position) {
-            0 -> Type.FILM
-            1 -> Type.TV_SERIES
-            2 -> Type.ALL
-            else -> throw Exception("Invalid position")
-        }
+        val type = Type.values()[position]
         filter = filter!!.copy(type = type)
     }
 

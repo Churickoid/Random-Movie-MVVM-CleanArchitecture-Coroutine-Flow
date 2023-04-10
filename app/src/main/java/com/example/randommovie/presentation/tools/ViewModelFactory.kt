@@ -4,7 +4,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.example.randommovie.presentation.App
 import com.example.randommovie.presentation.screen.BaseViewModel
 import com.example.randommovie.presentation.screen.filter.FilterViewModel
@@ -12,6 +11,7 @@ import com.example.randommovie.presentation.screen.info.InfoViewModel
 import com.example.randommovie.presentation.screen.list.ListViewModel
 import com.example.randommovie.presentation.screen.movie.MovieViewModel
 
+@Suppress("UNCHECKED_CAST")
 class ViewModelFactory(private val app: App) : AbstractSavedStateViewModelFactory() {
 
     override fun <T : ViewModel> create(

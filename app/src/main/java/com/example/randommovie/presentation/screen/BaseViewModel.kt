@@ -1,10 +1,7 @@
 package com.example.randommovie.presentation.screen
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.randommovie.R
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.domain.usecases.list.AddUserInfoForMovieUseCase
 import kotlinx.coroutines.flow.MutableStateFlow

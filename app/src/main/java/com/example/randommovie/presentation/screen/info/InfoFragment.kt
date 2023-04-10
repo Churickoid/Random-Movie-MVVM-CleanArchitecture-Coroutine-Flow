@@ -119,7 +119,7 @@ class InfoFragment : BaseFragment() {
                 }
 
                 detailsImdbButton.isEnabled = (movieExtra.imdbId != null)
-                if (!detailsImdbButton.isEnabled) detailsImdbButton.setBackgroundColor(0xcccccc)
+                if (!detailsImdbButton.isEnabled) detailsImdbButton.setBackgroundColor(requireContext().getColor(R.color.disabled))
                 detailsKpButton.setOnClickListener {
                     val urlTag = if (movieExtra.isMovie) "film" else "series"
                     val url = "https://www.kinopoisk.ru/$urlTag/${movie.id}"

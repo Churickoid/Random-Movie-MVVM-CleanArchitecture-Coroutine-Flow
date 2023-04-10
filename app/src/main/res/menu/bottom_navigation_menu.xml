@@ -11,7 +11,6 @@
     <item android:title="@string/list"
         android:icon="@drawable/ic_list"
         android:id="@+id/list"
-        android:iconTint="@color/purple_500"
         />
 
 </menu>

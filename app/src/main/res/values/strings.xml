@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">randomMovie</string>
-    <string name="title_activity_main">MainActivity</string>
     <string name="list">List</string>
     <string name="movie">Movie</string>
     <string name="filter">Filter</string>
@@ -9,7 +8,6 @@
     <string name="rating_with_dots">Rating:</string>
     <string name="choose_genres">Choose genres</string>
     <string name="choose_countries">Choose countries</string>
-    <string name="clear">Clear</string>
     <string name="order">Order:</string>
     <string name="type">Type:</string>
     <string name="rate">Rate</string>
@@ -30,11 +28,14 @@
     <string name="add_to_watchlist">Add to Watchlist</string>
     <string name="rate_this">Rate this</string>
     <string name="default_button">Default</string>
+    <string name="watchlist">Watchlist (%1$d)</string>
+    <string name="rated">Rated (%1$d)</string>
+    <string name="movie_with_year">"%1$s (%2$s)"</string>
 
 
     <string-array name="orderFilter">
-        <item>Normal</item>
         <item>Popular</item>
+        <item>Rated</item>
         <item>Hidden gem</item>
     </string-array>
 

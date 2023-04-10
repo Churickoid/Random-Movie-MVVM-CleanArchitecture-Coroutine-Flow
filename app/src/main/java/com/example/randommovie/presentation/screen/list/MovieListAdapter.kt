@@ -51,7 +51,7 @@ class MovieListAdapter(private val listener: ItemListener,private val color: Int
             moreButton.tag = userInfo
 
             val year = movie.year?.toString() ?: " — "
-            titleMainTextView.text = "${movie.titleMain} ($year)"
+            titleMainTextView.text = context.getString(R.string.movie_with_year, movie.titleMain,year)
             titleExtraTextView.text = movie.titleSecond
             countryTextView.text = movie.country.joinToString(", ")
             genresTextView.text = movie.genre.joinToString(", ")

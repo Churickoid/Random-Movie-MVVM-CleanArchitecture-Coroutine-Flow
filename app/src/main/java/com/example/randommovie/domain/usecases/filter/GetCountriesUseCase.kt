@@ -1,7 +1,6 @@
 package com.example.randommovie.domain.usecases.filter
 
 import com.example.randommovie.domain.FilterRepository
-import com.example.randommovie.domain.ListRepository
 import com.example.randommovie.domain.entity.ItemFilter
 
 class GetCountriesUseCase(private val filterRepository: FilterRepository
