@@ -31,6 +31,10 @@
     <string name="watchlist">Watchlist (%1$d)</string>
     <string name="rated">Rated (%1$d)</string>
     <string name="movie_with_year">"%1$s (%2$s)"</string>
+    <string name="create_account"><u>Create Account</u> </string>
+    <string name="sign_in">Sign In</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
 
 
     <string-array name="orderFilter">
