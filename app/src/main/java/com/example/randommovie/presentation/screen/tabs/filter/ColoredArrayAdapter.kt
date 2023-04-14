@@ -1,4 +1,4 @@
-package com.example.randommovie.presentation.screen.filter
+package com.example.randommovie.presentation.screen.tabs.filter
 
 import android.content.Context
 import android.view.View

@@ -1,4 +1,4 @@
-package com.example.randommovie.presentation.screen.list
+package com.example.randommovie.presentation.screen.tabs.list
 
 import android.view.LayoutInflater
 import android.view.View
@@ -13,9 +13,9 @@ import com.example.randommovie.R
 import com.example.randommovie.databinding.ItemMovieBinding
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment.Companion.getRatingColor
-import com.example.randommovie.presentation.screen.list.MovieListAdapter.MovieViewHolder
+import com.example.randommovie.presentation.screen.tabs.list.MovieListAdapter.MovieViewHolder
 
-class MovieListAdapter(private val listener: ItemListener,private val color: Int) :
+class MovieListAdapter(private val listener: ItemListener, private val color: Int) :
     ListAdapter<ActionsAndMovie, MovieViewHolder>(ItemCallback), View.OnClickListener {
 
 

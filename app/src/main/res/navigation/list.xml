@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.example.randommovie.presentation.screen.list.ListFragment"
+        android:name="com.example.randommovie.presentation.screen.tabs.list.ListFragment"
         android:label="@string/list"
         tools:layout="@layout/fragment_list">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/informationListFragment"
-        android:name="com.example.randommovie.presentation.screen.info.InfoFragment"
+        android:name="com.example.randommovie.presentation.screen.tabs.info.InfoFragment"
         android:label="fragment_information"
         tools:layout="@layout/fragment_info" />
 </navigation>

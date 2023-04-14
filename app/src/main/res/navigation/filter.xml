@@ -6,7 +6,7 @@
     app:startDestination="@id/filterFragment">
     <fragment
         android:id="@+id/filterFragment"
-        android:name="com.example.randommovie.presentation.screen.filter.FilterFragment"
+        android:name="com.example.randommovie.presentation.screen.tabs.filter.FilterFragment"
         android:label="@string/filter"
         tools:layout="@layout/fragment_filter" />
 </navigation>

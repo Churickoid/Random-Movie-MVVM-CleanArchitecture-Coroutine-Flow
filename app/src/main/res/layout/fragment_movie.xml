@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/movieConstraintLayout"
-    tools:context=".presentation.screen.movie.MovieFragment">
+    tools:context=".presentation.screen.tabs.movie.MovieFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/centerGuideline"

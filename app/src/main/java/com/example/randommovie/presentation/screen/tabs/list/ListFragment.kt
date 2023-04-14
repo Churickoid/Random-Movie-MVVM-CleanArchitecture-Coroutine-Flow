@@ -1,4 +1,4 @@
-package com.example.randommovie.presentation.screen.list
+package com.example.randommovie.presentation.screen.tabs.list
 
 import android.os.Bundle
 import android.view.*
@@ -16,7 +16,7 @@ import com.example.randommovie.domain.ListRepository.Companion.RATED_LIST_TYPE
 import com.example.randommovie.domain.ListRepository.Companion.WATCH_LIST_TYPE
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment
-import com.example.randommovie.presentation.screen.info.InfoFragment
+import com.example.randommovie.presentation.screen.tabs.info.InfoFragment
 import com.example.randommovie.presentation.tools.factory
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.launch

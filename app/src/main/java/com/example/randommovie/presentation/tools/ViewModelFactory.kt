@@ -6,10 +6,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.randommovie.presentation.App
 import com.example.randommovie.presentation.screen.BaseViewModel
-import com.example.randommovie.presentation.screen.filter.FilterViewModel
-import com.example.randommovie.presentation.screen.info.InfoViewModel
-import com.example.randommovie.presentation.screen.list.ListViewModel
-import com.example.randommovie.presentation.screen.movie.MovieViewModel
+import com.example.randommovie.presentation.screen.tabs.filter.FilterViewModel
+import com.example.randommovie.presentation.screen.tabs.info.InfoViewModel
+import com.example.randommovie.presentation.screen.tabs.list.ListViewModel
+import com.example.randommovie.presentation.screen.tabs.movie.MovieViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory(private val app: App) : AbstractSavedStateViewModelFactory() {

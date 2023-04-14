@@ -5,7 +5,7 @@
     android:id="@+id/filterConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.screen.filter.FilterFragment"
+    tools:context=".presentation.screen.tabs.filter.FilterFragment"
     >
 
     <TextView

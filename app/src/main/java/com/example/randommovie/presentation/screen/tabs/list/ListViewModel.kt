@@ -1,4 +1,4 @@
-package com.example.randommovie.presentation.screen.list
+package com.example.randommovie.presentation.screen.tabs.list
 
 
 import androidx.lifecycle.ViewModel

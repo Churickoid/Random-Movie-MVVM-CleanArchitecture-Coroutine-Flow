@@ -1,4 +1,4 @@
-package com.example.randommovie.presentation.screen.movie
+package com.example.randommovie.presentation.screen.tabs.movie
 
 import android.content.res.ColorStateList
 import android.graphics.Color
@@ -17,11 +17,11 @@ import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentMovieBinding
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.GlideLoader
-import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_MOVIE
-import com.example.randommovie.presentation.screen.movie.MovieViewModel.Companion.DEFAULT_STATE
-import com.example.randommovie.presentation.screen.movie.MovieViewModel.Companion.DISABLED_STATE
-import com.example.randommovie.presentation.screen.movie.MovieViewModel.Companion.FIRST_TIME_STATE
-import com.example.randommovie.presentation.screen.movie.MovieViewModel.Companion.LOADING_STATE
+import com.example.randommovie.presentation.screen.tabs.info.InfoFragment.Companion.ARG_MOVIE
+import com.example.randommovie.presentation.screen.tabs.movie.MovieViewModel.Companion.DEFAULT_STATE
+import com.example.randommovie.presentation.screen.tabs.movie.MovieViewModel.Companion.DISABLED_STATE
+import com.example.randommovie.presentation.screen.tabs.movie.MovieViewModel.Companion.FIRST_TIME_STATE
+import com.example.randommovie.presentation.screen.tabs.movie.MovieViewModel.Companion.LOADING_STATE
 import com.example.randommovie.presentation.tools.changeColor
 import com.example.randommovie.presentation.tools.factory
 import kotlinx.coroutines.launch

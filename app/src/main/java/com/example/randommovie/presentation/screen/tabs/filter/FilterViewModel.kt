@@ -1,4 +1,4 @@
-package com.example.randommovie.presentation.screen.filter
+package com.example.randommovie.presentation.screen.tabs.filter
 
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -13,8 +13,8 @@ import com.example.randommovie.domain.usecases.filter.GetCountriesUseCase
 import com.example.randommovie.domain.usecases.filter.GetGenresUseCase
 import com.example.randommovie.domain.usecases.filter.GetSearchFilterUseCase
 import com.example.randommovie.domain.usecases.filter.SetSearchFilterUseCase
-import com.example.randommovie.presentation.screen.filter.FilterFragment.Companion.REQUEST_KEY_COUNTRIES
-import com.example.randommovie.presentation.screen.filter.FilterFragment.Companion.REQUEST_KEY_GENRES
+import com.example.randommovie.presentation.screen.tabs.filter.FilterFragment.Companion.REQUEST_KEY_COUNTRIES
+import com.example.randommovie.presentation.screen.tabs.filter.FilterFragment.Companion.REQUEST_KEY_GENRES
 import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
