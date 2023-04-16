@@ -11,7 +11,6 @@ import androidx.navigation.ui.NavigationUI
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentTabsBinding
 import com.example.randommovie.presentation.screen.BaseFragment
-import com.example.randommovie.presentation.tools.AppBarActions
 import kotlinx.coroutines.launch
 
 class TabsFragment:BaseFragment() {
@@ -29,8 +28,7 @@ class TabsFragment:BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentTabsBinding.bind(view)
-        val navHost =
-            childFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
+        val navHost = childFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
         val navController = navHost.navController
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
 
@@ -43,4 +41,6 @@ class TabsFragment:BaseFragment() {
         }
     }
 
+
 }
+

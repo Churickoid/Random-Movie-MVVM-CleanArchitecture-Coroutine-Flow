@@ -16,7 +16,8 @@ import com.example.randommovie.domain.ListRepository.Companion.RATED_LIST_TYPE
 import com.example.randommovie.domain.ListRepository.Companion.WATCH_LIST_TYPE
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment
-import com.example.randommovie.presentation.screen.tabs.info.InfoFragment
+import com.example.randommovie.presentation.screen.tabs.info.InfoFragment.Companion.ARG_MOVIE
+import com.example.randommovie.presentation.screen.tabs.info.InfoFragment.Companion.ARG_TITLE
 import com.example.randommovie.presentation.tools.factory
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.launch
@@ -39,19 +40,7 @@ class ListFragment : BaseFragment() {
 
         var listToTop = false
 
-        var adapter = MovieListAdapter(object : MovieListAdapter.ItemListener {
-            override fun onChooseMovie(infoAndMovie: ActionsAndMovie) =
-                findNavController().navigate(
-                    R.id.action_listFragment_to_informationListFragment,
-                    bundleOf(InfoFragment.ARG_MOVIE to infoAndMovie)
-                )
-
-            override fun onDeleteMovie(infoAndMovie: ActionsAndMovie) =
-                viewModel.deleteMovieById(infoAndMovie.movie.id)
-
-            override fun onChangeInfo(infoAndMovie: ActionsAndMovie) =
-                showRatingDialogFragment(parentFragmentManager, infoAndMovie)
-        }, 0xFF2276A0.toInt())
+        var adapter = MovieListAdapter(createItemListener(), 0xFF2276A0.toInt())
 
 
         val menuHost: MenuHost = requireActivity()
@@ -111,22 +100,7 @@ class ListFragment : BaseFragment() {
             baseViewModel.color.collect { (colorMain, colorBack) ->
                 binding.listTabLayout.setBackgroundColor(colorMain)
                 binding.listConstraintLayout.setBackgroundColor(colorBack)
-                adapter = MovieListAdapter(object : MovieListAdapter.ItemListener {
-                    override fun onChooseMovie(infoAndMovie: ActionsAndMovie) =
-                        findNavController().navigate(
-                            R.id.action_listFragment_to_informationListFragment,
-                            bundleOf(InfoFragment.ARG_MOVIE to infoAndMovie)
-                        )
-
-
-                    override fun onDeleteMovie(infoAndMovie: ActionsAndMovie) =
-                        viewModel.deleteMovieById(infoAndMovie.movie.id)
-
-                    override fun onChangeInfo(infoAndMovie: ActionsAndMovie) =
-                        showRatingDialogFragment(parentFragmentManager, infoAndMovie)
-
-
-                }, colorMain)
+                adapter = MovieListAdapter(createItemListener(), colorMain)
                 binding.moviesRecyclerView.adapter = adapter
             }
 
@@ -140,6 +114,25 @@ class ListFragment : BaseFragment() {
     private fun setupOrderDialogFragmentListener(manager: FragmentManager) {
         OrderDialogFragment.setupListener(manager, this) { order ->
             viewModel.order.value = order
+        }
+    }
+
+    private fun createItemListener(): MovieListAdapter.ItemListener{
+        return object : MovieListAdapter.ItemListener {
+            override fun onChooseMovie(infoAndMovie: ActionsAndMovie) =
+                findNavController().navigate(
+                    R.id.action_listFragment_to_informationListFragment,
+                    bundleOf(ARG_MOVIE to infoAndMovie, ARG_TITLE to infoAndMovie.movie.titleMain )
+                )
+
+
+            override fun onDeleteMovie(infoAndMovie: ActionsAndMovie) =
+                viewModel.deleteMovieById(infoAndMovie.movie.id)
+
+            override fun onChangeInfo(infoAndMovie: ActionsAndMovie) =
+                showRatingDialogFragment(parentFragmentManager, infoAndMovie)
+
+
         }
     }
 

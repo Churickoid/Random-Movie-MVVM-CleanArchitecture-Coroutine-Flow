@@ -17,6 +17,10 @@
     <fragment
         android:id="@+id/informationMovieFragment"
         android:name="com.example.randommovie.presentation.screen.tabs.info.InfoFragment"
+        android:label="{titleMain}"
         tools:layout="@layout/fragment_info">
-           </fragment>
+        <argument
+            android:name="titleMain"
+            app:argType="string" />
+    </fragment>
 </navigation>

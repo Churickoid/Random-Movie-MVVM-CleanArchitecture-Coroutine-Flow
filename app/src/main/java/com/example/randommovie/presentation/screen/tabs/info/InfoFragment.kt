@@ -19,7 +19,6 @@ import com.example.randommovie.presentation.screen.GlideLoader
 import com.example.randommovie.presentation.screen.tabs.info.InfoViewModel.Companion.ERROR_STATE
 import com.example.randommovie.presentation.screen.tabs.info.InfoViewModel.Companion.LOADING_STATE
 import com.example.randommovie.presentation.screen.tabs.info.InfoViewModel.Companion.VALID_STATE
-import com.example.randommovie.presentation.tools.changeTitle
 import com.example.randommovie.presentation.tools.factory
 import com.example.randommovie.presentation.tools.parcelable
 import kotlinx.coroutines.launch
@@ -39,10 +38,7 @@ class InfoFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        changeTitle(actionsAndMovie.movie.titleMain)
-
         return inflater.inflate(R.layout.fragment_info, container, false)
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -202,5 +198,6 @@ class InfoFragment : BaseFragment() {
 
     companion object {
         const val ARG_MOVIE = "ARG_MOVIE"
+        const val ARG_TITLE = "titleMain"
     }
 }

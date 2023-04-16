@@ -18,6 +18,7 @@ import com.example.randommovie.databinding.FragmentMovieBinding
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.GlideLoader
 import com.example.randommovie.presentation.screen.tabs.info.InfoFragment.Companion.ARG_MOVIE
+import com.example.randommovie.presentation.screen.tabs.info.InfoFragment.Companion.ARG_TITLE
 import com.example.randommovie.presentation.screen.tabs.movie.MovieViewModel.Companion.DEFAULT_STATE
 import com.example.randommovie.presentation.screen.tabs.movie.MovieViewModel.Companion.DISABLED_STATE
 import com.example.randommovie.presentation.screen.tabs.movie.MovieViewModel.Companion.FIRST_TIME_STATE
@@ -53,7 +54,7 @@ class MovieFragment : BaseFragment() {
             it.getValue()?.let { actionsAndMovie ->
                 findNavController().navigate(
                     R.id.action_movieFragment_to_informationMovieFragment,
-                    bundleOf(ARG_MOVIE to actionsAndMovie)
+                    bundleOf(ARG_MOVIE to actionsAndMovie, ARG_TITLE to actionsAndMovie.movie.titleMain)
                 )
             }
         }
@@ -139,7 +140,7 @@ class MovieFragment : BaseFragment() {
                 binding.nextMovieButton.backgroundTintList = ColorStateList.valueOf(colorMain)
                 binding.moreButton.drawable.setTint(colorMain)
                 binding.starButton.drawable.setTint(colorMain)
-                changeColor(colorMain, colorBack, colorDark)
+                changeColor(colorMain, colorDark)
             }
         }
 
