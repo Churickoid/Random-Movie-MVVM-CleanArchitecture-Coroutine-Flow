@@ -1,7 +1,7 @@
 package com.example.randommovie.data
 
 import com.example.randommovie.data.FilterRepositoryImpl.Companion.setGenresAndCountries
-import com.example.randommovie.data.retrofit.RetrofitApiInterface
+import com.example.randommovie.data.retrofit.movie.MovieApi
 import com.example.randommovie.data.room.dao.ItemsDao
 import com.example.randommovie.data.room.dao.MoviesDao
 import com.example.randommovie.data.room.entity.ItemsForMoviesDb
@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
 class MovieRepositoryImpl(
-    private val retrofitApiInterface: RetrofitApiInterface,
+    private val movieApi: MovieApi,
     private val moviesDao: MoviesDao,
     private val itemsDao: ItemsDao,
 ) : MovieRepository {
@@ -25,7 +25,7 @@ class MovieRepositoryImpl(
 
     override suspend fun getRandomMovie(searchFilter: SearchFilter): Movie {
 
-        setGenresAndCountries(retrofitApiInterface,itemsDao)
+        setGenresAndCountries(movieApi,itemsDao)
 
         return withContext(Dispatchers.IO) {
             val randYear = Random.nextInt(searchFilter.yearBottom, searchFilter.yearTop + 1)
@@ -40,7 +40,7 @@ class MovieRepositoryImpl(
                 else null
 
             val randPage = Random.nextInt(1, 6)
-            var movieList = retrofitApiInterface.getMovieList(
+            var movieList = movieApi.getMovieList(
                 page = randPage,
                 yearFrom = randYear,
                 yearTo = randYear,
@@ -53,7 +53,7 @@ class MovieRepositoryImpl(
             ).items
 
             if (movieList.isEmpty()) {
-                movieList = retrofitApiInterface.getMovieList(
+                movieList = movieApi.getMovieList(
                     page = 1,
                     yearFrom = randYear,
                     yearTo = randYear,
@@ -72,7 +72,7 @@ class MovieRepositoryImpl(
     }
 
     override suspend fun getMoreInformation(id: Long): MovieExtra {
-        val request = retrofitApiInterface.getMovieById(id)
+        val request = movieApi.getMovieById(id)
 
         val isMovie = (request.type != "TV_SERIES")
 

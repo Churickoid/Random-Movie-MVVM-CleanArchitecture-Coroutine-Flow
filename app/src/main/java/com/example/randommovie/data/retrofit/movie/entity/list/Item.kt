@@ -1,7 +1,7 @@
-package com.example.randommovie.data.retrofit.request.list
+package com.example.randommovie.data.retrofit.movie.entity.list
 
-import com.example.randommovie.data.retrofit.request.Country
-import com.example.randommovie.data.retrofit.request.Genre
+import com.example.randommovie.data.retrofit.movie.entity.Country
+import com.example.randommovie.data.retrofit.movie.entity.Genre
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.Movie.Companion.RATING_NULL
 

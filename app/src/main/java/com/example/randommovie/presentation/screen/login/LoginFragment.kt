@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentLoginBinding
 
+
 class LoginFragment: Fragment() {
     private lateinit var binding: FragmentLoginBinding
 
@@ -24,5 +25,9 @@ class LoginFragment: Fragment() {
         binding.signInButton.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_tabsFragment)
         }
+
     }
 }
+
+
+

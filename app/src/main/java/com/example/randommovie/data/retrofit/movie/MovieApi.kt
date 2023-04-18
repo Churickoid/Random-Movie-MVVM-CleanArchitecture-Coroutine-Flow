@@ -1,13 +1,13 @@
-package com.example.randommovie.data.retrofit
+package com.example.randommovie.data.retrofit.movie
 
-import com.example.randommovie.data.retrofit.request.filter.GenresAndCountriesRequest
-import com.example.randommovie.data.retrofit.request.id.MovieIdRequest
-import com.example.randommovie.data.retrofit.request.list.MovieListRequest
+import com.example.randommovie.data.retrofit.movie.entity.filter.GenresAndCountriesRequest
+import com.example.randommovie.data.retrofit.movie.entity.id.MovieIdRequest
+import com.example.randommovie.data.retrofit.movie.entity.list.MovieListRequest
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface RetrofitApiInterface {
+interface MovieApi {
     @GET("api/v2.2/films")
     suspend fun getMovieList(
         @Query("page") page: Int = 1,

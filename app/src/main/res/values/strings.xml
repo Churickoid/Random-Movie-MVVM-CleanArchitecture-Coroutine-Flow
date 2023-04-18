@@ -35,6 +35,7 @@
     <string name="sign_in">Sign In</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="authorization">Authorization</string>
 
 
     <string-array name="orderFilter">

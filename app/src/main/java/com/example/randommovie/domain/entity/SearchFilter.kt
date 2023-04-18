@@ -14,7 +14,6 @@ data class SearchFilter(
 enum class OrderFilter{
     NUM_VOTE,RATING,YEAR
 }
-
 enum class Type{
     FILM,TV_SERIES,ALL
 }

@@ -5,6 +5,7 @@ import com.example.randommovie.domain.entity.SearchFilter
 
 interface FilterRepository {
     suspend fun setSearchFilter(searchFilter: SearchFilter)
+
     suspend fun getSearchFilter(): SearchFilter
 
     suspend fun getCountriesList(): List<ItemFilter>

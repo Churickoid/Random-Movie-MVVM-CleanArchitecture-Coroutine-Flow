@@ -1,6 +1,6 @@
 package com.example.randommovie.data
 
-import com.example.randommovie.data.retrofit.RetrofitApiInterface
+import com.example.randommovie.data.retrofit.movie.MovieApi
 import com.example.randommovie.data.room.dao.FilterDao
 import com.example.randommovie.data.room.dao.ItemsDao
 import com.example.randommovie.data.room.entity.FilterDb
@@ -14,7 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class FilterRepositoryImpl(
-    private val retrofitApiInterface: RetrofitApiInterface,
+    private val movieApi: MovieApi,
     private val itemsDao: ItemsDao,
     private val filterDao: FilterDao
 ) : FilterRepository {
@@ -65,13 +65,13 @@ class FilterRepositoryImpl(
     }
 
     override suspend fun getCountriesList(): List<ItemFilter> {
-        setGenresAndCountries(retrofitApiInterface, itemsDao)
+        setGenresAndCountries(movieApi, itemsDao)
         return itemsDao.getAllItemsByType(COUNTRY_ITEM_TYPE)
             .map { it.toItemFilter(filter!!.countries.map { item -> item.id }) }
     }
 
     override suspend fun getGenresList(): List<ItemFilter> {
-        setGenresAndCountries(retrofitApiInterface, itemsDao)
+        setGenresAndCountries(movieApi, itemsDao)
         return itemsDao.getAllItemsByType(GENRE_ITEM_TYPE)
             .map { it.toItemFilter(filter!!.genres.map { item -> item.id }) }
     }
@@ -79,12 +79,12 @@ class FilterRepositoryImpl(
     companion object {
         private var itemsExist = false
         suspend fun setGenresAndCountries(
-            retrofitApiInterface: RetrofitApiInterface,
+            movieApi: MovieApi,
             itemsDao: ItemsDao
         ) {
             if (!itemsExist)
                 if (itemsDao.getAllItemsByType(0).isEmpty()) {
-                    val request = retrofitApiInterface.getGenresAndCounties()
+                    val request = movieApi.getGenresAndCounties()
                     request.genres.forEach {
                         if (it.genre != "") itemsDao.insertItem(
                             ItemDb(it.id, GENRE_ITEM_TYPE, it.genre)

@@ -5,7 +5,7 @@ import androidx.room.Room
 import com.example.randommovie.data.FilterRepositoryImpl
 import com.example.randommovie.data.ListRepositoryImpl
 import com.example.randommovie.data.MovieRepositoryImpl
-import com.example.randommovie.data.retrofit.RetrofitApiInterface
+import com.example.randommovie.data.retrofit.movie.MovieApi
 import com.example.randommovie.data.room.AppDatabase
 import com.example.randommovie.domain.usecases.filter.GetCountriesUseCase
 import com.example.randommovie.domain.usecases.filter.GetGenresUseCase
@@ -46,7 +46,7 @@ class DependencyInjectionContainer(context:Context) {
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
         .build()
-        .create(RetrofitApiInterface::class.java)
+        .create(MovieApi::class.java)
 
     private val appDatabase:AppDatabase by lazy {
         Room.databaseBuilder(context, AppDatabase::class.java, "database").build()

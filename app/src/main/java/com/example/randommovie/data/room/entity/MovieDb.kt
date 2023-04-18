@@ -23,7 +23,8 @@ data class MovieDb(
     @ColumnInfo("rating_kp") val ratingKP: Double,
     @ColumnInfo("rating_imdb") val ratingIMDB: Double,
 
-) {
+)
+{
 
     fun toMovie(genres: List<String>,countries: List<String>): Movie = Movie(
         id = this.movieId,

@@ -7,8 +7,8 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.randommovie.presentation.screen.login.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        android:label="@string/authorization"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_tabsFragment"
             app:destination="@id/tabsFragment"
