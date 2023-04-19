@@ -130,7 +130,7 @@ class MovieFragment : BaseFragment() {
             }
 
         }
-        viewModel.error.observe(viewLifecycleOwner) {
+        viewModel.toast.observe(viewLifecycleOwner) {
             toastError(it)
         }
         viewLifecycleOwner.lifecycleScope.launch {

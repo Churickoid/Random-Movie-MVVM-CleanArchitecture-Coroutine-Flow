@@ -1,10 +1,16 @@
 package com.example.randommovie.domain
 
+import com.example.randommovie.domain.entity.AccountData
+import kotlinx.coroutines.flow.Flow
+
 interface AuthRepository {
 
-   suspend fun isSignedIn(): Boolean
 
-   suspend fun signIn(email: String, password: String): String
+    suspend fun signIn(email: String, password: String)
 
-   suspend fun logout()
+    fun getAccount(): Flow<AccountData?>
+
+    suspend fun isSignedIn(): Boolean
+
+    suspend fun logout()
 }

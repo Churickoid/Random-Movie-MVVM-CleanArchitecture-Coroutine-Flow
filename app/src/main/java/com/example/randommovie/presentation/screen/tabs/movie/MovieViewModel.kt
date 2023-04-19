@@ -36,8 +36,8 @@ class MovieViewModel(
     private val _buttonState = MutableLiveData<Int>()
     val buttonState: LiveData<Int> = _buttonState
 
-    private val _error = MutableLiveData<Event<String>>()
-    val error: LiveData<Event<String>> = _error
+    private val _toast = MutableLiveData<Event<String>>()
+    val toast: LiveData<Event<String>> = _toast
 
 
     init {
@@ -63,11 +63,11 @@ class MovieViewModel(
                 _buttonState.value = DEFAULT_STATE
             }
             catch (e: UnknownHostException) {
-                _error.value = Event("Need internet connection")
+                _toast.value = Event("Need internet connection")
                 _buttonState.value = previousState
             }
             catch (e: Exception) {
-                _error.value = Event(e.toString())
+                _toast.value = Event(e.toString())
                 _buttonState.value = previousState
             }
         }

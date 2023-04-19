@@ -36,6 +36,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="authorization">Authorization</string>
+    <string name="as_guest">as Guest</string>
 
 
     <string-array name="orderFilter">

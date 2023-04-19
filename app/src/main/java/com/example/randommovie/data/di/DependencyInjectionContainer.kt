@@ -2,11 +2,14 @@ package com.example.randommovie.data.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.randommovie.data.AuthRepositoryImpl
 import com.example.randommovie.data.FilterRepositoryImpl
 import com.example.randommovie.data.ListRepositoryImpl
 import com.example.randommovie.data.MovieRepositoryImpl
+import com.example.randommovie.data.retrofit.auth.AuthApi
 import com.example.randommovie.data.retrofit.movie.MovieApi
 import com.example.randommovie.data.room.AppDatabase
+import com.example.randommovie.domain.usecases.account.SignInUseCase
 import com.example.randommovie.domain.usecases.filter.GetCountriesUseCase
 import com.example.randommovie.domain.usecases.filter.GetGenresUseCase
 import com.example.randommovie.domain.usecases.filter.GetSearchFilterUseCase
@@ -41,12 +44,16 @@ class DependencyInjectionContainer(context:Context) {
         .build()
 
 
-    private val retrofit = Retrofit.Builder()
+    private val retrofitBuilder = Retrofit.Builder()
         .baseUrl("https://kinopoiskapiunofficial.tech")
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
         .build()
-        .create(MovieApi::class.java)
+
+
+    private val movieApi = retrofitBuilder.create(MovieApi::class.java)
+    private val authApi = retrofitBuilder.create(AuthApi::class.java)
+
 
     private val appDatabase:AppDatabase by lazy {
         Room.databaseBuilder(context, AppDatabase::class.java, "database").build()
@@ -57,13 +64,13 @@ class DependencyInjectionContainer(context:Context) {
     private val listDao = appDatabase.listDao()
     private val filterDao = appDatabase.filterDao()
 
-    private val movieRepository = MovieRepositoryImpl(retrofit,movieDao,itemsDao)
+    private val movieRepository = MovieRepositoryImpl(movieApi,movieDao,itemsDao)
     val getRandomMovieUseCase = GetRandomMovieUseCase(movieRepository)
     val getMoreInformationUseCase = GetMoreInformationUseCase(movieRepository)
     val getLastMovieUseCase = GetLastMovieUseCase(movieRepository)
     val setLastMovieUseCase = SetLastMovieUseCase(movieRepository)
 
-    private val filterRepository = FilterRepositoryImpl(retrofit,itemsDao,filterDao)
+    private val filterRepository = FilterRepositoryImpl(movieApi,itemsDao,filterDao)
     val setSearchFilterUseCase = SetSearchFilterUseCase(filterRepository)
     val getSearchFilterUseCase = GetSearchFilterUseCase(filterRepository)
     val getGenresUseCase = GetGenresUseCase(filterRepository)
@@ -75,5 +82,8 @@ class DependencyInjectionContainer(context:Context) {
     val addUserInfoForMovieUseCase = AddUserInfoForMovieUseCase(listRepository)
     val deleteMovieByIdUseCase= DeleteMovieByIdUseCase(listRepository)
     val getActionsByIdUseCase= GetActionsByIdUseCase(listRepository)
+
+    private val authRepository = AuthRepositoryImpl(authApi)
+    val signInUseCase =  SignInUseCase(authRepository)
 
 }
