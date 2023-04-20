@@ -3,21 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_graph"
-    app:startDestination="@id/loginFragment">
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.randommovie.presentation.screen.login.LoginFragment"
-        android:label="@string/authorization"
-        tools:layout="@layout/fragment_login">
-        <action
-            android:id="@+id/action_loginFragment_to_tabsFragment"
-            app:destination="@id/tabsFragment"
-            app:popUpTo="@id/loginFragment"
-            app:popUpToInclusive="true" />
-    </fragment>
+    app:startDestination="@id/tabsFragment">
     <fragment
         android:id="@+id/tabsFragment"
         android:name="com.example.randommovie.presentation.screen.tabs.TabsFragment"
         android:label="fragment_tabs"
-        tools:layout="@layout/fragment_tabs" />
+        tools:layout="@layout/fragment_tabs" >
+        <action
+            android:id="@+id/action_tabsFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.example.randommovie.presentation.screen.info.InfoFragment"
+        android:label="{titleMain}"
+        tools:layout="@layout/fragment_info" >
+        <argument
+            android:name="titleMain"
+            app:argType="string" />
+    </fragment>
 </navigation>

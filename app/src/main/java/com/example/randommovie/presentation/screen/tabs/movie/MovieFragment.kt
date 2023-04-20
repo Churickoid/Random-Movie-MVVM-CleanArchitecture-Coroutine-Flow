@@ -3,12 +3,13 @@ package com.example.randommovie.presentation.screen.tabs.movie
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.graphics.ColorUtils
 import androidx.core.os.bundleOf
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -17,8 +18,9 @@ import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentMovieBinding
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.GlideLoader
-import com.example.randommovie.presentation.screen.tabs.info.InfoFragment.Companion.ARG_MOVIE
-import com.example.randommovie.presentation.screen.tabs.info.InfoFragment.Companion.ARG_TITLE
+import com.example.randommovie.presentation.screen.findTopNavController
+import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_MOVIE
+import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_TITLE
 import com.example.randommovie.presentation.screen.tabs.movie.MovieViewModel.Companion.DEFAULT_STATE
 import com.example.randommovie.presentation.screen.tabs.movie.MovieViewModel.Companion.DISABLED_STATE
 import com.example.randommovie.presentation.screen.tabs.movie.MovieViewModel.Companion.FIRST_TIME_STATE
@@ -52,8 +54,8 @@ class MovieFragment : BaseFragment() {
 
         viewModel.infoActionsMovie.observe(viewLifecycleOwner) {
             it.getValue()?.let { actionsAndMovie ->
-                findNavController().navigate(
-                    R.id.action_movieFragment_to_informationMovieFragment,
+                findTopNavController().navigate(
+                    R.id.infoFragment,
                     bundleOf(ARG_MOVIE to actionsAndMovie, ARG_TITLE to actionsAndMovie.movie.titleMain)
                 )
             }
@@ -68,6 +70,24 @@ class MovieFragment : BaseFragment() {
                 showRatingDialogFragment(parentFragmentManager, actionsAndMovie)
             }
         }
+
+
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.appbar_movie, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.action_filter -> {
+                        findNavController().navigate(R.id.action_movieFragment_to_filterFragment)
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.STARTED)
 
 
         viewModel.movie.observe(viewLifecycleOwner) { movie ->

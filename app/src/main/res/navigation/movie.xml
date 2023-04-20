@@ -11,16 +11,12 @@
         android:label="@string/movie"
         tools:layout="@layout/fragment_movie">
         <action
-            android:id="@+id/action_movieFragment_to_informationMovieFragment"
-            app:destination="@id/informationMovieFragment" />
+            android:id="@+id/action_movieFragment_to_filterFragment"
+            app:destination="@id/filterFragment" />
     </fragment>
     <fragment
-        android:id="@+id/informationMovieFragment"
-        android:name="com.example.randommovie.presentation.screen.tabs.info.InfoFragment"
-        android:label="{titleMain}"
-        tools:layout="@layout/fragment_info">
-        <argument
-            android:name="titleMain"
-            app:argType="string" />
-    </fragment>
+        android:id="@+id/filterFragment"
+        android:name="com.example.randommovie.presentation.screen.tabs.filter.FilterFragment"
+        android:label="@string/filter"
+        tools:layout="@layout/fragment_filter" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.randommovie.presentation.screen.login
+package com.example.randommovie.presentation.screen.tabs.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,13 +8,12 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentLoginBinding
-import com.example.randommovie.presentation.screen.login.LoginViewModel.Companion.DEFAULT_STATE
-import com.example.randommovie.presentation.screen.login.LoginViewModel.Companion.EMPTY_ERROR
-import com.example.randommovie.presentation.screen.login.LoginViewModel.Companion.INCORRECT_ERROR
-import com.example.randommovie.presentation.screen.login.LoginViewModel.Companion.LOADING_STATE
+import com.example.randommovie.presentation.screen.tabs.login.LoginViewModel.Companion.DEFAULT_STATE
+import com.example.randommovie.presentation.screen.tabs.login.LoginViewModel.Companion.EMPTY_ERROR
+import com.example.randommovie.presentation.screen.tabs.login.LoginViewModel.Companion.INCORRECT_ERROR
+import com.example.randommovie.presentation.screen.tabs.login.LoginViewModel.Companion.LOADING_STATE
 import com.example.randommovie.presentation.tools.factory
 
 class LoginFragment : Fragment() {
@@ -67,7 +66,7 @@ class LoginFragment : Fragment() {
         }
 
         viewModel.startTabsFragment.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_loginFragment_to_tabsFragment)
+            //findNavController().navigate(R.id.action_loginFragment_to_tabsFragment)
         }
 
 

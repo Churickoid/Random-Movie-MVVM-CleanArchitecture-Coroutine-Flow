@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.screen.login.LoginFragment">
+    tools:context=".presentation.screen.tabs.login.LoginFragment">
 
 
     <com.google.android.material.textfield.TextInputLayout

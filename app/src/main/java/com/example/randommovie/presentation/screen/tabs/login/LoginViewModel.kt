@@ -1,4 +1,4 @@
-package com.example.randommovie.presentation.screen.login
+package com.example.randommovie.presentation.screen.tabs.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

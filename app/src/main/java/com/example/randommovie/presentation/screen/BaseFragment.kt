@@ -7,6 +7,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -59,6 +62,11 @@ open class BaseFragment : Fragment() {
             }
         }
     }
+}
+
+fun Fragment.findTopNavController(): NavController {
+    val topLevelHost = requireActivity().supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment?
+    return topLevelHost?.navController ?: findNavController()
 }
 
 object GlideLoader : RequestListener<Bitmap> {

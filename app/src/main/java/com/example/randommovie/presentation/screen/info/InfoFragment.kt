@@ -1,4 +1,4 @@
-package com.example.randommovie.presentation.screen.tabs.info
+package com.example.randommovie.presentation.screen.info
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -16,9 +16,9 @@ import com.example.randommovie.databinding.FragmentInfoBinding
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.GlideLoader
-import com.example.randommovie.presentation.screen.tabs.info.InfoViewModel.Companion.ERROR_STATE
-import com.example.randommovie.presentation.screen.tabs.info.InfoViewModel.Companion.LOADING_STATE
-import com.example.randommovie.presentation.screen.tabs.info.InfoViewModel.Companion.VALID_STATE
+import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.ERROR_STATE
+import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.LOADING_STATE
+import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.VALID_STATE
 import com.example.randommovie.presentation.tools.factory
 import com.example.randommovie.presentation.tools.parcelable
 import kotlinx.coroutines.launch

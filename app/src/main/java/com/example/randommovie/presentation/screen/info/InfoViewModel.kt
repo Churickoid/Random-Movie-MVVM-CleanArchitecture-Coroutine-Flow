@@ -1,10 +1,10 @@
-package com.example.randommovie.presentation.screen.tabs.info
+package com.example.randommovie.presentation.screen.info
 
 import androidx.lifecycle.*
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.domain.entity.MovieExtra
 import com.example.randommovie.domain.usecases.movie.GetMoreInformationUseCase
-import com.example.randommovie.presentation.screen.tabs.info.InfoFragment.Companion.ARG_MOVIE
+import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_MOVIE
 import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException

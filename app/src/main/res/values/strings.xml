@@ -2,7 +2,7 @@
     <string name="app_name">randomMovie</string>
     <string name="list">List</string>
     <string name="movie">Movie</string>
-    <string name="filter">Filter</string>
+    <string name="settings">Settings</string>
     <string name="next_movie">Next Movie</string>
     <string name="year_with_ints">Year: %1$d – %2$d</string>
     <string name="rating_with_dots">Rating:</string>
@@ -37,6 +37,7 @@
     <string name="password">Password</string>
     <string name="authorization">Authorization</string>
     <string name="as_guest">as Guest</string>
+    <string name="filter">Filter</string>
 
 
     <string-array name="orderFilter">

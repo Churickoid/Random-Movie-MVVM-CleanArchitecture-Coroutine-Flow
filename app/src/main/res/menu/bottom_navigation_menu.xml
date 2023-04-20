@@ -4,13 +4,14 @@
         android:icon="@drawable/ic_movie"
         android:id="@+id/movie"
         />
-    <item android:title="@string/filter"
-        android:icon="@drawable/ic_filter"
-        android:id="@+id/filter"
-        />
     <item android:title="@string/list"
         android:icon="@drawable/ic_list"
         android:id="@+id/list"
         />
+    <item android:title="@string/settings"
+        android:icon="@drawable/ic_settings"
+        android:id="@+id/settings"
+        />
+
 
 </menu>

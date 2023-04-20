@@ -6,6 +6,6 @@
 
 
     <include app:graph="@navigation/movie" />
-    <include app:graph="@navigation/filter" />
     <include app:graph="@navigation/list" />
+    <include app:graph="@navigation/settings" />
 </navigation>

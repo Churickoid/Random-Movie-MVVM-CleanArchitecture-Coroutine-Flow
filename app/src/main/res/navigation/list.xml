@@ -9,18 +9,5 @@
         android:id="@+id/listFragment"
         android:name="com.example.randommovie.presentation.screen.tabs.list.ListFragment"
         android:label="@string/list"
-        tools:layout="@layout/fragment_list">
-        <action
-            android:id="@+id/action_listFragment_to_informationListFragment"
-            app:destination="@id/informationListFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/informationListFragment"
-        android:name="com.example.randommovie.presentation.screen.tabs.info.InfoFragment"
-        android:label="{titleMain}"
-        tools:layout="@layout/fragment_info" >
-        <argument
-            android:name="titleMain"
-            app:argType="string" />
-    </fragment>
+        tools:layout="@layout/fragment_list"/>
 </navigation>

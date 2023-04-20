@@ -5,7 +5,7 @@
     android:id="@+id/infoFrameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.screen.tabs.info.InfoFragment">
+    tools:context=".presentation.screen.info.InfoFragment">
 
     <ProgressBar
         android:id="@+id/loadingProgressBar"

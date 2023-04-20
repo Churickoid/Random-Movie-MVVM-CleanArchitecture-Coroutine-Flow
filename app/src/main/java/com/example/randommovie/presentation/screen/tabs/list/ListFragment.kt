@@ -9,15 +9,15 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentListBinding
 import com.example.randommovie.domain.ListRepository.Companion.RATED_LIST_TYPE
 import com.example.randommovie.domain.ListRepository.Companion.WATCH_LIST_TYPE
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment
-import com.example.randommovie.presentation.screen.tabs.info.InfoFragment.Companion.ARG_MOVIE
-import com.example.randommovie.presentation.screen.tabs.info.InfoFragment.Companion.ARG_TITLE
+import com.example.randommovie.presentation.screen.findTopNavController
+import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_MOVIE
+import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_TITLE
 import com.example.randommovie.presentation.tools.factory
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.launch
@@ -46,7 +46,7 @@ class ListFragment : BaseFragment() {
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.appbar_list_icons, menu)
+                menuInflater.inflate(R.menu.appbar_list, menu)
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -63,7 +63,7 @@ class ListFragment : BaseFragment() {
                     else -> false
                 }
             }
-        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+        }, viewLifecycleOwner, Lifecycle.State.STARTED)
         binding.moviesRecyclerView.itemAnimator = null
         binding.moviesRecyclerView.adapter = adapter
 
@@ -120,8 +120,8 @@ class ListFragment : BaseFragment() {
     private fun createItemListener(): MovieListAdapter.ItemListener{
         return object : MovieListAdapter.ItemListener {
             override fun onChooseMovie(infoAndMovie: ActionsAndMovie) =
-                findNavController().navigate(
-                    R.id.action_listFragment_to_informationListFragment,
+                findTopNavController().navigate(
+                    R.id.infoFragment,
                     bundleOf(ARG_MOVIE to infoAndMovie, ARG_TITLE to infoAndMovie.movie.titleMain )
                 )
 
