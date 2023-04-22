@@ -38,6 +38,9 @@
     <string name="authorization">Authorization</string>
     <string name="as_guest">as Guest</string>
     <string name="filter">Filter</string>
+    <string name="api_settings">API Settings</string>
+    <string name="token">Token:</string>
+    <string name="create_personal_token">Create personal token</string>
 
 
     <string-array name="orderFilter">

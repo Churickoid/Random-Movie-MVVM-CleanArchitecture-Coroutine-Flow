@@ -4,12 +4,14 @@ import com.example.randommovie.data.retrofit.movie.entity.filter.GenresAndCountr
 import com.example.randommovie.data.retrofit.movie.entity.id.MovieIdRequest
 import com.example.randommovie.data.retrofit.movie.entity.list.MovieListRequest
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MovieApi {
     @GET("api/v2.2/films")
     suspend fun getMovieList(
+        @Header("X-API-KEY") token:String,
         @Query("page") page: Int = 1,
         @Query("genres") genre: Int?,
         @Query("countries") country: Int?,
@@ -22,8 +24,8 @@ interface MovieApi {
     ): MovieListRequest
 
     @GET("api/v2.2/films/{id}")
-    suspend fun getMovieById(@Path("id") id: Long): MovieIdRequest
+    suspend fun getMovieById(@Header("X-API-KEY") token:String, @Path("id") id: Long): MovieIdRequest
     @GET("api/v2.2/films/filters")
-    suspend fun getGenresAndCounties(): GenresAndCountriesRequest
+    suspend fun getGenresAndCounties(@Header("X-API-KEY") token:String): GenresAndCountriesRequest
 
 }

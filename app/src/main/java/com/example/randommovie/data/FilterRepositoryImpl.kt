@@ -84,7 +84,7 @@ class FilterRepositoryImpl(
         ) {
             if (!itemsExist)
                 if (itemsDao.getAllItemsByType(0).isEmpty()) {
-                    val request = movieApi.getGenresAndCounties()
+                    val request = movieApi.getGenresAndCounties("5c2d749b-5c0c-4809-b62d-a3c98a9f527e") //TODO CHANGE
                     request.genres.forEach {
                         if (it.genre != "") itemsDao.insertItem(
                             ItemDb(it.id, GENRE_ITEM_TYPE, it.genre)

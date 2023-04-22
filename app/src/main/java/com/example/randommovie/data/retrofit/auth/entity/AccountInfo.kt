@@ -1,6 +1,6 @@
 package com.example.randommovie.data.retrofit.auth.entity
 
-import com.example.randommovie.domain.entity.AccountData
+import com.example.randommovie.domain.entity.Token
 
 data class AccountInfo(
     val email: String,
@@ -13,8 +13,8 @@ data class AccountInfo(
     val token: String,
     val usedQuota: Int
 ){
-    fun toAccount(): AccountData {
-    return AccountData(email = this.email, apiKey = token)
+    fun toAccount(): Token {
+    return Token(apiKey = token, email = this.email)
 
     }
 }

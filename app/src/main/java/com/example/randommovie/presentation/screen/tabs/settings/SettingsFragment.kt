@@ -24,7 +24,9 @@ class SettingsFragment: Fragment() {
         binding = FragmentSettingsBinding.bind(view)
 
 
-        binding.accountButton.setOnClickListener {
+
+
+        binding.createTokenButton.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_loginFragment)
         }
 

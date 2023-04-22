@@ -40,7 +40,7 @@ class MovieRepositoryImpl(
                 else null
 
             val randPage = Random.nextInt(1, 6)
-            var movieList = movieApi.getMovieList(
+            var movieList = movieApi.getMovieList( "5c2d749b-5c0c-4809-b62d-a3c98a9f527e",//TODO CHANGE
                 page = randPage,
                 yearFrom = randYear,
                 yearTo = randYear,
@@ -52,8 +52,10 @@ class MovieRepositoryImpl(
                 type = searchFilter.type.name
             ).items
 
+
             if (movieList.isEmpty()) {
                 movieList = movieApi.getMovieList(
+                    "5c2d749b-5c0c-4809-b62d-a3c98a9f527e",//TODO CHANGE
                     page = 1,
                     yearFrom = randYear,
                     yearTo = randYear,
@@ -72,7 +74,8 @@ class MovieRepositoryImpl(
     }
 
     override suspend fun getMoreInformation(id: Long): MovieExtra {
-        val request = movieApi.getMovieById(id)
+        val request = movieApi.getMovieById("5c2d749b-5c0c-4809-b62d-a3c98a9f527e"//TODO CHANGE
+            ,id)
 
         val isMovie = (request.type != "TV_SERIES")
 
