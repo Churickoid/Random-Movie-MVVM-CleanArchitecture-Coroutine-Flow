@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.example.randommovie.R
 
 class ColoredArrayAdapter(context: Context, recourse: Array<String>, private val color: Int) :
-    ArrayAdapter<String>(context, R.layout.item_spinner, recourse) {
+    ArrayAdapter<String>(context, R.layout.item_filter, recourse) {
     override fun getView(
         position: Int,
         convertView: View?,

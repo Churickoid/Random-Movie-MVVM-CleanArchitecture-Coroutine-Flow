@@ -9,7 +9,7 @@ import com.example.randommovie.data.room.entity.UserActionsForMovieDb
 interface MoviesDao {
 
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertMovie(movieDb: MovieDb)
 
     @Query("DELETE FROM movies WHERE movie_id = :movieId")

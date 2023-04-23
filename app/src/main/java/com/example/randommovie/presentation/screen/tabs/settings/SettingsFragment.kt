@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentSettingsBinding
+import com.example.randommovie.domain.entity.Token.Companion.tokens
 
 class SettingsFragment: Fragment() {
 
@@ -24,11 +25,14 @@ class SettingsFragment: Fragment() {
         binding = FragmentSettingsBinding.bind(view)
 
 
-
-
         binding.createTokenButton.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_loginFragment)
         }
+
+        val adapter = TokenSpinnerAdapter(tokens){
+
+        }
+        binding.tokenSpinner.adapter = adapter
 
     }
 }

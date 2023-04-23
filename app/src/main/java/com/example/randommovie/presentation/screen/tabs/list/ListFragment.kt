@@ -40,8 +40,6 @@ class ListFragment : BaseFragment() {
 
         var listToTop = false
 
-        var adapter = MovieListAdapter(createItemListener(), 0xFF2276A0.toInt())
-
 
         val menuHost: MenuHost = requireActivity()
         menuHost.addMenuProvider(object : MenuProvider {
@@ -64,16 +62,7 @@ class ListFragment : BaseFragment() {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.STARTED)
-        binding.moviesRecyclerView.itemAnimator = null
-        binding.moviesRecyclerView.adapter = adapter
 
-        viewModel.movieList.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
-            if (listToTop) {
-                binding.moviesRecyclerView.scrollToPosition(0)
-                listToTop = false
-            }
-        }
 
         binding.listTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
@@ -100,9 +89,21 @@ class ListFragment : BaseFragment() {
             baseViewModel.color.collect { (colorMain, colorBack) ->
                 binding.listTabLayout.setBackgroundColor(colorMain)
                 binding.listConstraintLayout.setBackgroundColor(colorBack)
-                adapter = MovieListAdapter(createItemListener(), colorMain)
+                val adapter = MovieListAdapter(createItemListener(), colorMain)
                 binding.moviesRecyclerView.adapter = adapter
+
+                binding.moviesRecyclerView.itemAnimator = null
+                binding.moviesRecyclerView.adapter = adapter
+                viewModel.movieList.observe(viewLifecycleOwner) {
+                    adapter.submitList(it)
+                    if (listToTop) {
+                        binding.moviesRecyclerView.scrollToPosition(0)
+                        listToTop = false
+                    }
+                }
+
             }
+
 
         }
 

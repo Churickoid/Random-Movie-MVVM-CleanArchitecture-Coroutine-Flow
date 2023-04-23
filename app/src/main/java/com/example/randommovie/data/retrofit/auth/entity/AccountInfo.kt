@@ -13,8 +13,8 @@ data class AccountInfo(
     val token: String,
     val usedQuota: Int
 ){
-    fun toAccount(): Token {
-    return Token(apiKey = token, email = this.email)
+    fun toToken(): Token {
+    return Token(apiKey = token, email = this.email, true)
 
     }
 }

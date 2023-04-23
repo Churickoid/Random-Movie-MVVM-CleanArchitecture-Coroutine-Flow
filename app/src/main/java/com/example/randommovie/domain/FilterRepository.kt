@@ -8,9 +8,9 @@ interface FilterRepository {
 
     suspend fun getSearchFilter(): SearchFilter
 
-    suspend fun getCountriesList(): List<ItemFilter>
+    suspend fun getCountriesList(tokenKey:String): List<ItemFilter>
 
-    suspend fun getGenresList(): List<ItemFilter>
+    suspend fun getGenresList(tokenKey:String): List<ItemFilter>
 
     companion object{
         const val GENRE_ITEM_TYPE = 0

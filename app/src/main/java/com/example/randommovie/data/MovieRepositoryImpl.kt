@@ -12,6 +12,7 @@ import com.example.randommovie.domain.MovieRepository
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.entity.MovieExtra
 import com.example.randommovie.domain.entity.SearchFilter
+import com.example.randommovie.domain.entity.Token
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
@@ -23,9 +24,9 @@ class MovieRepositoryImpl(
 ) : MovieRepository {
 
 
-    override suspend fun getRandomMovie(searchFilter: SearchFilter): Movie {
+    override suspend fun getRandomMovie(searchFilter: SearchFilter,tokenKey: String): Movie {
 
-        setGenresAndCountries(movieApi,itemsDao)
+        setGenresAndCountries(movieApi,itemsDao,tokenKey)
 
         return withContext(Dispatchers.IO) {
             val randYear = Random.nextInt(searchFilter.yearBottom, searchFilter.yearTop + 1)
@@ -40,7 +41,7 @@ class MovieRepositoryImpl(
                 else null
 
             val randPage = Random.nextInt(1, 6)
-            var movieList = movieApi.getMovieList( "5c2d749b-5c0c-4809-b62d-a3c98a9f527e",//TODO CHANGE
+            var movieList = movieApi.getMovieList( tokenKey,
                 page = randPage,
                 yearFrom = randYear,
                 yearTo = randYear,
@@ -55,7 +56,7 @@ class MovieRepositoryImpl(
 
             if (movieList.isEmpty()) {
                 movieList = movieApi.getMovieList(
-                    "5c2d749b-5c0c-4809-b62d-a3c98a9f527e",//TODO CHANGE
+                    tokenKey,
                     page = 1,
                     yearFrom = randYear,
                     yearTo = randYear,
@@ -73,8 +74,8 @@ class MovieRepositoryImpl(
         }
     }
 
-    override suspend fun getMoreInformation(id: Long): MovieExtra {
-        val request = movieApi.getMovieById("5c2d749b-5c0c-4809-b62d-a3c98a9f527e"//TODO CHANGE
+    override suspend fun getMoreInformation(id: Long,tokenKey: String): MovieExtra {
+        val request = movieApi.getMovieById(tokenKey
             ,id)
 
         val isMovie = (request.type != "TV_SERIES")

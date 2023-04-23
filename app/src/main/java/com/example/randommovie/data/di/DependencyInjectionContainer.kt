@@ -2,10 +2,7 @@ package com.example.randommovie.data.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.randommovie.data.AuthRepositoryImpl
-import com.example.randommovie.data.FilterRepositoryImpl
-import com.example.randommovie.data.ListRepositoryImpl
-import com.example.randommovie.data.MovieRepositoryImpl
+import com.example.randommovie.data.*
 import com.example.randommovie.data.retrofit.auth.AuthApi
 import com.example.randommovie.data.retrofit.movie.MovieApi
 import com.example.randommovie.data.room.AppDatabase
@@ -63,25 +60,28 @@ class DependencyInjectionContainer(context:Context) {
     private val filterDao = appDatabase.filterDao()
 
     private val movieRepository = MovieRepositoryImpl(movieApi,movieDao,itemsDao)
-    val getRandomMovieUseCase = GetRandomMovieUseCase(movieRepository)
-    val getMoreInformationUseCase = GetMoreInformationUseCase(movieRepository)
+    private val filterRepository = FilterRepositoryImpl(movieApi,itemsDao,filterDao)
+    private val listRepository = ListRepositoryImpl(movieDao,itemsDao,listDao)
+    private val authRepository = AuthRepositoryImpl(authApi)
+    private val tokenRepository= TokenRepositoryImpl()
+
+    val getRandomMovieUseCase = GetRandomMovieUseCase(movieRepository,tokenRepository)
+    val getMoreInformationUseCase = GetMoreInformationUseCase(movieRepository,tokenRepository)
     val getLastMovieUseCase = GetLastMovieUseCase(movieRepository)
     val setLastMovieUseCase = SetLastMovieUseCase(movieRepository)
 
-    private val filterRepository = FilterRepositoryImpl(movieApi,itemsDao,filterDao)
+
     val setSearchFilterUseCase = SetSearchFilterUseCase(filterRepository)
     val getSearchFilterUseCase = GetSearchFilterUseCase(filterRepository)
-    val getGenresUseCase = GetGenresUseCase(filterRepository)
-    val getCountriesUseCase = GetCountriesUseCase(filterRepository)
+    val getGenresUseCase = GetGenresUseCase(filterRepository,tokenRepository)
+    val getCountriesUseCase = GetCountriesUseCase(filterRepository,tokenRepository)
 
-    private val listRepository = ListRepositoryImpl(movieDao,itemsDao,listDao)
     val getMovieListByFiltersUseCase = GetMovieListByFiltersUseCase(listRepository)
     val getMoviesCountByTypeUseCase = GetMoviesCountByTypeUseCase(listRepository)
     val addUserInfoForMovieUseCase = AddUserInfoForMovieUseCase(listRepository)
     val deleteMovieByIdUseCase= DeleteMovieByIdUseCase(listRepository)
     val getActionsByIdUseCase= GetActionsByIdUseCase(listRepository)
 
-    private val authRepository = AuthRepositoryImpl(authApi)
     val signInUseCase =  SignInUseCase(authRepository)
 
 }

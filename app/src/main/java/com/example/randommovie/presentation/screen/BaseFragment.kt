@@ -31,14 +31,12 @@ open class BaseFragment : Fragment() {
         else rating.toString()
     }
 
-
     fun showRatingDialogFragment(manager: FragmentManager, actionsAndMovie: ActionsAndMovie) {
         RatingDialogFragment.show(manager, actionsAndMovie)
     }
 
     fun setupRatingDialogFragmentListener(
-        manager: FragmentManager,
-        action: (ActionsAndMovie) -> Unit
+        manager: FragmentManager, action: (ActionsAndMovie) -> Unit
     ) {
         RatingDialogFragment.setupListener(manager, this) {
             baseViewModel.addRatedMovie(it)
@@ -65,7 +63,8 @@ open class BaseFragment : Fragment() {
 }
 
 fun Fragment.findTopNavController(): NavController {
-    val topLevelHost = requireActivity().supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment?
+    val topLevelHost =
+        requireActivity().supportFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment?
     return topLevelHost?.navController ?: findNavController()
 }
 
@@ -79,10 +78,7 @@ object GlideLoader : RequestListener<Bitmap> {
     }
 
     override fun onLoadFailed(
-        e: GlideException?,
-        model: Any?,
-        target: Target<Bitmap>?,
-        isFirstResource: Boolean
+        e: GlideException?, model: Any?, target: Target<Bitmap>?, isFirstResource: Boolean
     ): Boolean {
         return false
     }

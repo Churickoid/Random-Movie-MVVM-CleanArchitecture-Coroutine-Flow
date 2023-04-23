@@ -64,14 +64,14 @@ class FilterRepositoryImpl(
         return filter!!
     }
 
-    override suspend fun getCountriesList(): List<ItemFilter> {
-        setGenresAndCountries(movieApi, itemsDao)
+    override suspend fun getCountriesList(tokenKey:String): List<ItemFilter> {
+        setGenresAndCountries(movieApi, itemsDao,tokenKey)
         return itemsDao.getAllItemsByType(COUNTRY_ITEM_TYPE)
             .map { it.toItemFilter(filter!!.countries.map { item -> item.id }) }
     }
 
-    override suspend fun getGenresList(): List<ItemFilter> {
-        setGenresAndCountries(movieApi, itemsDao)
+    override suspend fun getGenresList(tokenKey:String): List<ItemFilter> {
+        setGenresAndCountries(movieApi, itemsDao,tokenKey)
         return itemsDao.getAllItemsByType(GENRE_ITEM_TYPE)
             .map { it.toItemFilter(filter!!.genres.map { item -> item.id }) }
     }
@@ -80,11 +80,12 @@ class FilterRepositoryImpl(
         private var itemsExist = false
         suspend fun setGenresAndCountries(
             movieApi: MovieApi,
-            itemsDao: ItemsDao
+            itemsDao: ItemsDao,
+            tokenKey:String
         ) {
             if (!itemsExist)
                 if (itemsDao.getAllItemsByType(0).isEmpty()) {
-                    val request = movieApi.getGenresAndCounties("5c2d749b-5c0c-4809-b62d-a3c98a9f527e") //TODO CHANGE
+                    val request = movieApi.getGenresAndCounties(tokenKey)
                     request.genres.forEach {
                         if (it.genre != "") itemsDao.insertItem(
                             ItemDb(it.id, GENRE_ITEM_TYPE, it.genre)
