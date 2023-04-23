@@ -41,6 +41,10 @@ class InfoViewModel(
                 _state.value = ERROR_STATE
                 _error.value = Event("Need internet connection")
             }
+            catch (e:Exception){
+                _state.value = ERROR_STATE
+                _error.value = Event(e.toString())
+            }
         }
     }
 

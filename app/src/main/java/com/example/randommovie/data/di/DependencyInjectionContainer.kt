@@ -16,6 +16,8 @@ import com.example.randommovie.domain.usecases.list.*
 import com.example.randommovie.domain.usecases.movie.GetMoreInformationUseCase
 import com.example.randommovie.domain.usecases.movie.GetLastMovieUseCase
 import com.example.randommovie.domain.usecases.movie.SetLastMovieUseCase
+import com.example.randommovie.domain.usecases.token.GetTokenListUseCase
+import com.example.randommovie.domain.usecases.token.SetTokenUseCase
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -70,7 +72,6 @@ class DependencyInjectionContainer(context:Context) {
     val getLastMovieUseCase = GetLastMovieUseCase(movieRepository)
     val setLastMovieUseCase = SetLastMovieUseCase(movieRepository)
 
-
     val setSearchFilterUseCase = SetSearchFilterUseCase(filterRepository)
     val getSearchFilterUseCase = GetSearchFilterUseCase(filterRepository)
     val getGenresUseCase = GetGenresUseCase(filterRepository,tokenRepository)
@@ -81,6 +82,9 @@ class DependencyInjectionContainer(context:Context) {
     val addUserInfoForMovieUseCase = AddUserInfoForMovieUseCase(listRepository)
     val deleteMovieByIdUseCase= DeleteMovieByIdUseCase(listRepository)
     val getActionsByIdUseCase= GetActionsByIdUseCase(listRepository)
+
+    val getTokenListUseCase = GetTokenListUseCase(tokenRepository)
+    val setTokenListUseCase = SetTokenUseCase(tokenRepository)
 
     val signInUseCase =  SignInUseCase(authRepository)
 

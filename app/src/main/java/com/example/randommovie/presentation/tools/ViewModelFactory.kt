@@ -11,6 +11,7 @@ import com.example.randommovie.presentation.screen.tabs.filter.FilterViewModel
 import com.example.randommovie.presentation.screen.info.InfoViewModel
 import com.example.randommovie.presentation.screen.tabs.list.ListViewModel
 import com.example.randommovie.presentation.screen.tabs.movie.MovieViewModel
+import com.example.randommovie.presentation.screen.tabs.settings.SettingsViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory(private val app: App) : AbstractSavedStateViewModelFactory() {
@@ -49,6 +50,10 @@ class ViewModelFactory(private val app: App) : AbstractSavedStateViewModelFactor
             LoginViewModel::class.java -> {
                 LoginViewModel(app.container.signInUseCase)
             }
+            SettingsViewModel::class.java->{
+                SettingsViewModel(app.container.setTokenListUseCase,app.container.getTokenListUseCase)
+            }
+
             BaseViewModel::class.java -> {
                 BaseViewModel(app.container.addUserInfoForMovieUseCase)
             }

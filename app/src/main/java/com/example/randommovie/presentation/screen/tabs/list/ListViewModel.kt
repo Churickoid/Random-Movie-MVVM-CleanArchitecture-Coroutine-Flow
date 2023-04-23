@@ -41,8 +41,7 @@ class ListViewModel(
         Triple(type, order, isAsc)
     }.flatMapLatest { (type,order,isAsc) ->
         getMovieListByFiltersUseCase(type,order,isAsc)
-    }
-        .asLiveData()
+    }.asLiveData()
 
 
 
