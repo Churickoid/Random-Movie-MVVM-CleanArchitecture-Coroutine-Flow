@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentLoginBinding
 import com.example.randommovie.presentation.screen.tabs.login.LoginViewModel.Companion.DEFAULT_STATE
@@ -65,8 +66,8 @@ class LoginFragment : Fragment() {
             }
         }
 
-        viewModel.startTabsFragment.observe(viewLifecycleOwner) {
-            //findNavController().navigate(R.id.action_loginFragment_to_tabsFragment)
+        viewModel.closeFragment.observe(viewLifecycleOwner) {
+            findNavController().popBackStack()
         }
 
 

@@ -42,11 +42,12 @@ class SettingsFragment : Fragment() {
                 viewModel.setToken(tokenList[position], position)
             }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
-        val adapter = TokenSpinnerAdapter(tokenList) {}
+        val adapter = TokenSpinnerAdapter(tokenList) {
+            viewModel.deleteToken(it)
+        }
         binding.tokenSpinner.adapter = adapter
 
         viewModel.tokenList.observe(viewLifecycleOwner) {

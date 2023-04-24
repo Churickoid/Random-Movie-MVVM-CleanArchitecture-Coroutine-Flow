@@ -51,7 +51,7 @@ class ViewModelFactory(private val app: App) : AbstractSavedStateViewModelFactor
                 LoginViewModel(app.container.signInUseCase)
             }
             SettingsViewModel::class.java->{
-                SettingsViewModel(app.container.setTokenListUseCase,app.container.getTokenListUseCase)
+                SettingsViewModel(app.container.setTokenListUseCase,app.container.deleteTokenUseCase,app.container.getTokenListUseCase)
             }
 
             BaseViewModel::class.java -> {

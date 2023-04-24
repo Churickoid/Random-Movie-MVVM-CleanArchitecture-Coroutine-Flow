@@ -2,6 +2,7 @@ package com.example.randommovie.data.room.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.randommovie.data.room.entity.TokenDb
 import kotlinx.coroutines.flow.Flow
@@ -9,11 +10,11 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TokenDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertToken(token : TokenDb)
 
-    @Query("DELETE FROM tokens WHERE id = :tokenId")
-    suspend fun deleteTokenById(tokenId:Int)
+    @Query("DELETE FROM tokens WHERE email = :email")
+    suspend fun deleteTokenByEmail(email:String)
 
     @Query("SELECT * FROM tokens WHERE is_active = true LIMIT 1")
     suspend fun getActiveToken(): TokenDb?

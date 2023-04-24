@@ -24,8 +24,9 @@ class LoginViewModel(private val signInUseCase: SignInUseCase) : ViewModel() {
     private val _toast = MutableLiveData<Event<String>>()
     val toast: LiveData<Event<String>> = _toast
 
-    private val _startTabsFragment = MutableLiveData<Event<Unit>>()
-    val startTabsFragment = _startTabsFragment
+    private val _closeFragment = MutableLiveData<Event<Unit>>()
+    val closeFragment = _closeFragment
+
 
 
     fun signIn(email: String, password: String) {
@@ -36,7 +37,7 @@ class LoginViewModel(private val signInUseCase: SignInUseCase) : ViewModel() {
             try {
                 _state.value = LOADING_STATE
                 signInUseCase(email, password)
-                _startTabsFragment.value = Event(Unit)
+                _closeFragment.value = Event(Unit)
             } catch (e: AuthException) {
                 _emailState.value = Event(INCORRECT_ERROR)
                 _passState.value = Event(INCORRECT_ERROR)

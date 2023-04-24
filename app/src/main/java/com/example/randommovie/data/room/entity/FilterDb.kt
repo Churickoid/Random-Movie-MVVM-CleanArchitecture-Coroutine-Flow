@@ -21,7 +21,7 @@ import com.example.randommovie.domain.entity.Type
         )
     ]
 )
-class FilterDb(
+data class FilterDb(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo("year_bottom")val yearBottom: Int,
     @ColumnInfo("year_top")val yearTop: Int,
