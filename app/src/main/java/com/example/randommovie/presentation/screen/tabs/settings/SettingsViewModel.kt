@@ -16,11 +16,14 @@ class SettingsViewModel(
 
     val tokenList = getTokenListUseCase().asLiveData()
 
-    private val _spinnerPosition = MutableLiveData<Int>()
-    val spinnerPosition :LiveData<Int> = _spinnerPosition
+    private var spinnerPosition = 0
 
-    fun setToken(token:Token){
+    fun setToken(token:Token,position: Int){
+        spinnerPosition = position
         setTokenUseCase(token)
     }
+
+    fun getSpinnerPosition(): Int = spinnerPosition
+
 }
 

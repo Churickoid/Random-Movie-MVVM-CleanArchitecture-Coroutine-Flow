@@ -2,10 +2,7 @@ package com.example.randommovie.data.room
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.randommovie.data.room.dao.FilterDao
-import com.example.randommovie.data.room.dao.ItemsDao
-import com.example.randommovie.data.room.dao.ListDao
-import com.example.randommovie.data.room.dao.MoviesDao
+import com.example.randommovie.data.room.dao.*
 import com.example.randommovie.data.room.entity.*
 
 @Database(
@@ -15,7 +12,8 @@ import com.example.randommovie.data.room.entity.*
         ItemDb::class,
         ItemsForMoviesDb::class,
         UserActionsForMovieDb::class,
-        FilterDb::class
+        FilterDb::class,
+        TokenDb::class
     ]
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -27,4 +25,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun listDao(): ListDao
 
     abstract fun filterDao(): FilterDao
+
+    abstract fun tokenDao(): TokenDao
 }

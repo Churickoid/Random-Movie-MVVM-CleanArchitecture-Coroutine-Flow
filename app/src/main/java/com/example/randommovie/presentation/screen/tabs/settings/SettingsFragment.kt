@@ -31,14 +31,15 @@ class SettingsFragment : Fragment() {
         binding = FragmentSettingsBinding.bind(view)
 
 
-        binding.createTokenButton.setOnClickListener {
+        binding.createAccountTextView.setOnClickListener {
             findNavController().navigate(R.id.action_settingsFragment_to_loginFragment)
         }
+
         binding.tokenSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 p0: AdapterView<*>?, p1: View?, position: Int, p3: Long
             ) {
-                viewModel.setToken(tokenList[position])
+                viewModel.setToken(tokenList[position], position)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -52,6 +53,7 @@ class SettingsFragment : Fragment() {
             tokenList.clear()
             tokenList.addAll(it)
             adapter.notifyDataSetChanged()
+            binding.tokenSpinner.setSelection(viewModel.getSpinnerPosition())
         }
 
 

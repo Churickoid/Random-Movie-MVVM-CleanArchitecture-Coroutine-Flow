@@ -1,11 +1,9 @@
 package com.example.randommovie.data
 
-import android.util.Log
 import com.example.randommovie.domain.TokenRepository
 import com.example.randommovie.domain.entity.Token
-import com.example.randommovie.domain.entity.Token.Companion.tokens
+import com.example.randommovie.domain.entity.Token.Companion.defaultTokens
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlin.random.Random
 
@@ -23,11 +21,11 @@ class TokenRepositoryImpl: TokenRepository {
     }
 
     override fun getTokenList(): Flow<List<Token>> {
-        return flowOf(tokens)
+        return flowOf(defaultTokens)
     }
 
     override fun getCurrentToken(): Token {
-        if (token == null) token = tokens[Random.nextInt(tokens.size)]
+        if (token == null) token = defaultTokens[Random.nextInt(defaultTokens.size)]
         return token!!
     }
 

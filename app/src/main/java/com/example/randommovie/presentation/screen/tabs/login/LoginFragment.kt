@@ -82,7 +82,6 @@ class LoginFragment : Fragment() {
 
     private fun buttonStateHandler(buttonState: Boolean){
         binding.signInButton.isEnabled = buttonState
-        binding.guestButton.isEnabled = buttonState
         binding.createAccountTextView.isEnabled = buttonState
 
         binding.loadingProgressBar.visibility = if (buttonState) View.INVISIBLE

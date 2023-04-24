@@ -86,16 +86,6 @@
         app:layout_constraintTop_toBottomOf="@id/createAccountTextView"
 
         />
-    <Button
-        android:id="@+id/guestButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/as_guest"
-        android:layout_marginBottom="12dp"
-        app:layout_constraintStart_toStartOf="@id/passwordTextInput"
-        app:layout_constraintEnd_toEndOf="@id/passwordTextInput"
-        app:layout_constraintBottom_toBottomOf="parent"
-        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

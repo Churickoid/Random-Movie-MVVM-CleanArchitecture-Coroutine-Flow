@@ -28,6 +28,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="18sp"
+        android:layout_marginBottom="12dp"
         android:paddingVertical="12dp"
         app:layout_constraintStart_toEndOf="@id/tokenTextView"
         app:layout_constraintTop_toBottomOf="@id/apiSettingsTextView"
@@ -55,9 +56,22 @@
         android:layout_height="wrap_content"
         android:text="@string/create_personal_token"
         app:layout_constraintTop_toBottomOf="@id/tokenSpinner"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/createAccountTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        />
+    <TextView
+        android:id="@+id/createAccountTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/already_created"
+        android:textSize="18sp"
+        android:paddingVertical="6dp"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="@id/createTokenButton"
+        app:layout_constraintEnd_toEndOf="@id/createTokenButton"
+        app:layout_constraintTop_toBottomOf="@id/createTokenButton"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
