@@ -6,7 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.randommovie.presentation.App
 import com.example.randommovie.presentation.screen.BaseViewModel
-import com.example.randommovie.presentation.screen.tabs.login.LoginViewModel
+import com.example.randommovie.presentation.screen.tabs.settings.auth.login.LoginViewModel
 import com.example.randommovie.presentation.screen.tabs.filter.FilterViewModel
 import com.example.randommovie.presentation.screen.info.InfoViewModel
 import com.example.randommovie.presentation.screen.tabs.list.ListViewModel

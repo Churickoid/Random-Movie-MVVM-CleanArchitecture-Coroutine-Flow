@@ -41,7 +41,12 @@
     <string name="api_settings">API Settings</string>
     <string name="token">Token:</string>
     <string name="create_personal_token">Create personal token</string>
-    <string name="already_created"><u>Already created?</u> </string>
+    <string name="sign_up">Sign Up</string>
+    <string name="already_exist">Already exist</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="registration">Registration</string>
+    <string name="login">Login</string>
+    <string name="personal_token">Personal token</string>
 
 
     <string-array name="orderFilter">

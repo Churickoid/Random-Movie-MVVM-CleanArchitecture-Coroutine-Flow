@@ -11,12 +11,12 @@
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings">
         <action
-            android:id="@+id/action_settingsFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            android:id="@+id/action_settingsFragment_to_authTabsFragment"
+            app:destination="@id/authTabsFragment" />
     </fragment>
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.randommovie.presentation.screen.tabs.login.LoginFragment"
-        android:label="Login"
-        tools:layout="@layout/fragment_login" />
+        android:id="@+id/authTabsFragment"
+        android:name="com.example.randommovie.presentation.screen.tabs.settings.auth.AuthTabsFragment"
+        android:label="@string/personal_token"
+        tools:layout="@layout/fragment_auth_tabs" />
 </navigation>

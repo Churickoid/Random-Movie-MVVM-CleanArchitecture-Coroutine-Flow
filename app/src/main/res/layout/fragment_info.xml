@@ -61,7 +61,7 @@
                 android:id="@+id/starButton"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                style="@style/secondaryActionButton"
+                style="@style/secondaryRoundButton"
                 android:layout_marginEnd="12dp"
                 android:layout_marginBottom="6dp"
                 app:fabCustomSize="48dp"

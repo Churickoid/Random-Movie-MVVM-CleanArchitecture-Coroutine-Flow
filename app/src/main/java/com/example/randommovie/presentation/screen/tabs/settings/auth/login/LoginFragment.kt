@@ -1,4 +1,4 @@
-package com.example.randommovie.presentation.screen.tabs.login
+package com.example.randommovie.presentation.screen.tabs.settings.auth.login
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,10 +11,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentLoginBinding
-import com.example.randommovie.presentation.screen.tabs.login.LoginViewModel.Companion.DEFAULT_STATE
-import com.example.randommovie.presentation.screen.tabs.login.LoginViewModel.Companion.EMPTY_ERROR
-import com.example.randommovie.presentation.screen.tabs.login.LoginViewModel.Companion.INCORRECT_ERROR
-import com.example.randommovie.presentation.screen.tabs.login.LoginViewModel.Companion.LOADING_STATE
+import com.example.randommovie.presentation.screen.tabs.settings.auth.login.LoginViewModel.Companion.DEFAULT_STATE
+import com.example.randommovie.presentation.screen.tabs.settings.auth.login.LoginViewModel.Companion.EMPTY_ERROR
+import com.example.randommovie.presentation.screen.tabs.settings.auth.login.LoginViewModel.Companion.INCORRECT_ERROR
+import com.example.randommovie.presentation.screen.tabs.settings.auth.login.LoginViewModel.Companion.LOADING_STATE
 import com.example.randommovie.presentation.tools.factory
 
 class LoginFragment : Fragment() {
@@ -67,7 +67,8 @@ class LoginFragment : Fragment() {
         }
 
         viewModel.closeFragment.observe(viewLifecycleOwner) {
-            findNavController().popBackStack()
+            val parentNavFragment = requireParentFragment().requireParentFragment()
+            parentNavFragment.findNavController().popBackStack()
         }
 
 
@@ -83,7 +84,6 @@ class LoginFragment : Fragment() {
 
     private fun buttonStateHandler(buttonState: Boolean){
         binding.signInButton.isEnabled = buttonState
-        binding.createAccountTextView.isEnabled = buttonState
 
         binding.loadingProgressBar.visibility = if (buttonState) View.INVISIBLE
         else View.VISIBLE

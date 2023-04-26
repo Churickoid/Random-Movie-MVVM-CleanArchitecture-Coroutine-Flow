@@ -31,8 +31,8 @@ class SettingsFragment : Fragment() {
         binding = FragmentSettingsBinding.bind(view)
 
 
-        binding.createAccountTextView.setOnClickListener {
-            findNavController().navigate(R.id.action_settingsFragment_to_loginFragment)
+        binding.createTokenButton.setOnClickListener {
+            findNavController().navigate(R.id.action_settingsFragment_to_authTabsFragment)
         }
 
         binding.tokenSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

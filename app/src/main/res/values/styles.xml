@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="spinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">@color/blue_500</item>
@@ -9,15 +8,27 @@
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/black</item>
     </style>
-    <style name="secondaryActionButton"  parent="@style/Widget.Design.FloatingActionButton">
+
+
+   <style name="mainActionButton" parent="@style/Widget.MaterialComponents.Button">
+       <item name="backgroundTint">@color/blue_500</item>
+       <item name="android:textColor">@color/white</item>
+
+    </style>
+
+    <style name="secondaryActionButton" parent="@style/Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/blue_500</item>
+    </style>
+    <style name="mainRoundButton" parent="@style/Widget.Design.FloatingActionButton">
+        <item name="tint">@color/white</item>
+        <item name="backgroundTint">@color/blue_500</item>
+    </style>
+    <style name="secondaryRoundButton"  parent="@style/Widget.Design.FloatingActionButton">
         <item name="tint">@color/blue_500</item>
         <item name="backgroundTint">@color/white</item>
     </style>
 
-    <style name="mainActionButton" parent="@style/Widget.Design.FloatingActionButton">
-        <item name="tint">@color/white</item>
-        <item name="backgroundTint">@color/blue_500</item>
-    </style>
     <style name="userRatingTextView">
         <item name="android:text">@string/questionMark</item>
         <item name="android:textStyle">bold</item>

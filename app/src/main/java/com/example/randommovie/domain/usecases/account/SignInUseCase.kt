@@ -9,6 +9,7 @@ class SignInUseCase(
 ) {
     suspend operator fun invoke(email: String, password: String) {
         val token = authRepository.signIn(email, password)
+        tokenRepository.setToken(token)
         tokenRepository.addToken(token)
     }
 }
