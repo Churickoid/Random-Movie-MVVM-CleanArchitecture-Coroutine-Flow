@@ -1,4 +1,4 @@
-package com.example.randommovie.data.retrofit.auth.entity
+package com.example.randommovie.data.retrofit.auth.entity.signin
 
 import com.example.randommovie.domain.entity.Token
 

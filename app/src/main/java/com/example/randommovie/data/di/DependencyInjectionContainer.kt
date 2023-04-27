@@ -10,16 +10,15 @@ import com.example.randommovie.domain.usecases.account.SignInUseCase
 import com.example.randommovie.domain.usecases.filter.GetCountriesUseCase
 import com.example.randommovie.domain.usecases.filter.GetGenresUseCase
 import com.example.randommovie.domain.usecases.filter.GetSearchFilterUseCase
-import com.example.randommovie.domain.usecases.movie.GetRandomMovieUseCase
 import com.example.randommovie.domain.usecases.filter.SetSearchFilterUseCase
 import com.example.randommovie.domain.usecases.list.*
-import com.example.randommovie.domain.usecases.movie.GetMoreInformationUseCase
 import com.example.randommovie.domain.usecases.movie.GetLastMovieUseCase
+import com.example.randommovie.domain.usecases.movie.GetMoreInformationUseCase
+import com.example.randommovie.domain.usecases.movie.GetRandomMovieUseCase
 import com.example.randommovie.domain.usecases.movie.SetLastMovieUseCase
 import com.example.randommovie.domain.usecases.token.DeleteTokenUseCase
 import com.example.randommovie.domain.usecases.token.GetTokenListUseCase
 import com.example.randommovie.domain.usecases.token.SetTokenUseCase
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -33,12 +32,6 @@ class DependencyInjectionContainer(context:Context) {
     private val okHttpClient = OkHttpClient
         .Builder()
         .addInterceptor(httpLoggingInterceptor)
-        .addInterceptor(
-            Interceptor { chain ->
-            val requestBuilder = chain.request().newBuilder()
-                .build()
-            chain.proceed(requestBuilder)
-        })
         .build()
 
 

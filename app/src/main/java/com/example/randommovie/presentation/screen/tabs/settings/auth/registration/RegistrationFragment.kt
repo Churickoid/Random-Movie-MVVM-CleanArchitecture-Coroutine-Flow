@@ -6,14 +6,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.randommovie.R
+import com.example.randommovie.databinding.FragmentRegistrationBinding
 
-class RegistrationFragment:Fragment() {
+class RegistrationFragment : Fragment() {
 
+    private lateinit var binding: FragmentRegistrationBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_registration,container,false)
+        return inflater.inflate(R.layout.fragment_registration, container, false)
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+    }
+
 }
+
