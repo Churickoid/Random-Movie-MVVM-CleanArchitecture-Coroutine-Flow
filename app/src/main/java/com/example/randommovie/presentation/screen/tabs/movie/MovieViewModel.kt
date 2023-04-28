@@ -11,6 +11,8 @@ import com.example.randommovie.domain.usecases.list.GetActionsByIdUseCase
 import com.example.randommovie.domain.usecases.movie.GetLastMovieUseCase
 import com.example.randommovie.domain.usecases.movie.GetRandomMovieUseCase
 import com.example.randommovie.domain.usecases.movie.SetLastMovieUseCase
+import com.example.randommovie.presentation.screen.BaseFragment.Companion.DEFAULT_STATE
+import com.example.randommovie.presentation.screen.BaseFragment.Companion.LOADING_STATE
 import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
@@ -92,8 +94,6 @@ class MovieViewModel(
         return ActionsAndMovie(currentMovie,currentActions.userRating,currentActions.inWatchlist)
     }
     companion object{
-        const val LOADING_STATE = 0
-        const val DEFAULT_STATE = 1
         const val DISABLED_STATE = 2
         const val FIRST_TIME_STATE = 3
     }

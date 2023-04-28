@@ -21,10 +21,8 @@ import com.example.randommovie.presentation.screen.GlideLoader
 import com.example.randommovie.presentation.screen.findTopNavController
 import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_MOVIE
 import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_TITLE
-import com.example.randommovie.presentation.screen.tabs.movie.MovieViewModel.Companion.DEFAULT_STATE
 import com.example.randommovie.presentation.screen.tabs.movie.MovieViewModel.Companion.DISABLED_STATE
 import com.example.randommovie.presentation.screen.tabs.movie.MovieViewModel.Companion.FIRST_TIME_STATE
-import com.example.randommovie.presentation.screen.tabs.movie.MovieViewModel.Companion.LOADING_STATE
 import com.example.randommovie.presentation.tools.changeColor
 import com.example.randommovie.presentation.tools.factory
 import kotlinx.coroutines.launch
@@ -56,7 +54,10 @@ class MovieFragment : BaseFragment() {
             it.getValue()?.let { actionsAndMovie ->
                 findTopNavController().navigate(
                     R.id.infoFragment,
-                    bundleOf(ARG_MOVIE to actionsAndMovie, ARG_TITLE to actionsAndMovie.movie.titleMain)
+                    bundleOf(
+                        ARG_MOVIE to actionsAndMovie,
+                        ARG_TITLE to actionsAndMovie.movie.titleMain
+                    )
                 )
             }
         }
@@ -93,7 +94,8 @@ class MovieFragment : BaseFragment() {
         viewModel.movie.observe(viewLifecycleOwner) { movie ->
             val year = movie.year?.toString() ?: "—"
 
-            binding.titleMainTextView.text = requireContext().getString(R.string.movie_with_year, movie.titleMain,year)
+            binding.titleMainTextView.text =
+                requireContext().getString(R.string.movie_with_year, movie.titleMain, year)
             binding.titleExtraTextView.text = movie.titleSecond
             binding.genresTextView.text = movie.genre.joinToString(separator = ", ")
             binding.kinopoiskRateTextView.text = getRatingText(movie.ratingKP)
@@ -119,9 +121,9 @@ class MovieFragment : BaseFragment() {
                 .listener(GlideLoader {
                     binding.posterProgressBar.visibility = View.INVISIBLE
                     val color = it.mutedSwatch?.rgb
-                    val colorMain = if(color != null) 255 shl 24 or (color and 0x00ffffff)
+                    val colorMain = if (color != null) 255 shl 24 or (color and 0x00ffffff)
                     else 0xFF2276A0.toInt()
-                    val colorBack = if(color != null) (20 shl 24 or (color and 0x00ffffff))
+                    val colorBack = if (color != null) (20 shl 24 or (color and 0x00ffffff))
                     else 0xFFFFFF
                     baseViewModel.setColor(colorMain, colorBack)
                 })

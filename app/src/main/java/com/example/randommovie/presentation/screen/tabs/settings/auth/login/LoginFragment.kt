@@ -11,10 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentLoginBinding
-import com.example.randommovie.presentation.screen.tabs.settings.auth.login.LoginViewModel.Companion.DEFAULT_STATE
-import com.example.randommovie.presentation.screen.tabs.settings.auth.login.LoginViewModel.Companion.EMPTY_ERROR
-import com.example.randommovie.presentation.screen.tabs.settings.auth.login.LoginViewModel.Companion.INCORRECT_ERROR
-import com.example.randommovie.presentation.screen.tabs.settings.auth.login.LoginViewModel.Companion.LOADING_STATE
+import com.example.randommovie.presentation.screen.BaseFragment.Companion.DEFAULT_STATE
+import com.example.randommovie.presentation.screen.BaseFragment.Companion.LOADING_STATE
 import com.example.randommovie.presentation.tools.factory
 
 class LoginFragment : Fragment() {
@@ -31,26 +29,29 @@ class LoginFragment : Fragment() {
         binding = FragmentLoginBinding.bind(view)
 
         binding.signInButton.setOnClickListener {
-            viewModel.signIn(
-                binding.emailEditText.text.toString(),
+            viewModel.checkForValidity(
+                binding.emailEditText.text?.trim().toString(),
                 binding.passwordEditText.text.toString()
             )
         }
         viewModel.emailState.observe(viewLifecycleOwner) {
-            it.getValue()?.let { state ->
-                binding.emailTextInput.error = errorMassageHandler(state)
+            it.getValue()?.let { massage ->
+                binding.emailTextInput.error = massage
             }
         }
         viewModel.passState.observe(viewLifecycleOwner) {
-            it.getValue()?.let { state ->
-                binding.passwordTextInput.error = errorMassageHandler(state)
+            it.getValue()?.let { massage ->
+                binding.passwordTextInput.error = massage
             }
         }
         binding.passwordEditText.doOnTextChanged { _, _, _, _ ->
             binding.passwordTextInput.error = null
+            binding.passwordTextInput.isErrorEnabled = false
+
         }
         binding.emailEditText.doOnTextChanged { _, _, _, _ ->
             binding.emailTextInput.error = null
+            binding.emailTextInput.isErrorEnabled = false
         }
 
         viewModel.state.observe(viewLifecycleOwner){
@@ -74,13 +75,6 @@ class LoginFragment : Fragment() {
 
     }
 
-    private fun errorMassageHandler(state: Int): String {
-        return when (state) {
-            EMPTY_ERROR -> "Field is empty"
-            INCORRECT_ERROR -> "Incorrect email or password"
-            else -> throw IllegalArgumentException("Unknown state")
-        }
-    }
 
     private fun buttonStateHandler(buttonState: Boolean){
         binding.signInButton.isEnabled = buttonState

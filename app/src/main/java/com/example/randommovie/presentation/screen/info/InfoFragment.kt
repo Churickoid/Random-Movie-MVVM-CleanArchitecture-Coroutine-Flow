@@ -17,8 +17,6 @@ import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.GlideLoader
 import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.ERROR_STATE
-import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.LOADING_STATE
-import com.example.randommovie.presentation.screen.info.InfoViewModel.Companion.VALID_STATE
 import com.example.randommovie.presentation.tools.factory
 import com.example.randommovie.presentation.tools.parcelable
 import kotlinx.coroutines.launch
@@ -75,7 +73,7 @@ class InfoFragment : BaseFragment() {
         viewModel.state.observe(viewLifecycleOwner) {
             when (it) {
                 LOADING_STATE -> changeState(View.VISIBLE, View.INVISIBLE, View.INVISIBLE)
-                VALID_STATE -> changeState(View.INVISIBLE, View.VISIBLE, View.INVISIBLE)
+                DEFAULT_STATE -> changeState(View.INVISIBLE, View.VISIBLE, View.INVISIBLE)
                 ERROR_STATE -> changeState(View.INVISIBLE, View.INVISIBLE, View.VISIBLE)
             }
         }

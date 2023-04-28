@@ -59,6 +59,9 @@ open class BaseFragment : Fragment() {
                 else -> context.getColor(R.color.green)
             }
         }
+
+        const val DEFAULT_STATE = 0
+        const val LOADING_STATE = 1
     }
 }
 

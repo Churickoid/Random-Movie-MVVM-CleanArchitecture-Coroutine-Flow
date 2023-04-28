@@ -6,7 +6,9 @@ import com.example.randommovie.data.*
 import com.example.randommovie.data.retrofit.auth.AuthApi
 import com.example.randommovie.data.retrofit.movie.MovieApi
 import com.example.randommovie.data.room.AppDatabase
+import com.example.randommovie.domain.usecases.account.ConfirmRegistrationUseCase
 import com.example.randommovie.domain.usecases.account.SignInUseCase
+import com.example.randommovie.domain.usecases.account.SignUpUseCase
 import com.example.randommovie.domain.usecases.filter.GetCountriesUseCase
 import com.example.randommovie.domain.usecases.filter.GetGenresUseCase
 import com.example.randommovie.domain.usecases.filter.GetSearchFilterUseCase
@@ -83,5 +85,7 @@ class DependencyInjectionContainer(context:Context) {
     val deleteTokenUseCase = DeleteTokenUseCase(tokenRepository)
 
     val signInUseCase =  SignInUseCase(authRepository,tokenRepository)
+    val signUpUseCase = SignUpUseCase(authRepository)
+    val confirmRegistrationUseCase = ConfirmRegistrationUseCase(authRepository,signInUseCase)
 
 }

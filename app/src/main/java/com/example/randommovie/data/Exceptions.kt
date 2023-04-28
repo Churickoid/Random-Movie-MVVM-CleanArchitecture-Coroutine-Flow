@@ -4,3 +4,5 @@ open class AppException : RuntimeException()
 
 class AuthException : AppException()
 
+class EmailExistException : AppException()
+

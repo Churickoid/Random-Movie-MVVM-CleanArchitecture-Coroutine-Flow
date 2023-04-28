@@ -6,17 +6,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.randommovie.data.AuthException
 import com.example.randommovie.domain.usecases.account.SignInUseCase
+import com.example.randommovie.presentation.screen.BaseFragment.Companion.DEFAULT_STATE
+import com.example.randommovie.presentation.screen.BaseFragment.Companion.LOADING_STATE
 import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 
 class LoginViewModel(private val signInUseCase: SignInUseCase) : ViewModel() {
 
-    private val _emailState = MutableLiveData<Event<Int>>()
-    val emailState: LiveData<Event<Int>> = _emailState
+    private val _emailState = MutableLiveData<Event<String>>()
+    val emailState: LiveData<Event<String>> = _emailState
 
-    private val _passState = MutableLiveData<Event<Int>>()
-    val passState: LiveData<Event<Int>> = _passState
+    private val _passState = MutableLiveData<Event<String>>()
+    val passState: LiveData<Event<String>> = _passState
 
     private val _state = MutableLiveData<Int>()
     val state: LiveData<Int> = _state
@@ -27,12 +29,13 @@ class LoginViewModel(private val signInUseCase: SignInUseCase) : ViewModel() {
     private val _closeFragment = MutableLiveData<Event<Unit>>()
     val closeFragment = _closeFragment
 
-
-
-    fun signIn(email: String, password: String) {
+    fun checkForValidity(email:String,password:String){
         if (email.isEmpty()) _emailState.value = Event(EMPTY_ERROR)
         if (password.isEmpty()) _passState.value = Event(EMPTY_ERROR)
         if (email.isEmpty() || password.isEmpty()) return
+        signIn(email,password)
+    }
+    private fun signIn(email: String, password: String) {
         viewModelScope.launch {
             try {
                 _state.value = LOADING_STATE
@@ -51,12 +54,11 @@ class LoginViewModel(private val signInUseCase: SignInUseCase) : ViewModel() {
         }
     }
 
-    companion object {
-        const val DEFAULT_STATE = 0
-        const val LOADING_STATE = 1
 
-        const val EMPTY_ERROR = 1
-        const val INCORRECT_ERROR = 2
+    companion object {
+
+        const val EMPTY_ERROR = "Field is empty"
+        const val INCORRECT_ERROR = "Incorrect email or password"
     }
 
 }
