@@ -13,6 +13,6 @@
     <color name="blue_200">#32B2DA</color>
     <color name="blue_500">#2276A0</color>
     <color name="blue_700">#1f6a90</color>
-    <color name="disabled">#cccccccc</color>
+    <color name="disabled_custom">#cccccccc</color>
 
 </resources>

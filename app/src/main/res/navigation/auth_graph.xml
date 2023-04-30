@@ -8,10 +8,21 @@
         android:id="@+id/registrationFragment"
         android:name="com.example.randommovie.presentation.screen.tabs.settings.auth.registration.RegistrationFragment"
         android:label="fragment_registration"
-        tools:layout="@layout/fragment_registration" />
+        tools:layout="@layout/fragment_registration" >
+        <action
+            android:id="@+id/action_registrationFragment_to_confirmFragment"
+            app:destination="@id/confirmFragment"
+            app:popUpTo="@id/registrationFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.randommovie.presentation.screen.tabs.settings.auth.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/confirmFragment"
+        android:name="com.example.randommovie.presentation.screen.tabs.settings.auth.registration.ConfirmFragment"
+        android:label="fragment_confirm"
+        tools:layout="@layout/fragment_confirm" />
 </navigation>

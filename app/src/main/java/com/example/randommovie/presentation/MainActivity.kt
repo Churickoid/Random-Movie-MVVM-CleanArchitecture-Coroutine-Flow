@@ -14,6 +14,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
 import com.example.randommovie.databinding.ActivityMainBinding
 import com.example.randommovie.presentation.screen.tabs.TabsFragment
+import com.example.randommovie.presentation.screen.tabs.settings.auth.login.LoginFragment
+import com.example.randommovie.presentation.screen.tabs.settings.auth.registration.ConfirmFragment
+import com.example.randommovie.presentation.screen.tabs.settings.auth.registration.RegistrationFragment
 import com.example.randommovie.presentation.tools.AppBarActions
 import java.util.regex.Pattern
 
@@ -25,10 +28,12 @@ class MainActivity : AppCompatActivity(), AppBarActions {
 
     private var navController: NavController? = null
 
+
     private val fragmentListener = object : FragmentManager.FragmentLifecycleCallbacks() {
         override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
             super.onFragmentViewCreated(fm, f, v, savedInstanceState)
             if (f is TabsFragment || f is NavHostFragment) return
+            if (f is RegistrationFragment || f is LoginFragment || f is ConfirmFragment)  return
             onNavControllerActivated(f.findNavController())
         }
     }

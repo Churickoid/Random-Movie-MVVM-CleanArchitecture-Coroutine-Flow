@@ -47,6 +47,10 @@
     <string name="registration">Registration</string>
     <string name="login">Login</string>
     <string name="personal_token">Personal token</string>
+    <string name="code">Code</string>
+    <string name="verification">Verification</string>
+    <string name="code_has_been_sent_to_your_inbox">Code has been sent to your inbox</string>
+    <string name="confirm">Confirm</string>
 
 
     <string-array name="orderFilter">

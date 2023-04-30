@@ -64,7 +64,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        style="@style/mainActionButton"
+
         android:id="@+id/signInButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

@@ -17,12 +17,13 @@ class AuthRepositoryImpl(private val authApi: AuthApi) : AuthRepository {
     }
 
     override suspend fun signUp(email: String, password: String) {
-        val code = authApi.registration(SignUpBody(email,password,password)).code()
-        if (code == 400) throw EmailExistException()
+        val httpCode = authApi.registration(SignUpBody(email,password,password)).code()
+        if (httpCode == 400) throw EmailExistException()
     }
 
     override suspend fun confirmRegistration(code: Int) {
-        authApi.confirmRegistration(code)
+        val httpCode = authApi.confirmRegistration(code).code()
+        if (httpCode == 400) throw IncorrectCodeException()
     }
 
 

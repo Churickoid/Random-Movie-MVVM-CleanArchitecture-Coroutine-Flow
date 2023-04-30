@@ -6,3 +6,6 @@ class AuthException : AppException()
 
 class EmailExistException : AppException()
 
+class IncorrectCodeException : AppException()
+
+

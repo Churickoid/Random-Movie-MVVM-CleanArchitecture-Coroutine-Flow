@@ -6,16 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentLoginBinding
-import com.example.randommovie.presentation.screen.BaseFragment.Companion.DEFAULT_STATE
-import com.example.randommovie.presentation.screen.BaseFragment.Companion.LOADING_STATE
+import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.tools.factory
 
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment() {
     private lateinit var binding: FragmentLoginBinding
     private val viewModel: LoginViewModel by viewModels { factory() }
 
@@ -77,7 +75,7 @@ class LoginFragment : Fragment() {
 
 
     private fun buttonStateHandler(buttonState: Boolean){
-        binding.signInButton.isEnabled = buttonState
+        binding.signInButton.isEnabled= buttonState
 
         binding.loadingProgressBar.visibility = if (buttonState) View.INVISIBLE
         else View.VISIBLE

@@ -5,10 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentAuthTabsBinding
-import com.example.randommovie.presentation.screen.tabs.settings.auth.login.LoginFragment
-import com.example.randommovie.presentation.screen.tabs.settings.auth.registration.RegistrationFragment
 import com.google.android.material.tabs.TabLayout
 
 class AuthTabsFragment : Fragment() {
@@ -27,17 +26,20 @@ class AuthTabsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentAuthTabsBinding.bind(view)
 
+        val navHost =
+            childFragmentManager.findFragmentById(R.id.fragmentContainer) as NavHostFragment
+        val navController = navHost.navController
+
         binding.authTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                childFragmentManager.beginTransaction()
-                    .replace(
-                        R.id.fragmentContainer, when (tab.position) {
-                            0 -> RegistrationFragment()
-                            1 -> LoginFragment()
-                            else -> throw IllegalArgumentException("Unknown tab")
-                        }
-                    )
-                    .commit()
+                navController.popBackStack()
+                navController.navigate(
+                    when (tab.position) {
+                        0 -> R.id.registrationFragment
+                        1 -> R.id.loginFragment
+                        else -> throw IllegalArgumentException("Unknown tab")
+                    }
+                )
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}

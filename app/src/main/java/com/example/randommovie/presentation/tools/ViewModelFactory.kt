@@ -12,6 +12,7 @@ import com.example.randommovie.presentation.screen.info.InfoViewModel
 import com.example.randommovie.presentation.screen.tabs.list.ListViewModel
 import com.example.randommovie.presentation.screen.tabs.movie.MovieViewModel
 import com.example.randommovie.presentation.screen.tabs.settings.SettingsViewModel
+import com.example.randommovie.presentation.screen.tabs.settings.auth.registration.ConfirmViewModel
 import com.example.randommovie.presentation.screen.tabs.settings.auth.registration.RegistrationViewModel
 
 @Suppress("UNCHECKED_CAST")
@@ -52,7 +53,10 @@ class ViewModelFactory(private val app: App) : AbstractSavedStateViewModelFactor
                 LoginViewModel(app.container.signInUseCase)
             }
             RegistrationViewModel::class.java -> {
-                RegistrationViewModel(app.container.signUpUseCase,app.container.confirmRegistrationUseCase)
+                RegistrationViewModel(app.container.signUpUseCase)
+            }
+            ConfirmViewModel::class.java ->{
+                ConfirmViewModel(app.container.confirmRegistrationUseCase)
             }
             SettingsViewModel::class.java->{
                 SettingsViewModel(app.container.setTokenListUseCase,app.container.deleteTokenUseCase,app.container.getTokenListUseCase)
