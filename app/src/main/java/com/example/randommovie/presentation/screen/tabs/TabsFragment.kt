@@ -33,10 +33,10 @@ class TabsFragment:BaseFragment() {
         NavigationUI.setupWithNavController(binding.bottomNavigation, navController)
 
         viewLifecycleOwner.lifecycleScope.launch {
-            baseViewModel.color.collect { (colorMain, colorBack) ->
-                binding.bottomNavigation.itemIconTintList = ColorStateList.valueOf(colorMain)
-                binding.bottomNavigation.itemTextColor = ColorStateList.valueOf(colorMain)
-                binding.bottomNavigation.itemRippleColor = ColorStateList.valueOf(colorBack)
+            baseViewModel.color.collect { colorMain->
+                val colorState = ColorStateList.valueOf(colorMain)
+                binding.bottomNavigation.itemIconTintList = colorState
+                binding.bottomNavigation.itemTextColor = colorState
             }
         }
     }

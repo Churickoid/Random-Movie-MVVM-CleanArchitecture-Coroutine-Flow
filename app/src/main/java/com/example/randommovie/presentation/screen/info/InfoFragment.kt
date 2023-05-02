@@ -12,6 +12,8 @@ import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.randommovie.R
+import com.example.randommovie.data.DEFAULT_STATE
+import com.example.randommovie.data.LOADING_STATE
 import com.example.randommovie.databinding.FragmentInfoBinding
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment
@@ -136,13 +138,12 @@ class InfoFragment : BaseFragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            baseViewModel.color.collect { (colorMain, colorBack) ->
+            baseViewModel.color.collect { colorMain ->
                 binding.retryButton.setBackgroundColor(colorMain)
                 binding.detailsImdbButton.setBackgroundColor(colorMain)
                 binding.detailsKpButton.setBackgroundColor(colorMain)
                 binding.starButton.drawable.setTint(colorMain)
                 binding.bookmarkImageView.drawable.setTint(colorMain)
-                binding.infoFrameLayout.setBackgroundColor(colorBack)
 
             }
         }

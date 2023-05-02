@@ -141,7 +141,7 @@ class FilterFragment : BaseFragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            baseViewModel.color.collect { (colorMain, colorBack) ->
+            baseViewModel.color.collect { colorMain ->
                 val colorSecond = 100 shl 24 or (colorMain and 0x00ffffff)
 
                 setupSliderColor(binding.yearSlider, colorMain, colorSecond)
@@ -152,7 +152,6 @@ class FilterFragment : BaseFragment() {
 
                 binding.defaultButton.setBackgroundColor(colorMain)
 
-                binding.filterConstraintLayout.setBackgroundColor(colorBack)
                 binding.orderSpinner.setSelection(orderPosition)
                 binding.typeSpinner.setSelection(typePosition)
 
@@ -165,11 +164,12 @@ class FilterFragment : BaseFragment() {
 
 
     private fun setupSliderColor(slider: RangeSlider, colorMain: Int, colorSecond: Int) {
-        slider.thumbTintList = ColorStateList.valueOf(colorMain)
-        slider.trackActiveTintList = ColorStateList.valueOf(colorMain)
+        val colorState = ColorStateList.valueOf(colorMain)
+        slider.thumbTintList = colorState
+        slider.trackActiveTintList = colorState
         slider.trackInactiveTintList = ColorStateList.valueOf(colorSecond)
-        slider.tickInactiveTintList = ColorStateList.valueOf(colorMain)
-        slider.haloTintList = ColorStateList.valueOf(colorMain)
+        slider.tickInactiveTintList = colorState
+        slider.haloTintList = colorState
     }
 
     private fun setupSpinner(spinner: Spinner, arrayId: Int, color: Int) {

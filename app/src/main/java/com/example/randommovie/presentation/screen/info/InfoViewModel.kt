@@ -1,11 +1,12 @@
 package com.example.randommovie.presentation.screen.info
 
 import androidx.lifecycle.*
+import com.example.randommovie.data.DEFAULT_STATE
+import com.example.randommovie.data.INTERNET_ERROR
+import com.example.randommovie.data.LOADING_STATE
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.domain.entity.MovieExtra
 import com.example.randommovie.domain.usecases.movie.GetMoreInformationUseCase
-import com.example.randommovie.presentation.screen.BaseFragment.Companion.DEFAULT_STATE
-import com.example.randommovie.presentation.screen.BaseFragment.Companion.LOADING_STATE
 import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_MOVIE
 import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch
@@ -41,7 +42,7 @@ class InfoViewModel(
             }
             catch (e: UnknownHostException) {
                 _state.value = ERROR_STATE
-                _error.value = Event("Need internet connection")
+                _error.value = Event(INTERNET_ERROR)
             }
             catch (e:Exception){
                 _state.value = ERROR_STATE

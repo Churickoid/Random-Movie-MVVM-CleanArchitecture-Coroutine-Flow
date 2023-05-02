@@ -86,9 +86,8 @@ class ListFragment : BaseFragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            baseViewModel.color.collect { (colorMain, colorBack) ->
+            baseViewModel.color.collect { colorMain ->
                 binding.listTabLayout.setBackgroundColor(colorMain)
-                binding.listConstraintLayout.setBackgroundColor(colorBack)
                 val adapter = MovieListAdapter(createItemListener(), colorMain)
                 binding.moviesRecyclerView.adapter = adapter
 

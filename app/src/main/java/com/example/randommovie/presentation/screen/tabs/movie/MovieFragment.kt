@@ -15,6 +15,8 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.randommovie.R
+import com.example.randommovie.data.DEFAULT_STATE
+import com.example.randommovie.data.LOADING_STATE
 import com.example.randommovie.databinding.FragmentMovieBinding
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.GlideLoader
@@ -125,7 +127,9 @@ class MovieFragment : BaseFragment() {
                     else 0xFF2276A0.toInt()
                     val colorBack = if (color != null) (20 shl 24 or (color and 0x00ffffff))
                     else 0xFFFFFF
-                    baseViewModel.setColor(colorMain, colorBack)
+                    val colorDark = ColorUtils.blendARGB(colorMain, Color.BLACK, 0.2f)
+                    baseViewModel.setColor(colorMain)
+                    changeColor(colorMain, colorDark, colorBack)
                 })
                 .into(binding.posterImageView)
 
@@ -156,13 +160,10 @@ class MovieFragment : BaseFragment() {
             toastError(it)
         }
         viewLifecycleOwner.lifecycleScope.launch {
-            baseViewModel.color.collect { (colorMain, colorBack) ->
-                val colorDark = ColorUtils.blendARGB(colorMain, Color.BLACK, 0.2f)
-                binding.movieConstraintLayout.setBackgroundColor(colorBack)
+            baseViewModel.color.collect {colorMain ->
                 binding.nextMovieButton.backgroundTintList = ColorStateList.valueOf(colorMain)
                 binding.moreButton.drawable.setTint(colorMain)
                 binding.starButton.drawable.setTint(colorMain)
-                changeColor(colorMain, colorDark)
             }
         }
 

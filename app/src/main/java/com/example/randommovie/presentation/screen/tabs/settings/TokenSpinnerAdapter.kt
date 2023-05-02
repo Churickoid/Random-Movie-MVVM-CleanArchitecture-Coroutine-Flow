@@ -10,6 +10,7 @@ import com.example.randommovie.domain.entity.Token
 
 class TokenSpinnerAdapter(
     private val tokenList: List<Token>,
+    private val color: Int,
     private val deleteTokenAction: (Token)->Unit
 ): BaseAdapter(), View.OnClickListener {
     override fun getCount(): Int {
@@ -42,6 +43,7 @@ class TokenSpinnerAdapter(
 
     private fun createBinding(context: Context): ItemTokenBinding {
         val binding = ItemTokenBinding.inflate(LayoutInflater.from(context))
+        binding.tokenTextView.setTextColor(color)
         binding.deleteTokenButton.setOnClickListener(this)
         binding.root.tag = binding
         return binding

@@ -54,9 +54,10 @@ class MainActivity : AppCompatActivity(), AppBarActions {
         onNavControllerActivated(navController)
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentListener, true)
 
-        viewModel.color.observe(this){(color, colorDark) ->
+        viewModel.color.observe(this){(color, colorDark,colorBack) ->
             supportActionBar?.setBackgroundDrawable(ColorDrawable(color))
             window.statusBarColor = colorDark
+            binding.fragmentContainer.setBackgroundColor(colorBack)
         }
 
     }
@@ -99,7 +100,7 @@ class MainActivity : AppCompatActivity(), AppBarActions {
         return title.toString()
     }
 
-    override fun changeColor(color: Int, colorDark: Int) {
-        viewModel.setColor(color,colorDark)
+    override fun changeColor(color: Int, colorDark: Int, colorBack:Int) {
+        viewModel.setColor(color,colorDark,colorBack)
     }
 }

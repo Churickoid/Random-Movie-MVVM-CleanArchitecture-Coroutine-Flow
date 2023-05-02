@@ -5,9 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.randommovie.data.AuthException
+import com.example.randommovie.data.DEFAULT_STATE
+import com.example.randommovie.data.INTERNET_ERROR
+import com.example.randommovie.data.LOADING_STATE
 import com.example.randommovie.domain.usecases.account.SignInUseCase
-import com.example.randommovie.presentation.screen.BaseFragment.Companion.DEFAULT_STATE
-import com.example.randommovie.presentation.screen.BaseFragment.Companion.LOADING_STATE
 import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
@@ -40,13 +41,14 @@ class LoginViewModel(private val signInUseCase: SignInUseCase) : ViewModel() {
             try {
                 _state.value = LOADING_STATE
                 signInUseCase(email, password)
+                _toast.value = Event(SUCCESS)
                 _closeFragment.value = Event(Unit)
             } catch (e: AuthException) {
                 _emailState.value = Event(INCORRECT_ERROR)
                 _passState.value = Event(INCORRECT_ERROR)
 
             } catch (e: UnknownHostException) {
-                _toast.value = Event("Need internet connection")
+                _toast.value = Event(INTERNET_ERROR)
             } finally {
                 _state.value = DEFAULT_STATE
             }
@@ -56,6 +58,8 @@ class LoginViewModel(private val signInUseCase: SignInUseCase) : ViewModel() {
 
 
     companion object {
+
+        const val SUCCESS = "Account successfully added"
 
         const val EMPTY_ERROR = "Field is empty"
         const val INCORRECT_ERROR = "Incorrect email or password"

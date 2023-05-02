@@ -60,8 +60,8 @@ open class BaseFragment : Fragment() {
             }
         }
 
-        const val DEFAULT_STATE = 0
-        const val LOADING_STATE = 1
+
+
     }
 }
 

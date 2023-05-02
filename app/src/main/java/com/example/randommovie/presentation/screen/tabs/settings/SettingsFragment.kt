@@ -5,15 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentSettingsBinding
 import com.example.randommovie.domain.entity.Token
+import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.tools.factory
+import kotlinx.coroutines.launch
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : BaseFragment() {
 
     private lateinit var binding: FragmentSettingsBinding
     private val viewModel: SettingsViewModel by viewModels { factory() }
@@ -45,18 +47,24 @@ class SettingsFragment : Fragment() {
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
 
-        val adapter = TokenSpinnerAdapter(tokenList) {
-            viewModel.deleteToken(it)
-        }
-        binding.tokenSpinner.adapter = adapter
 
-        viewModel.tokenList.observe(viewLifecycleOwner) {
-            tokenList.clear()
-            tokenList.addAll(it)
-            adapter.notifyDataSetChanged()
-            binding.tokenSpinner.setSelection(viewModel.getSpinnerPosition())
-        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            baseViewModel.color.collect { colorMain ->
+                binding.createTokenButton.setBackgroundColor(colorMain)
 
+                val adapter = TokenSpinnerAdapter(tokenList,colorMain ) {
+                    viewModel.deleteToken(it)
+                }
+                binding.tokenSpinner.adapter = adapter
+
+                viewModel.tokenList.observe(viewLifecycleOwner) {
+                    tokenList.clear()
+                    tokenList.addAll(it)
+                    adapter.notifyDataSetChanged()
+                    binding.tokenSpinner.setSelection(viewModel.getSpinnerPosition())
+                }
+            }
+        }
 
     }
 }

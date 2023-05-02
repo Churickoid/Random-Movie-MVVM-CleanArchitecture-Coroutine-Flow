@@ -4,6 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.randommovie.data.DEFAULT_STATE
+import com.example.randommovie.data.INTERNET_ERROR
+import com.example.randommovie.data.LOADING_STATE
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.usecases.filter.GetSearchFilterUseCase
@@ -11,8 +14,6 @@ import com.example.randommovie.domain.usecases.list.GetActionsByIdUseCase
 import com.example.randommovie.domain.usecases.movie.GetLastMovieUseCase
 import com.example.randommovie.domain.usecases.movie.GetRandomMovieUseCase
 import com.example.randommovie.domain.usecases.movie.SetLastMovieUseCase
-import com.example.randommovie.presentation.screen.BaseFragment.Companion.DEFAULT_STATE
-import com.example.randommovie.presentation.screen.BaseFragment.Companion.LOADING_STATE
 import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
@@ -65,7 +66,7 @@ class MovieViewModel(
                 _buttonState.value = DEFAULT_STATE
             }
             catch (e: UnknownHostException) {
-                _toast.value = Event("Need internet connection")
+                _toast.value = Event(INTERNET_ERROR)
                 _buttonState.value = previousState
             }
             catch (e: Exception) {

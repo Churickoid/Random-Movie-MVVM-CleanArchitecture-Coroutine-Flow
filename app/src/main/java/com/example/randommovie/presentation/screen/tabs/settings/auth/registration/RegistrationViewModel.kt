@@ -4,12 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.randommovie.data.DEFAULT_STATE
 import com.example.randommovie.data.EmailExistException
+import com.example.randommovie.data.INTERNET_ERROR
+import com.example.randommovie.data.LOADING_STATE
 import com.example.randommovie.domain.usecases.account.SignUpUseCase
-import com.example.randommovie.presentation.screen.BaseFragment.Companion.DEFAULT_STATE
-import com.example.randommovie.presentation.screen.BaseFragment.Companion.LOADING_STATE
 import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 
 class RegistrationViewModel(
     private val signUpUseCase: SignUpUseCase
@@ -24,8 +26,11 @@ class RegistrationViewModel(
     private val _state = MutableLiveData<Int>()
     val state: LiveData<Int> = _state
 
-    private val _startConfirmFragment = MutableLiveData<Event<Pair<String,String>>>()
-    val startConfirmFragment: LiveData<Event<Pair<String,String>>> = _startConfirmFragment
+    private val _startConfirmFragment = MutableLiveData<Event<Pair<String, String>>>()
+    val startConfirmFragment: LiveData<Event<Pair<String, String>>> = _startConfirmFragment
+
+    private val _toast = MutableLiveData<Event<String>>()
+    val toast: LiveData<Event<String>> = _toast
 
     private val emailPattern = Regex("[a-zA-Z\\d._-]+@[a-z]+\\.+[a-z]+")
 
@@ -47,9 +52,11 @@ class RegistrationViewModel(
             _state.value = LOADING_STATE
             try {
                 signUpUseCase(email, password)
-                _startConfirmFragment.value = Event(Pair(email,password))
+                _startConfirmFragment.value = Event(Pair(email, password))
             } catch (e: EmailExistException) {
                 _emailState.value = Event(EMAIL_EXIST_ERROR)
+            } catch (e: UnknownHostException) {
+                _toast.value = Event(INTERNET_ERROR)
             } finally {
                 _state.value = DEFAULT_STATE
             }

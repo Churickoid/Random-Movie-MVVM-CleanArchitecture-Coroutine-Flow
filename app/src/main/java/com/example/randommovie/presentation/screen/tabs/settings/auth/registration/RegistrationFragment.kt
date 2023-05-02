@@ -4,11 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
+import com.example.randommovie.data.DEFAULT_STATE
+import com.example.randommovie.data.LOADING_STATE
 import com.example.randommovie.databinding.FragmentRegistrationBinding
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.tabs.settings.auth.registration.ConfirmFragment.Companion.ARG_EMAIL
@@ -81,6 +84,13 @@ class RegistrationFragment : BaseFragment() {
                         ARG_PASS to pass
                     )
                 )
+            }
+        }
+
+        viewModel.toast.observe(viewLifecycleOwner){
+            it.getValue()?.let { massage ->
+                Toast.makeText(requireContext(), massage, Toast.LENGTH_SHORT).show()
+
             }
         }
 

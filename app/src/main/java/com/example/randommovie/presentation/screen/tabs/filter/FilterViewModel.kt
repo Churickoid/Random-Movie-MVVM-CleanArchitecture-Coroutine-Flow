@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.randommovie.data.INTERNET_ERROR
 import com.example.randommovie.domain.entity.ItemFilter
 import com.example.randommovie.domain.entity.OrderFilter
 import com.example.randommovie.domain.entity.SearchFilter
@@ -153,7 +154,7 @@ class FilterViewModel(
         try {
             action()
         } catch (e: UnknownHostException) {
-            _error.value = Event("Need internet connection")
+            _error.value = Event(INTERNET_ERROR)
         }
 
     }

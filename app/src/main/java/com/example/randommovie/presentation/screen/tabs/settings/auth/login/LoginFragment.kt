@@ -1,5 +1,6 @@
 package com.example.randommovie.presentation.screen.tabs.settings.auth.login
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,11 +8,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
+import com.example.randommovie.data.DEFAULT_STATE
+import com.example.randommovie.data.LOADING_STATE
 import com.example.randommovie.databinding.FragmentLoginBinding
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.tools.factory
+import kotlinx.coroutines.launch
 
 class LoginFragment : BaseFragment() {
     private lateinit var binding: FragmentLoginBinding
@@ -59,8 +64,8 @@ class LoginFragment : BaseFragment() {
             }
         }
         viewModel.toast.observe(viewLifecycleOwner){
-            it.getValue()?.let { state ->
-                Toast.makeText(requireContext(), state, Toast.LENGTH_SHORT).show()
+            it.getValue()?.let { massage ->
+                Toast.makeText(requireContext(), massage, Toast.LENGTH_SHORT).show()
 
             }
         }
@@ -68,6 +73,13 @@ class LoginFragment : BaseFragment() {
         viewModel.closeFragment.observe(viewLifecycleOwner) {
             val parentNavFragment = requireParentFragment().requireParentFragment()
             parentNavFragment.findNavController().popBackStack()
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            baseViewModel.color.collect { colorMain ->
+                val colorState = ColorStateList.valueOf(colorMain)
+
+            }
         }
 
 

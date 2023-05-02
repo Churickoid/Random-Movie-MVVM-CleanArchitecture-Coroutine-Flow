@@ -6,12 +6,12 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import com.example.randommovie.presentation.App
 import com.example.randommovie.presentation.screen.BaseViewModel
-import com.example.randommovie.presentation.screen.tabs.settings.auth.login.LoginViewModel
-import com.example.randommovie.presentation.screen.tabs.filter.FilterViewModel
 import com.example.randommovie.presentation.screen.info.InfoViewModel
+import com.example.randommovie.presentation.screen.tabs.filter.FilterViewModel
 import com.example.randommovie.presentation.screen.tabs.list.ListViewModel
 import com.example.randommovie.presentation.screen.tabs.movie.MovieViewModel
 import com.example.randommovie.presentation.screen.tabs.settings.SettingsViewModel
+import com.example.randommovie.presentation.screen.tabs.settings.auth.login.LoginViewModel
 import com.example.randommovie.presentation.screen.tabs.settings.auth.registration.ConfirmViewModel
 import com.example.randommovie.presentation.screen.tabs.settings.auth.registration.RegistrationViewModel
 

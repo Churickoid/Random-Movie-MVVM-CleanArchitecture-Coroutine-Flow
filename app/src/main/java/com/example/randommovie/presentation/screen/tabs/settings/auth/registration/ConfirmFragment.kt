@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
@@ -38,13 +40,31 @@ class ConfirmFragment : BaseFragment() {
         binding = FragmentConfirmBinding.bind(view)
 
         binding.confirmButton.setOnClickListener {
-            val code = binding.codeEditText.text.toString().toInt()
+            val codeStr = binding.codeEditText.text.toString()
+            val code = if(codeStr.isEmpty()) 0 else codeStr.toInt()
             viewModel.confirmRegistration(email,password,code)
         }
 
         viewModel.closeFragment.observe(viewLifecycleOwner) {
             val parentNavFragment = requireParentFragment().requireParentFragment()
             parentNavFragment.findNavController().popBackStack()
+        }
+
+        viewModel.codeState.observe(viewLifecycleOwner) {
+            it.getValue()?.let { massage ->
+                binding.codeTextInput.error = massage
+            }
+        }
+        viewModel.toast.observe(viewLifecycleOwner){
+            it.getValue()?.let { massage ->
+                Toast.makeText(requireContext(), massage, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+        binding.codeEditText.doOnTextChanged { _, _, _, _ ->
+            binding.codeTextInput.error = null
+            binding.codeTextInput.isErrorEnabled = false
         }
 
 

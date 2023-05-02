@@ -10,9 +10,9 @@ import kotlinx.coroutines.launch
 class BaseViewModel(private val addUserInfoForMovieUseCase: AddUserInfoForMovieUseCase) :
     ViewModel() {
 
-    val color = MutableStateFlow(Pair(0xFF2276A0.toInt(),0xFFFFFF))
-    fun setColor(colorMain: Int, colorBack: Int) {
-        color.value = Pair(colorMain, colorBack)
+    val color = MutableStateFlow(0xFF2276A0.toInt())
+    fun setColor(colorMain: Int) {
+        color.value = colorMain
     }
 
     fun addRatedMovie(actionsAndMovie: ActionsAndMovie) {
