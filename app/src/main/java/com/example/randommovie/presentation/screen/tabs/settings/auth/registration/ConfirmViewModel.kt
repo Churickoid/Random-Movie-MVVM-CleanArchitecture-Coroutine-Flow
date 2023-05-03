@@ -41,7 +41,7 @@ class ConfirmViewModel(private val confirmRegistrationUseCase: ConfirmRegistrati
     }
 
     companion object {
-        const val INCORRECT_CODE_ERROR = "Incorrect code"
+        private const val INCORRECT_CODE_ERROR = "Incorrect code"
     }
 
 

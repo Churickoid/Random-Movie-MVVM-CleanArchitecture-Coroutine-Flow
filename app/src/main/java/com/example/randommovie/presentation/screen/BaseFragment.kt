@@ -2,6 +2,7 @@ package com.example.randommovie.presentation.screen
 
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Bitmap
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -20,6 +21,7 @@ import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.domain.entity.Movie.Companion.RATING_NULL
 import com.example.randommovie.presentation.tools.Event
 import com.example.randommovie.presentation.tools.factory
+import com.google.android.material.textfield.TextInputLayout
 
 
 open class BaseFragment : Fragment() {
@@ -48,6 +50,12 @@ open class BaseFragment : Fragment() {
         eventMassage.getValue()?.let { massage ->
             Toast.makeText(requireContext(), massage, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    fun changeTextInputLayoutColor(textInputLayout: TextInputLayout,color: Int){
+        val colorState = ColorStateList.valueOf(color)
+        textInputLayout.hintTextColor =  colorState
+        textInputLayout.boxStrokeColor = color
     }
 
     companion object {

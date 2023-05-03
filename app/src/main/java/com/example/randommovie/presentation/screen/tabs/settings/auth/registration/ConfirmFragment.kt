@@ -4,14 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
 import com.example.randommovie.databinding.FragmentConfirmBinding
 import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.tools.factory
+import kotlinx.coroutines.launch
 
 class ConfirmFragment : BaseFragment() {
 
@@ -41,8 +42,8 @@ class ConfirmFragment : BaseFragment() {
 
         binding.confirmButton.setOnClickListener {
             val codeStr = binding.codeEditText.text.toString()
-            val code = if(codeStr.isEmpty()) 0 else codeStr.toInt()
-            viewModel.confirmRegistration(email,password,code)
+            val code = if (codeStr.isEmpty()) 0 else codeStr.toInt()
+            viewModel.confirmRegistration(email, password, code)
         }
 
         viewModel.closeFragment.observe(viewLifecycleOwner) {
@@ -55,10 +56,8 @@ class ConfirmFragment : BaseFragment() {
                 binding.codeTextInput.error = massage
             }
         }
-        viewModel.toast.observe(viewLifecycleOwner){
-            it.getValue()?.let { massage ->
-                Toast.makeText(requireContext(), massage, Toast.LENGTH_SHORT).show()
-            }
+        viewModel.toast.observe(viewLifecycleOwner) {
+            toastError(it)
         }
 
 
@@ -67,7 +66,12 @@ class ConfirmFragment : BaseFragment() {
             binding.codeTextInput.isErrorEnabled = false
         }
 
-
+        viewLifecycleOwner.lifecycleScope.launch{
+            baseViewModel.color.collect { colorMain ->
+                changeTextInputLayoutColor(binding.codeTextInput,colorMain)
+                binding.confirmButton.setBackgroundColor(colorMain)
+            }
+        }
     }
 
 

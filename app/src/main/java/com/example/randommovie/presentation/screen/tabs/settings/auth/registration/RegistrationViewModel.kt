@@ -64,12 +64,12 @@ class RegistrationViewModel(
     }
 
     companion object {
-        const val EMAIL_INVALID_ERROR = "Invalid email format"
-        const val EMAIL_EXIST_ERROR = "Email already used"
+        private const val EMAIL_INVALID_ERROR = "Invalid email format"
+        private const val EMAIL_EXIST_ERROR = "Email already used"
 
         private const val PASS_LENGTH = 8
 
-        const val PASS_DIFFERENT_ERROR = "Passwords must match"
-        const val PASS_LENGTH_ERROR = "Passwords must be at least $PASS_LENGTH characters."
+        private const val PASS_DIFFERENT_ERROR = "Passwords must match"
+        private const val PASS_LENGTH_ERROR = "Passwords must be at least $PASS_LENGTH characters."
     }
 }

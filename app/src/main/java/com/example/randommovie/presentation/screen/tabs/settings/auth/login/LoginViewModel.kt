@@ -61,8 +61,8 @@ class LoginViewModel(private val signInUseCase: SignInUseCase) : ViewModel() {
 
         const val SUCCESS = "Account successfully added"
 
-        const val EMPTY_ERROR = "Field is empty"
-        const val INCORRECT_ERROR = "Incorrect email or password"
+        private const val EMPTY_ERROR = "Field is empty"
+        private const val INCORRECT_ERROR = "Incorrect email or password"
     }
 
 }

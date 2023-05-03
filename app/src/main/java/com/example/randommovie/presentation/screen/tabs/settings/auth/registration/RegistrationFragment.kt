@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.randommovie.R
 import com.example.randommovie.data.DEFAULT_STATE
@@ -17,6 +17,7 @@ import com.example.randommovie.presentation.screen.BaseFragment
 import com.example.randommovie.presentation.screen.tabs.settings.auth.registration.ConfirmFragment.Companion.ARG_EMAIL
 import com.example.randommovie.presentation.screen.tabs.settings.auth.registration.ConfirmFragment.Companion.ARG_PASS
 import com.example.randommovie.presentation.tools.factory
+import kotlinx.coroutines.launch
 
 class RegistrationFragment : BaseFragment() {
 
@@ -87,13 +88,18 @@ class RegistrationFragment : BaseFragment() {
             }
         }
 
-        viewModel.toast.observe(viewLifecycleOwner){
-            it.getValue()?.let { massage ->
-                Toast.makeText(requireContext(), massage, Toast.LENGTH_SHORT).show()
+        viewModel.toast.observe(viewLifecycleOwner) {
+            toastError(it)
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            baseViewModel.color.collect { colorMain ->
+                changeTextInputLayoutColor(binding.emailTextInput,colorMain)
+                changeTextInputLayoutColor(binding.passwordTextInput,colorMain)
+                changeTextInputLayoutColor(binding.confirmTextInput,colorMain)
+                binding.signUpButton.setBackgroundColor(colorMain)
 
             }
         }
-
 
     }
 

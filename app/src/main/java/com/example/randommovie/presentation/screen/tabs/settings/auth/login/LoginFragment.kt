@@ -1,11 +1,9 @@
 package com.example.randommovie.presentation.screen.tabs.settings.auth.login
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -64,10 +62,7 @@ class LoginFragment : BaseFragment() {
             }
         }
         viewModel.toast.observe(viewLifecycleOwner){
-            it.getValue()?.let { massage ->
-                Toast.makeText(requireContext(), massage, Toast.LENGTH_SHORT).show()
-
-            }
+            toastError(it)
         }
 
         viewModel.closeFragment.observe(viewLifecycleOwner) {
@@ -77,8 +72,9 @@ class LoginFragment : BaseFragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             baseViewModel.color.collect { colorMain ->
-                val colorState = ColorStateList.valueOf(colorMain)
-
+                changeTextInputLayoutColor(binding.emailTextInput,colorMain)
+                changeTextInputLayoutColor(binding.passwordTextInput,colorMain)
+                binding.signInButton.setBackgroundColor(colorMain)
             }
         }
 

@@ -37,7 +37,9 @@
             android:layout_height="wrap_content"
             android:lines="1"
             android:inputType="textEmailAddress"
-            android:imeOptions="actionNext" />
+            android:imeOptions="actionNext"
+            android:textCursorDrawable="@null"
+            />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -59,7 +61,9 @@
             android:layout_height="wrap_content"
             android:lines="1"
             android:inputType="textPassword"
-            android:imeOptions="actionDone" />
+            android:imeOptions="actionDone"
+            android:textCursorDrawable="@null"
+            />
 
     </com.google.android.material.textfield.TextInputLayout>
 
