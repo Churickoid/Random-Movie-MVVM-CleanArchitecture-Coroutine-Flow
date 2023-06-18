@@ -21,8 +21,6 @@ class ListViewModel(
     private val deleteMovieByIdUseCase: DeleteMovieByIdUseCase,
     getMoviesCountByTypeUseCase: GetMoviesCountByTypeUseCase
 ) : ViewModel() {
-
-
     val type = MutableStateFlow(WATCH_LIST_TYPE)
     val order = MutableStateFlow(QUEUE_ORDER)
     private val isAsc = MutableStateFlow(true)
@@ -30,24 +28,22 @@ class ListViewModel(
     val watchlistCounter = getMoviesCountByTypeUseCase(WATCH_LIST_TYPE).asLiveData()
     val ratedCounter = getMoviesCountByTypeUseCase(RATED_LIST_TYPE).asLiveData()
 
-
-
     @OptIn(ExperimentalCoroutinesApi::class)
     val movieList = combine(
         type,
         order,
         isAsc
-    ){ type, order, isAsc ->
+    ) { type, order, isAsc ->
         Triple(type, order, isAsc)
-    }.flatMapLatest { (type,order,isAsc) ->
-        getMovieListByFiltersUseCase(type,order,isAsc)
+    }.flatMapLatest { (type, order, isAsc) ->
+        getMovieListByFiltersUseCase(type, order, isAsc)
     }.asLiveData()
 
 
-
-    fun reverseAsc(){
-       isAsc.value = !isAsc.value
+    fun reverseAsc() {
+        isAsc.value = !isAsc.value
     }
+
     fun deleteMovieById(id: Long) {
         viewModelScope.launch {
             deleteMovieByIdUseCase(id)

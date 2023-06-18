@@ -8,7 +8,6 @@ import com.example.randommovie.data.room.entity.ItemDb
 
 @Dao
 interface FilterDao {
-
     @Insert
     suspend fun insertFilter(filter : FilterDb)
 
