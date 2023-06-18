@@ -7,6 +7,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
+import com.example.randommovie.R
 import com.example.randommovie.databinding.DialogRatingBinding
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.presentation.screen.BaseFragment.Companion.getRatingColor
@@ -29,12 +30,12 @@ class RatingDialogFragment : DialogFragment() {
 
 
         return AlertDialog.Builder(requireContext())
-            .setPositiveButton("Apply") { _, _ ->
+            .setPositiveButton(getString(R.string.apply)) { _, _ ->
                 val rating = binding.ratingBar.rating
                 val inWatchlist = binding.watchlistCheckBox.isChecked
                 if (inWatchlist || rating>0.0) callResult(rating.toInt(),inWatchlist)
             }
-            .setNegativeButton("Cancel") { _, _ -> }
+            .setNegativeButton(getString(R.string.cancel)) { _, _ -> }
             .setView(binding.root)
             .create()
     }

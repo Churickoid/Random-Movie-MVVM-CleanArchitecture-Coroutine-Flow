@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">randomMovie</string>
+    <string name="list">Список</string>
+    <string name="movie">Фильм</string>
+    <string name="settings">Настройки</string>
+    <string name="next_movie">Следующий Фильм</string>
+    <string name="year_with_ints">Год: %1$d – %2$d</string>
+    <string name="rating_with_dots">Рейтинг:</string>
+    <string name="choose_genres">Выбрать жанр</string>
+    <string name="choose_countries">Выбрать страну</string>
+    <string name="order">Порядок:</string>
+    <string name="type">Тип:</string>
+    <string name="rate">Оценить</string>
+    <string name="delete">Удалить</string>
+    <string name="reverse">Отразить сортировку</string>
+    <string name="order_by">Отсортировать лист</string>
+    <string name="kinopoisk_logo">логотип кинопоиска</string>
+    <string name="imdb_logo">imdb логотип</string>
+    <string name="rate_movie">оценить фильма</string>
+    <string name="more_info">больше информация</string>
+    <string name="start_title">Давай начнём!\\n Нажми кнопку</string>
+    <string name="kinopoisk_link">Кинопоиск</string>
+    <string name="imdb_link">IMDB</string>
+    <string name="movie_poster">Постер фильма</string>
+    <string name="retry">Повторить</string>
+    <string name="questionMark">\?</string>
+    <string name="movie_in_watchlist">Фильм в \"Буду смотреть\"</string>
+    <string name="add_to_watchlist">Добавить в \"Буду смотреть\"</string>
+    <string name="rate_this">Оценить</string>
+    <string name="default_button">Сброс</string>
+    <string name="watchlist">Буду смотреть (%1$d)</string>
+    <string name="rated">Оцененные (%1$d)</string>
+    <string name="movie_with_year">%1$s (%2$s)</string>
+    <string name="create_account">"<u>Создать аккаунт</u> "</string>
+    <string name="sign_in">Войти</string>
+    <string name="email">Почта</string>
+    <string name="password">Пароль</string>
+    <string name="authorization">Авторизация</string>
+    <string name="as_guest">как Гость</string>
+    <string name="filter">Фильтр</string>
+    <string name="api_settings">Настройки API</string>
+    <string name="token">Токен:</string>
+    <string name="create_personal_token">Создать персональный токен</string>
+    <string name="sign_up">Создать</string>
+    <string name="already_exist">Уже существует</string>
+    <string name="confirm_password">Подтвердить пароль</string>
+    <string name="registration">Регистрация</string>
+    <string name="login">Логин</string>
+    <string name="personal_token">Персональный токен</string>
+    <string name="code">Код</string>
+    <string name="verification">Проверка</string>
+    <string name="code_has_been_sent_to_your_inbox">Код был отправлен на вашу почту</string>
+    <string name="confirm">Подтвердить</string>
+
+    <string-array name="orderFilter">
+        <item>По популярности</item>
+        <item>По рейтингу</item>
+        <item>Скрытый алмаз</item>
+    </string-array>
+
+    <string-array name="type">
+        <item>Фильм</item>
+        <item>Сериал</item>
+        <item>Всё</item>
+    </string-array>
+
+    <string-array name="orderList">
+        <item>Очередь</item>
+        <item>Алфавит</item>
+        <item>Рейтинг</item>
+        <item>Год</item>
+        <item>Рейтинг Пользователя</item>
+    </string-array>
+    <string name="choose">Выбрать</string>
+    <string name="apply">Принять</string>
+    <string name="clear">Очистить</string>
+    <string name="cancel">Отменить</string>
+    <string name="minutes">%1$d мин</string>
+</resources>

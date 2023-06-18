@@ -78,11 +78,11 @@ class ListFragment : BaseFragment() {
         })
 
         viewModel.watchlistCounter.observe(viewLifecycleOwner) {
-            binding.listTabLayout.getTabAt(0)!!.text = "Watchlist ($it)"
+            binding.listTabLayout.getTabAt(0)!!.text = getString(R.string.watchlist, it)
         }
 
         viewModel.ratedCounter.observe(viewLifecycleOwner) {
-            binding.listTabLayout.getTabAt(1)!!.text = "Rated ($it)"
+            binding.listTabLayout.getTabAt(1)!!.text = getString(R.string.rated, it)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {

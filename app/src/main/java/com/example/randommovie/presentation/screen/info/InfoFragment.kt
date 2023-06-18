@@ -191,7 +191,7 @@ class InfoFragment : BaseFragment() {
         if (time == null || time == 0) return " — "
         var string = ""
         if (time > 60) string += "${time / 60}:${String.format("%02d", time % 60)} / "
-        string += "$time min"
+        string += getString(R.string.minutes,time)
         return string
     }
 

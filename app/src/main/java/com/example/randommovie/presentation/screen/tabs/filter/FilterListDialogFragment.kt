@@ -8,6 +8,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
+import com.example.randommovie.R
 import com.example.randommovie.domain.entity.ItemFilter
 import com.example.randommovie.presentation.tools.parcelableArrayList
 
@@ -31,13 +32,13 @@ class FilterListDialogFragment : DialogFragment() {
             checkboxes += it.isActive
         }
 
-        return AlertDialog.Builder(requireContext()).setTitle("Choose Items")
+        return AlertDialog.Builder(requireContext()).setTitle(getString(R.string.choose))
             .setMultiChoiceItems(names, checkboxes) { _, index, isChecked ->
                 list[index].isActive = isChecked
-            }.setPositiveButton("Apply") { _, _ ->
+            }.setPositiveButton(getString(R.string.apply)) { _, _ ->
                 callResult(list)
             }
-            .setNeutralButton("Clear") { _, _ ->
+            .setNeutralButton(getString(R.string.clear)) { _, _ ->
                 list.forEach { it.isActive = false }
                 callResult(list)
             }

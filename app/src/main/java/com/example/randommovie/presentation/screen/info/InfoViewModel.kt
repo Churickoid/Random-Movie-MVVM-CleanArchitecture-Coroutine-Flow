@@ -4,12 +4,14 @@ import androidx.lifecycle.*
 import com.example.randommovie.data.DEFAULT_STATE
 import com.example.randommovie.data.INTERNET_ERROR
 import com.example.randommovie.data.LOADING_STATE
+import com.example.randommovie.data.TOKEN_ERROR
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.domain.entity.MovieExtra
 import com.example.randommovie.domain.usecases.movie.GetMoreInformationUseCase
 import com.example.randommovie.presentation.screen.info.InfoFragment.Companion.ARG_MOVIE
 import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import java.net.UnknownHostException
 
 class InfoViewModel(
@@ -43,6 +45,10 @@ class InfoViewModel(
             catch (e: UnknownHostException) {
                 _state.value = ERROR_STATE
                 _error.value = Event(INTERNET_ERROR)
+            }
+            catch (e: HttpException) {
+                _state.value = ERROR_STATE
+                _error.value = Event(TOKEN_ERROR)
             }
             catch (e:Exception){
                 _state.value = ERROR_STATE

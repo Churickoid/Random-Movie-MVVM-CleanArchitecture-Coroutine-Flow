@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.randommovie.data.DEFAULT_STATE
 import com.example.randommovie.data.INTERNET_ERROR
 import com.example.randommovie.data.LOADING_STATE
+import com.example.randommovie.data.TOKEN_ERROR
 import com.example.randommovie.domain.entity.ActionsAndMovie
 import com.example.randommovie.domain.entity.Movie
 import com.example.randommovie.domain.usecases.filter.GetSearchFilterUseCase
@@ -14,8 +15,10 @@ import com.example.randommovie.domain.usecases.list.GetActionsByIdUseCase
 import com.example.randommovie.domain.usecases.movie.GetLastMovieUseCase
 import com.example.randommovie.domain.usecases.movie.GetRandomMovieUseCase
 import com.example.randommovie.domain.usecases.movie.SetLastMovieUseCase
+import com.example.randommovie.presentation.screen.info.InfoViewModel
 import com.example.randommovie.presentation.tools.Event
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import java.net.UnknownHostException
 
 class MovieViewModel(
@@ -67,6 +70,10 @@ class MovieViewModel(
             }
             catch (e: UnknownHostException) {
                 _toast.value = Event(INTERNET_ERROR)
+                _buttonState.value = previousState
+            }
+            catch (e: HttpException) {
+                _toast.value = Event(TOKEN_ERROR)
                 _buttonState.value = previousState
             }
             catch (e: Exception) {

@@ -51,6 +51,11 @@
     <string name="verification">Verification</string>
     <string name="code_has_been_sent_to_your_inbox">Code has been sent to your inbox</string>
     <string name="confirm">Confirm</string>
+    <string name="choose">Choose</string>
+    <string name="apply">Apply</string>
+    <string name="clear">Clear</string>
+    <string name="cancel">Cancel</string>
+    <string name="minutes">%1$d min</string>
 
 
     <string-array name="orderFilter">

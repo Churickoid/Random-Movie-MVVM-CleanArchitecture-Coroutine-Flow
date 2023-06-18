@@ -75,7 +75,6 @@ class FilterViewModel(
 
     fun setDefaultFilter() {
         genres.forEach { it.isActive = false }
-        Log.e("!!!",genres.toString())
         countries.forEach { it.isActive = false }
         _countryText.value = ""
         _genreText.value = ""
@@ -87,7 +86,6 @@ class FilterViewModel(
             if (genres.isEmpty()) errorHandler {
                 genres = getGenresUseCase()
             }
-            Log.e("!!!",genres.toString())
             if (genres.isNotEmpty()) _genresEvent.value = Event(genres)
         }
     }
