@@ -6,7 +6,7 @@
     app:startDestination="@id/tabsFragment">
     <fragment
         android:id="@+id/tabsFragment"
-        android:name="com.example.randommovie.presentation.screen.tabs.TabsFragment"
+        android:name="com.churickoid.filmity.presentation.screen.tabs.TabsFragment"
         android:label="fragment_tabs"
         tools:layout="@layout/fragment_tabs" >
         <action
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/infoFragment"
-        android:name="com.example.randommovie.presentation.screen.info.InfoFragment"
+        android:name="com.churickoid.filmity.presentation.screen.info.InfoFragment"
         android:label="{titleMain}"
         tools:layout="@layout/fragment_info" >
         <argument

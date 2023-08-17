@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.randommovie'
+    namespace 'com.churickoid.filmity'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.randommovie"
+        applicationId "com.churickoid.filmity"
         minSdk 24
         targetSdk 33
         versionCode 1

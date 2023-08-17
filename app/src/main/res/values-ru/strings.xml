@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">randomMovie</string>
+    <string name="app_name">Filmity</string>
     <string name="list">Список</string>
     <string name="movie">Фильм</string>
     <string name="settings">Настройки</string>
@@ -19,7 +19,7 @@
     <string name="imdb_logo">imdb логотип</string>
     <string name="rate_movie">оценить фильма</string>
     <string name="more_info">больше информация</string>
-    <string name="start_title">Давай начнём!\\n Нажми кнопку</string>
+    <string name="start_title">Давай начнём!\n Нажми кнопку</string>
     <string name="kinopoisk_link">Кинопоиск</string>
     <string name="imdb_link">IMDB</string>
     <string name="movie_poster">Постер фильма</string>

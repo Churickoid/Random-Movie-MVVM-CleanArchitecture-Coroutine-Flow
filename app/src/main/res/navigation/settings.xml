@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.randommovie.presentation.screen.tabs.settings.SettingsFragment"
+        android:name="com.churickoid.filmity.presentation.screen.tabs.settings.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/authTabsFragment"
-        android:name="com.example.randommovie.presentation.screen.tabs.settings.auth.AuthTabsFragment"
+        android:name="com.churickoid.filmity.presentation.screen.tabs.settings.auth.AuthTabsFragment"
         android:label="@string/personal_token"
         tools:layout="@layout/fragment_auth_tabs" />
 </navigation>

@@ -6,7 +6,7 @@
     app:startDestination="@id/registrationFragment">
     <fragment
         android:id="@+id/registrationFragment"
-        android:name="com.example.randommovie.presentation.screen.tabs.settings.auth.registration.RegistrationFragment"
+        android:name="com.churickoid.filmity.presentation.screen.tabs.settings.auth.registration.RegistrationFragment"
         android:label="fragment_registration"
         tools:layout="@layout/fragment_registration" >
         <action
@@ -17,12 +17,12 @@
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
-        android:name="com.example.randommovie.presentation.screen.tabs.settings.auth.login.LoginFragment"
+        android:name="com.churickoid.filmity.presentation.screen.tabs.settings.auth.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" />
     <fragment
         android:id="@+id/confirmFragment"
-        android:name="com.example.randommovie.presentation.screen.tabs.settings.auth.registration.ConfirmFragment"
+        android:name="com.churickoid.filmity.presentation.screen.tabs.settings.auth.registration.ConfirmFragment"
         android:label="fragment_confirm"
         tools:layout="@layout/fragment_confirm" />
 </navigation>

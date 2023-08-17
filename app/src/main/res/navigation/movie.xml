@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/movieFragment"
-        android:name="com.example.randommovie.presentation.screen.tabs.movie.MovieFragment"
+        android:name="com.churickoid.filmity.presentation.screen.tabs.movie.MovieFragment"
         android:label="@string/movie"
         tools:layout="@layout/fragment_movie">
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/filterFragment"
-        android:name="com.example.randommovie.presentation.screen.tabs.filter.FilterFragment"
+        android:name="com.churickoid.filmity.presentation.screen.tabs.filter.FilterFragment"
         android:label="@string/filter"
         tools:layout="@layout/fragment_filter" />
 </navigation>
