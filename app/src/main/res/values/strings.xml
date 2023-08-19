@@ -56,7 +56,7 @@
     <string name="clear">Clear</string>
     <string name="cancel">Cancel</string>
     <string name="minutes">%1$d min</string>
-
+    <string name="token_info">Tokens are designed for 500 requests per day.\n Every day, 500 requests are updated.\n For personal tokens, the rule is the same.</string>
 
     <string-array name="orderFilter">
         <item>Popular</item>
