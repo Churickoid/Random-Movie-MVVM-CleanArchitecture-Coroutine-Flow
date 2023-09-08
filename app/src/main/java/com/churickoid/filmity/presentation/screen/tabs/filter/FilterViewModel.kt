@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.churickoid.filmity.data.INTERNET_ERROR
+import com.churickoid.filmity.data.TOKEN_ERROR
 import com.churickoid.filmity.domain.entity.ItemFilter
 import com.churickoid.filmity.domain.entity.OrderFilter
 import com.churickoid.filmity.domain.entity.SearchFilter
@@ -17,6 +18,7 @@ import com.churickoid.filmity.presentation.screen.tabs.filter.FilterFragment.Com
 import com.churickoid.filmity.presentation.screen.tabs.filter.FilterFragment.Companion.REQUEST_KEY_GENRES
 import com.churickoid.filmity.presentation.tools.Event
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import java.net.UnknownHostException
 
 class FilterViewModel(
@@ -123,9 +125,11 @@ class FilterViewModel(
             REQUEST_KEY_GENRES -> {
                 genres = list
             }
+
             REQUEST_KEY_COUNTRIES -> {
                 countries = list
             }
+
             else -> throw Exception("Unknown Dialog Type")
         }
     }
@@ -152,6 +156,8 @@ class FilterViewModel(
             action()
         } catch (e: UnknownHostException) {
             _error.value = Event(INTERNET_ERROR)
+        } catch (e: Exception) {
+            _error.value = Event(TOKEN_ERROR)
         }
 
     }
